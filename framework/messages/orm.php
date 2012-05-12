@@ -18,32 +18,9 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-/**
- * STDERR log writer. Writes out messages to STDERR.
- *
- * @package    QuickPHP
- * @category   Logging
- * @author     QuickPHP Team
- * @copyright  (c) 2008-2011 QuickPHP Team
- * @license    http://QuickPHPphp.com/license
- */
-class QuickPHP_Log_Driver_StdErr extends Log_Abstract
-{
-	/**
-	 * Writes each of the messages to STDERR.
-	 *
-	 * $writer->write($messages);
-	 *
-	 * @param   array   messages
-	 * @return  void
-	 */
-	public function write(array $messages)
-	{
-		$format = 'time --- type: body';
 
-		foreach ($messages as $message)
-		{
-			fwrite(STDERR, PHP_EOL.strtr($format, $message));
-		}
-	}
-}
+return array(
+    'Invalid_method_call'   => '错误的调用了类 {1} 的 {0} 方法。',
+//    'invalid_property'      => '错误的调用了类 {1} 的 {0} 属性。',
+    'invalid_property'      => '属性{0}不存在于{1}类中。',
+);

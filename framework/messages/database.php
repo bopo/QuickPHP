@@ -22,7 +22,7 @@
 return array(
     'undefined_group'       => '配置未定义 {0} 组。',
     'error'                 => 'SQL 错误：{0}',
-    'connection'            => '连接数据库失败：{0}',
+    'invalid_connection'    => '连接数据库失败：{0}',
     'invalid_dsn'           => 'DSN 无效的：{0}',
     'must_use_set'          => '缺少 SET 语句。',
     'must_use_where'        => '缺少 WHERE 语句。',

@@ -20,16 +20,14 @@
 */
 
 return array(
-    'there_can_be_only_one' => '每个请求页面只允许一个 Quick 的实例化',
+    'there_can_be_only_one' => '每个请求页面只允许一个 QuickPHP 的实例化',
     'uncaught_exception'    => '未捕获 {0} 异常：{1} 于文件 {2} 的行 {3}',
-    'invalid_method'        => '无效方法 {0} 调用于 {1}',
-    'invalid_property'      => '属性 {0} 不存在于 {1} 类中。',
+    'invalid_method'        => '无效方法 {0} 调用于 {1} 类中。',
+    'invalid_property'      => '无效属性 {0} 调用于 {1} 类中。',
     'log_dir_unwritable'    => '日志目录不可写：{0}',
     'resource_not_found'    => '请求的 {0}，{1}，不存在',
     'invalid_filetype'      => '在视图配置文件内请求的文件类型，.{0}，不允许',
     'view_set_filename'     => '在调用 render 之前您必须设置视图文件名',
-    'no_default_route'      => '请在 config/routes.php 文件设置默认的路由参数值',
-    'no_controller'         => 'QuickPHP 没有找到处理该请求的控制器：{0}',
     'page_not_found'        => '您请求的页面 {0}，不存在。',
     'model_not_found'       => '您请求的模型 {0}，不存在。',
     'stats_footer'          => '页面加载 {0} 秒，使用内存 {1}。程序生成 QuickPHP v{2}。',
@@ -38,9 +36,13 @@ return array(
     'generic_error'         => '无法完成请求',
     'errors_disabled'       => '您可以返回<a href="{0}">首页</a>或者<a href="{1}">重新尝试</a>。',
 
+    'no_default_route'      => '请在 APPPATH/config/routes.php 文件设置默认的路由参数值',
+    'no_controller'         => 'QuickPHP 没有找到处理该请求的控制器：{0}',
+
     // 驱动
     'driver_implements'     => '{0} 驱动在类 {1} 中必须继承 {2} 接口',
     'driver_not_found'      => '{0} 驱动在类 {1} 中没有发现',
+    'extension_not_found'   => '{0} 扩展没有被安装.',
 
     // 资源名称
     'config'                => '配置文件',
@@ -50,4 +52,9 @@ return array(
     'driver'                => '驱动',
     'model'                 => '模型',
     'view'                  => '视图',
+
+    // HTTP请求
+    'request_unknown_method'=> '无效的HTTP请求方法 {0}',
+    'cannot_generate_etag'  => '无法自动构建 ETAG', //No response yet associated with request - cannot auto generate resource ETag
+
 );
