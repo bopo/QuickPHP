@@ -79,22 +79,22 @@ class QuickPHP
     /**
      * @var  boolean  判断是否命令行环境
      */
-    public static $is_cli = FALSE;
+    public static $is_cli = false;
 
     /**
      * @var  boolean  判断是否是windows环境
      */
-    public static $is_windows = FALSE;
+    public static $is_windows = false;
 
     /**
      * @var  boolean  判断是否开启魔术引号
      */
-    public static $magic_quotes = FALSE;
+    public static $magic_quotes = false;
 
     /**
      * @var  boolean  日志记录错误以及异常信息
      */
-    public static $log_errors = FALSE;
+    public static $log_errors = false;
 
     /**
      * @var  string  输入和输出的编码
@@ -129,17 +129,17 @@ class QuickPHP
     /**
      * @var  boolean  是否开启高速缓存
      */
-    public static $caching = FALSE;
+    public static $caching = false;
 
     /**
      * @var  boolean  是否开启基础测试
      */
-    public static $profiling = TRUE;
+    public static $profiling = true;
 
     /**
      * @var  boolean  是否开启错误管理
      */
-    public static $errors = TRUE;
+    public static $errors = true;
 
     /**
      * @var  array  在shutdown显示错误类型
@@ -164,7 +164,7 @@ class QuickPHP
     /**
      * @var bool 判断是否初始化系统
      */
-    protected static $_init = FALSE;
+    protected static $_init = false;
 
     /**
      * @var array 加载的错误消息集合
@@ -184,7 +184,7 @@ class QuickPHP
     /**
      * @var bool 高速缓存修改的状态
      */
-    protected static $_files_changed = FALSE;
+    protected static $_files_changed = false;
 
     /**
      * @var string 本地语言(待定)
@@ -207,7 +207,7 @@ class QuickPHP
      *
      * @return void
      */
-    public function instance(array $settings = NULL)
+    public function instance(array $settings = null)
     {
         if(QuickPHP::$_init)
         {
@@ -227,7 +227,7 @@ class QuickPHP
         }
 
         // 如果框架开启基准测试，则开始一个测试
-        if(QuickPHP::$profiling === TRUE && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) != 'XMLHTTPREQUEST')
+        if(QuickPHP::$profiling === true && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) != 'XMLHTTPREQUEST')
         {
             $benchmark = Profiler::start('QuickPHP', 'QuickPHP::' . __FUNCTION__ );
         }
@@ -244,7 +244,7 @@ class QuickPHP
         }
 
         // 如果开启了错误提示，自定义异常和错误管理器
-        if(QuickPHP::$errors === TRUE)
+        if(QuickPHP::$errors === true)
         {
             set_exception_handler(array('QuickPHP', 'exception_handler'));
             set_error_handler(array('QuickPHP', 'error_handler'));
@@ -278,7 +278,7 @@ class QuickPHP
             {
                 try
                 {
-                    mkdir($settings['cache_dir'], 0755, TRUE);
+                    mkdir($settings['cache_dir'], 0755, true);
                     chmod($settings['cache_dir'], 0755);
                 }
                 catch (Exception $e)
@@ -313,7 +313,7 @@ class QuickPHP
         }
 
         // 如果开启则缓存所有导入数据的文件
-        if(QuickPHP::$caching === TRUE)
+        if(QuickPHP::$caching === true)
         {
             QuickPHP::$_files = QuickPHP::cache('QuickPHP::find()');
         }
@@ -411,12 +411,12 @@ class QuickPHP
             }
 
             QuickPHP::$log              =
-            QuickPHP::$config           = NULL;
+            QuickPHP::$config           = null;
             QuickPHP::$_modules         =
             QuickPHP::$_files           = array();
             QuickPHP::$_paths           = array(APPPATH, SYSPATH);
-            QuickPHP::$_init            = FALSE;
-            QuickPHP::$_files_changed   = FALSE;
+            QuickPHP::$_init            = false;
+            QuickPHP::$_files_changed   = false;
         }
     }
 
@@ -440,12 +440,12 @@ class QuickPHP
         }
         elseif(is_string($value))
         {
-            if(QuickPHP::$magic_quotes === TRUE)
+            if(QuickPHP::$magic_quotes === true)
             {
                 $value = stripslashes($value);
             }
 
-            if(strpos($value, "\r") !== FALSE)
+            if(strpos($value, "\r") !== false)
             {
                 $value = str_replace(array("\r\n", "\r"), "\n", $value);
             }
@@ -461,7 +461,7 @@ class QuickPHP
      */
     public function dispatch()
     {
-        if(QuickPHP::$_init != NULL)
+        if(QuickPHP::$_init != null)
         {
             try
             {
@@ -475,7 +475,7 @@ class QuickPHP
             }
 
             // 判断控制器文件是否是抽象类，以及开启了生产模式，ALLOW_PRODUCTION 常量设置为否
-            if($class->isAbstract() or (IN_PRODUCTION and $class->getConstant('ALLOW_PRODUCTION') == FALSE))
+            if($class->isAbstract() or (IN_PRODUCTION and $class->getConstant('ALLOW_PRODUCTION') == false))
             {
                 throw new QuickPHP_Exception('route.controller_is_not_allowed', QuickPHP::route()->segments);
             }
@@ -532,15 +532,15 @@ class QuickPHP
 
         $cache_key  = "autoloader($class)";
         $segments   = explode("_", $class);
-        $system     = FALSE;
+        $system     = false;
 
         if(($segments[0]) == 'QuickPHP')
         {
             array_shift($segments);
-            $system = TRUE;
+            $system = true;
         }
 
-        $suffix = count($segments) > 1 ? end($segments) : NULL;
+        $suffix = count($segments) > 1 ? end($segments) : null;
 
         // 产品模式下使用高速缓存保存加载路径
         $class_file = QuickPHP::cache($cache_key);
@@ -575,38 +575,42 @@ class QuickPHP
         if($suffix === 'Controller')
         {
             array_pop($segments);
-            $directory  = 'controllers';
-            $filepath = $directory .'/'. strtolower(implode("/", $segments)) . EXT;
+            $directory = 'controllers';
+            $filepath  = $directory .'/'. strtolower(implode("/", $segments)) . EXT;
         }
         elseif($suffix === 'Model')
         {
             array_pop($segments);
-            $directory  = 'models';
-            $filepath = $directory .'/'. strtolower(implode("/", $segments)) . EXT;
+            $directory = 'models';
+            $filepath  = $directory .'/'. strtolower(implode("/", $segments)) . EXT;
         }
         else
         {
-            $directory  = ($segments[0] < 'a') ? 'libraries' : 'helpers';
-            $filepath   = $directory .'/'. (implode("/", $segments)) . EXT;
+            $directory = ($segments[0] < 'a') ? 'libraries' : 'helpers';
+            $filepath  = $directory .'/'. (implode("/", $segments)) . EXT;
         }
 
-        if($system === FALSE)
+        if($system === false)
         {
             if(file_exists(APPPATH . $filepath))
             {
                 require_once APPPATH . $filepath;
 
                 if(IN_PRODUCTION)
+                {
                     QuickPHP::cache($cache_key, APPPATH . $filepath);
+                }
             }
             elseif(file_exists(SYSPATH . $filepath))
             {
                 require_once SYSPATH . $filepath;
 
                 if(IN_PRODUCTION)
+                {
                     QuickPHP::cache($cache_key, SYSPATH . $filepath);
+                }
 
-                if($system === FALSE)
+                if($system === false)
                 {
                     if(strtolower($suffix) === 'abstract')
                     {
@@ -632,7 +636,9 @@ class QuickPHP
                 require_once SYSPATH . $filepath;
 
                 if(IN_PRODUCTION)
+                {
                     QuickPHP::cache($cache_key, SYSPATH . $filepath);
+                }
             }
         }
 
@@ -659,7 +665,7 @@ class QuickPHP
      * @return  array    如果$array为真返回数组形式的文件列表
      * @return  string   单文件路径
      */
-    public static function locate($dir, $file, $ext = NULL, $array = FALSE)
+    public static function locate($dir, $file, $ext = null, $array = false)
     {
         return self::find($dir, $file, $ext, $array);
     }
@@ -683,17 +689,17 @@ class QuickPHP
      * @return  array    如果$array为真返回数组形式的文件列表
      * @return  string   单文件路径
      */
-    public static function find($dir, $file, $ext = NULL, $array = FALSE)
+    public static function find($dir, $file, $ext = null, $array = false)
     {
-        $ext  = ($ext === NULL) ? EXT : '.' . $ext;
+        $ext  = ($ext === null) ? EXT : '.' . $ext;
         $path = $dir . '/' . $file . $ext;
 
-        if(QuickPHP::$caching === TRUE AND isset(QuickPHP::$_files[$path]))
+        if(QuickPHP::$caching === true AND isset(QuickPHP::$_files[$path]))
         {
             return QuickPHP::$_files[$path];
         }
 
-        if(QuickPHP::$profiling === TRUE and class_exists('Profiler', FALSE))
+        if(QuickPHP::$profiling === true and class_exists('Profiler', false))
         {
             $benchmark = Profiler::start('QuickPHP', 'QuickPHP::' . __FUNCTION__ );
         }
@@ -713,7 +719,7 @@ class QuickPHP
         }
         else
         {
-            $found = FALSE;
+            $found = false;
 
             foreach (QuickPHP::$_paths as $dir)
             {
@@ -725,10 +731,10 @@ class QuickPHP
             }
         }
 
-        if(QuickPHP::$caching === TRUE)
+        if(QuickPHP::$caching === true)
         {
             QuickPHP::$_files[$path]  = $found;
-            QuickPHP::$_files_changed = TRUE;
+            QuickPHP::$_files_changed = true;
         }
 
         if(isset($benchmark))
@@ -789,7 +795,7 @@ class QuickPHP
             QuickPHP::$config = Config::instance()->attach(new Config_Driver_File());
         }
 
-        if(strpos($group, '.') !== FALSE)
+        if(strpos($group, '.') !== false)
         {
             list($group, $path) = explode('.', $group, 2);
         }
@@ -839,7 +845,7 @@ class QuickPHP
      * @param   integer  有效期限，单位秒
      * @return  mixed    返回字符串、数组或者空
      */
-    public static function cache($name, $data = NULL, $lifetime = 60)
+    public static function cache($name, $data = null, $lifetime = 60)
     {
         // Cache file is a hash of the name
         $file = sha1($name).'.txt';
@@ -849,7 +855,7 @@ class QuickPHP
         // Cache directories are split by keys to prevent filesystem overload
         $dir = QuickPHP::$cache_dir.DIRECTORY_SEPARATOR.strtoupper($file[0].$file[1]).DIRECTORY_SEPARATOR;
 
-        if ($data === NULL)
+        if ($data === null)
         {
             if (is_file($dir.$file))
             {
@@ -881,13 +887,13 @@ class QuickPHP
             }
 
             // Cache not found
-            return NULL;
+            return null;
         }
 
         if ( ! is_dir($dir))
         {
             // Create the cache directory
-            mkdir($dir, 0777, TRUE);
+            mkdir($dir, 0777, true);
 
             // Set permissions (must be manually set to fix umask issues)
             chmod($dir, 0777);
@@ -904,7 +910,7 @@ class QuickPHP
         catch (Exception $e)
         {
             // Failed to write cache
-            return FALSE;
+            return false;
         }
     }
 
@@ -922,9 +928,9 @@ class QuickPHP
      * @uses    arr::merge
      * @uses    arr::path
      */
-    public static function message($file, $path = NULL, $default = NULL)
+    public static function message($file, $path = null, $default = null)
     {
-        if( isset(QuickPHP::$_messages[$file]) AND (QuickPHP::$caching === TRUE))
+        if( isset(QuickPHP::$_messages[$file]) AND (QuickPHP::$caching === true))
         {
             // 设置缓存
         }
@@ -950,7 +956,7 @@ class QuickPHP
             }
         }
 
-        if($path === NULL)
+        if($path === null)
         {
             return QuickPHP::$_messages[$file];
         }
@@ -958,7 +964,7 @@ class QuickPHP
         return arr::path(QuickPHP::$_messages[$file], $path, $default);
     }
 
-    public static function locale($file, $lang = NULL)
+    public static function locale($file, $lang = null)
     {
         if( ! isset(QuickPHP::$_locale[$lang]))
         {
@@ -975,7 +981,7 @@ class QuickPHP
             }
         }
 
-        if($path === NULL)
+        if($path === null)
         {
             return QuickPHP::$_locale[$file];
         }
@@ -987,16 +993,16 @@ class QuickPHP
      * 系统自定义的错误管理器, 将所有 PHP 错误转向 ErrorExceptions.
      *
      * @throws  ErrorException
-     * @return  TRUE
+     * @return  true
      */
-    public static function error_handler($code, $error, $file = NULL, $line = NULL)
+    public static function error_handler($code, $error, $file = null, $line = null)
     {
         if(error_reporting() & $code)
         {
             throw new ErrorException($error, $code, 0, $file, $line);
         }
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -1010,14 +1016,14 @@ class QuickPHP
     {
         if(IN_PRODUCTION)
         {
-            header('Content-Type: text/html; charset=' . QuickPHP::$charset, TRUE, $code);
+            header('Content-Type: text/html; charset=' . QuickPHP::$charset, true, $code);
             header("HTTP/1.1 404 Not Found");
             header("Status: 404 Not Found");
 
             include QuickPHP::find('errors', '404');
             echo ob_get_clean();
 
-            return TRUE;
+            return true;
         }
 
         return QuickPHP_Exception::handler($e);
@@ -1038,7 +1044,7 @@ class QuickPHP
 
         try
         {
-            if(QuickPHP::$caching === TRUE and QuickPHP::$_files_changed === TRUE)
+            if(QuickPHP::$caching === true and QuickPHP::$_files_changed === true)
             {
                 QuickPHP::cache('QuickPHP::find()', QuickPHP::$_files);
             }
@@ -1065,7 +1071,7 @@ class QuickPHP
             exit(1);
         }
 
-        if(QuickPHP::$profiling === TRUE)
+        if(QuickPHP::$profiling === true)
         {
             include QuickPHP::find('errors', 'stats');
         }

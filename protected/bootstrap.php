@@ -52,7 +52,7 @@ spl_autoload_register(array('QuickPHP', 'autoloader'));
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 $setting = array(
-	'profiling' => false,                   // 开启分析器
+	'profiling' => true,                   // 开启分析器
 	'errors'    => true,                    // 开启错误分析
 	'caching'   => true,                    // 开启高速缓存
 	'frontend'  => '',         				// 入口文件名(默认为index.php)
