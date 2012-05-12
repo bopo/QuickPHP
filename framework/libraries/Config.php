@@ -65,7 +65,7 @@ class QuickPHP_Config
      * @param   boolean  驱动对象
      * @return  $this
      */
-    public function attach(QuickPHP_Config_Abstract $reader, $first = TRUE)
+    public function attach(Config_Abstract $reader, $first = TRUE)
     {
         if($first === TRUE)
         {

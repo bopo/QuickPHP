@@ -8,7 +8,7 @@
  * @copyright  (c) 2008-2011 QuickPHP Team
  * @license    http://www.quickphp.net/license.html
  */
-class QuickPHP_Log_Driver_StdOut extends QuickPHP_Log_Abstract
+class QuickPHP_Log_Driver_StdOut extends Log_Abstract
 {
 	/**
 	 * Writes each of the messages to STDOUT.

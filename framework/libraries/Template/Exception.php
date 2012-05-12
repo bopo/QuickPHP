@@ -37,20 +37,6 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     protected $_fileName   = '';
 
     /**
-     * QuickPHP自定义异常处理,将程序错误的错误信息转化为人类可读内容
-     *
-     * throw new QuickPHP_Exception('image.getimagesize_missing', array($user,$args), 500);
-     *
-     * @param   string   错误信息
-     * @param   array    错误变量
-     * @param   integer  异常代码
-     * @return  void
-     */
-    public function __construct($message, array $variables = NULL, $code = 0)
-    {
-        parent::__construct('template.'.$message, $variables, 500);
-    }
-    /**
      * @return string the template source code that causes the exception. This is empty if {@link getTemplateFile TemplateFile} is not empty.
      */
     public function getSource()

@@ -94,7 +94,7 @@ class QuickPHP
     /**
      * @var  boolean  日志记录错误以及异常信息
      */
-    public static $log_errors = false;
+    public static $log_error = false;
 
     /**
      * @var  string  输入和输出的编码
@@ -119,7 +119,7 @@ class QuickPHP
     /**
      * @var  string  引用的url后缀
      */
-    public static $url_suffix = '.html';
+    public static $url_suffix = 'html';
 
     /**
      * @var  string  高速缓存目录
@@ -238,6 +238,12 @@ class QuickPHP
         }
 
         // 判读是否显示错误
+        if(isset($settings['log_error']))
+        {
+            QuickPHP::$log_error = (bool) $settings['log_error'];
+        }
+
+        // 判读是否显示错误
         if(isset($settings['errors']))
         {
             QuickPHP::$errors = (bool) $settings['errors'];
@@ -298,6 +304,11 @@ class QuickPHP
         if( ! is_writable(QuickPHP::$cache_dir))
         {
             throw new QuickPHP_Exception('Directory "{0}" must be writable', array(debug::path(QuickPHP::$cache_dir)));
+        }
+        // 设置默认高速缓存周期
+        if (isset($settings['url_suffix']))
+        {
+            QuickPHP::$url_suffix = $settings['url_suffix'];
         }
 
         // 设置默认高速缓存周期
@@ -790,24 +801,18 @@ class QuickPHP
      */
     public static function config($group)
     {
-        if( ! isset(QuickPHP::$config))
+        $cache_key = "QuickPHP::cache()";
+     
+        if (QuickPHP::$_config == null) 
         {
-            QuickPHP::$config = Config::instance()->attach(new Config_Driver_File());
+            QuickPHP::$config = QuickPHP::cache($cache_key);
         }
 
-        if(strpos($group, '.') !== false)
+        if( ! isset(QuickPHP::$_config[$group]) or empty(QuickPHP::$_config[$group]))
         {
-            list($group, $path) = explode('.', $group, 2);
-        }
-
-        if( ! isset(QuickPHP::$_config[$group]))
-        {
+            QuickPHP::$config          = Config::instance()->attach(new Config_Driver_File());
             QuickPHP::$_config[$group] = QuickPHP::$config->load($group);
-        }
-
-        if(isset($path))
-        {
-            return arr::path(QuickPHP::$_config[$group], $path);
+            QuickPHP::cache($cache_key, QuickPHP::$_config);
         }
 
         return QuickPHP::$_config[$group];
@@ -847,35 +852,30 @@ class QuickPHP
      */
     public static function cache($name, $data = null, $lifetime = 60)
     {
-        // Cache file is a hash of the name
-        $file = sha1($name).'.txt';
-
         QuickPHP::$cache_dir = empty(QuickPHP::$cache_dir) ? RUNTIME . '_caching' : QuickPHP::$cache_dir;
-
-        // Cache directories are split by keys to prevent filesystem overload
-        $dir = QuickPHP::$cache_dir.DIRECTORY_SEPARATOR.strtoupper($file[0].$file[1]).DIRECTORY_SEPARATOR;
+     
+        $file = sha1("QuickPHP::cache({$name})") . '.txt';
+        $dir  = rtrim(QuickPHP::$cache_dir, '/') . '/' . strtoupper(substr($file,0,2)) . '/';
 
         if ($data === null)
         {
-            if (is_file($dir.$file))
+            if (is_file($dir . $file))
             {
-                if ((time() - filemtime($dir.$file)) < $lifetime)
+                if ((time() - filemtime($dir . $file)) < $lifetime)
                 {
-                    // Return the cache
                     try
                     {
-                        return unserialize(file_get_contents($dir.$file));
+                        return unserialize(file_get_contents($dir . $file));
                     }
                     catch (Exception $e)
                     {
-                        // Cache is corrupt, let return happen normally.
+                        return false;
                     }
                 }
                 else
                 {
                     try
                     {
-                        // Cache has expired
                         unlink($dir.$file);
                     }
                     catch (Exception $e)
@@ -886,30 +886,23 @@ class QuickPHP
                 }
             }
 
-            // Cache not found
             return null;
         }
 
         if ( ! is_dir($dir))
         {
-            // Create the cache directory
             mkdir($dir, 0777, true);
-
-            // Set permissions (must be manually set to fix umask issues)
             chmod($dir, 0777);
         }
 
-        // Force the data to be a string
         $data = serialize($data);
 
         try
         {
-            // Write the cache
             return (bool) file_put_contents($dir.$file, $data, LOCK_EX);
         }
         catch (Exception $e)
         {
-            // Failed to write cache
             return false;
         }
     }
@@ -1077,27 +1070,27 @@ class QuickPHP
         }
     }
 
-    /**
-     * 获取以文本方式异常错误信息:
-     *
-     * 返回以下格式:
-     * Error [ Code ]: Message ~ File [ Line ]
-     *
-     * @param   object  Exception
-     * @return  string
-     */
-    public static function exception_text(Exception $e)
-    {
-        $trace  = sprintf('%s [ %s ]: %s ~ %s [ %d ]', get_class($e),
-            $e->getCode(), strip_tags($e->getMessage()), debug::path($e->getFile()),
-            $e->getLine()).PHP_EOL;
+    // /**
+    //  * 获取以文本方式异常错误信息:
+    //  *
+    //  * 返回以下格式:
+    //  * Error [ Code ]: Message ~ File [ Line ]
+    //  *
+    //  * @param   object  Exception
+    //  * @return  string
+    //  */
+    // public static function exception_text(Exception $e)
+    // {
+    //     $trace  = sprintf('%s [ %s ]: %s ~ %s [ %d ]', get_class($e),
+    //         $e->getCode(), strip_tags($e->getMessage()), debug::path($e->getFile()),
+    //         $e->getLine()).PHP_EOL;
 
-        foreach ($e->getTrace() as $i => $step)
-        {
-            $trace .= "  " . sprintf('%s :%s ~ %s [ %d ]', $step['file'], null, $step['class'] . $step['type'] . $step['function'], $step['line']).PHP_EOL;
-        }
+    //     foreach ($e->getTrace() as $i => $step)
+    //     {
+    //         $trace .= "  " . sprintf('%s :%s ~ %s [ %d ]', $step['file'], null, $step['class'] . $step['type'] . $step['function'], $step['line']).PHP_EOL;
+    //     }
 
-        return $trace;
-    }
+    //     return $trace;
+    // }
 
 }

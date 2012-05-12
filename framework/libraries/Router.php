@@ -301,14 +301,6 @@ class QuickPHP_Router
                 parse_str($options['post'], $_POST);
             }
         }
-        elseif(isset($_GET['_uri']))
-        {
-            $this->current_uri       = $_GET['_uri'];
-            $parse_url               = parse_url($_SERVER['REQUEST_URI']);
-            $_SERVER['QUERY_STRING'] = $parse_url['query'];
-
-            parse_str($_SERVER['QUERY_STRING'], $_GET);
-        }
         elseif(isset($_SERVER['PATH_INFO']) and $_SERVER['PATH_INFO'])
         {
             $this->current_uri = $_SERVER['PATH_INFO'];
@@ -321,6 +313,22 @@ class QuickPHP_Router
         {
             $this->current_uri = $_SERVER['PHP_Router'];
         }
+        elseif(isset($_SERVER['QUERY_STRING']) and !empty($_SERVER['QUERY_STRING']))
+        {
+            $query_string      = explode("?", $_SERVER['QUERY_STRING']);
+            $this->current_uri = ltrim(current($query_string), '/');
+
+            if (is_array($query_string)) 
+            {
+                array_shift($query_string);
+                $query_string = implode("&", $query_string);
+            }
+
+            $_SERVER['QUERY_STRING'] = $query_string;
+            
+            // reset $_GET
+            parse_str($query_string, $_GET);
+        } 
 
         if(($strpos_fc = strpos($this->current_uri, EXT)) !== false)
         {
@@ -331,7 +339,10 @@ class QuickPHP_Router
 
         if($this->current_uri !== '')
         {
-            if($suffix = QuickPHP::$url_suffix and strpos($this->current_uri, $suffix) !== false)
+            preg_match_all('/\.(' . QuickPHP::$url_suffix . ')$/', $this->current_uri, $suffixs);
+            $suffix = isset($suffixs[0][0]) ? $suffixs[0][0] : QuickPHP::$url_suffix;
+
+            if(!empty($suffix))
             {
                 $this->current_uri = preg_replace('#' . preg_quote($suffix) . '$#u', '', $this->current_uri);
                 $this->url_suffix  = $suffix;

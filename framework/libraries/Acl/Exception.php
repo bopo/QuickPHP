@@ -27,11 +27,4 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.quickphp.net/license
  */
-class QuickPHP_Acl_Exception extends QuickPHP_Exception
-{
-    public function __construct($message, array $variables = NULL, $code = 0)
-    {
-        parent::__construct('acl.'.$message, $variables, 500);
-    }
-
-}
+class QuickPHP_Acl_Exception extends QuickPHP_Exception {}

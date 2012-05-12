@@ -27,7 +27,7 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.QuickPHP.net/license
  */
-class QuickPHP_Log_Driver_Syslog extends QuickPHP_Log_Abstract
+class QuickPHP_Log_Driver_Syslog extends Log_Abstract
 {
 
     // The syslog identifier

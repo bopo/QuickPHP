@@ -28,15 +28,4 @@
  * @license    http://www.QuickPHP.net/license
  * @version $Id: Exception.php 8775 2012-01-16 07:21:44Z bopo $
  */
-class QuickPHP_Captcha_Exception extends QuickPHP_Exception
-{
-    /**
-     * 构造函数
-     *
-     * @return  void
-     */
-    public function __construct($message, array $variables = NULL, $code = 0)
-    {
-        parent::__construct('captcha.'.$message, $variables, 500);
-    }
-}
+class QuickPHP_Captcha_Exception extends QuickPHP_Exception {}

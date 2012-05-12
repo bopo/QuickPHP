@@ -26,14 +26,4 @@
  * @license http://www.quickphp.net/license/
  * @package Image
  */
-class QuickPHP_ORM_Exception extends QuickPHP_Exception
-{
-
-    /**
-     * ORM异常处理类
-     */
-    public function __construct($message, array $variables = NULL, $code = 0)
-    {
-        parent::__construct('orm.'.$message, $variables, 500);
-    }
-}
+class QuickPHP_ORM_Exception extends QuickPHP_Exception {}

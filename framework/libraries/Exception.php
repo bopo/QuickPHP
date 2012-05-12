@@ -32,7 +32,6 @@
  */
 class QuickPHP_Exception extends Exception
 {
-
     /**
      * 
      * @var  array  PHP error code => human readable name
@@ -65,16 +64,8 @@ class QuickPHP_Exception extends Exception
      */
     public function __construct($message, array $variables = NULL, $code = 0)
     {
-        $message = explode(".", $message);
-        $message = QuickPHP::message(current($message), end($message));
-
-        if(is_array($variables))
-        {
-            foreach($variables as $key => $val)
-            {
-                $variable["{{$key}}"] = $val;
-            }
-        }
+        $messages = array('message' => $message,'variables' => $variables);
+        $messages = serialize($messages);
 
         // E_DEPRECATED only exists in PHP >= 5.3.0
         if (defined('E_DEPRECATED'))
@@ -85,12 +76,7 @@ class QuickPHP_Exception extends Exception
         // Save the unmodified code
         $this->code = $code;
 
-        if(isset($variable))
-        {
-            $message = strtr($message, $variable);
-        }
-
-        parent::__construct($message, (int) $code);
+        parent::__construct($messages, (int) $code);
     }
 
     /**
@@ -124,6 +110,28 @@ class QuickPHP_Exception extends Exception
             $file    = $e->getFile();
             $line    = $e->getLine();
             $trace   = $e->getTrace();
+
+            if($msgs = unserialize($message))
+            {
+                $directory = strtolower(str_replace("_Exception", "", $type));
+                $variables = $msgs['variables'];
+                $messages  = QuickPHP::message($directory, $msgs['message']);
+                
+                if(is_array($variables))
+                {
+                    foreach($variables as $key => $val)
+                    {
+                        $variable["{{$key}}"] = $val;
+                    }
+                }
+
+                if(isset($variable))
+                {
+                    $messages = strtr($messages, $variable);
+                }
+
+                $message = !empty($messages) ? $messages : $msgs['message'];
+            }
 
             if ($e instanceof ErrorException)
             {

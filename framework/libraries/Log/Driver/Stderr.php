@@ -27,7 +27,7 @@
  * @copyright  (c) 2008-2011 QuickPHP Team
  * @license    http://QuickPHPphp.com/license
  */
-class QuickPHP_Log_Driver_StdErr extends QuickPHP_Log_Abstract
+class QuickPHP_Log_Driver_StdErr extends Log_Abstract
 {
 	/**
 	 * Writes each of the messages to STDERR.

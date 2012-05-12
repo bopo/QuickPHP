@@ -28,7 +28,7 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.QuickPHP.net/license
  */
-class QuickPHP_Config_Driver_File extends QuickPHP_Config_Abstract
+class QuickPHP_Config_Driver_File extends Config_Abstract
 {
     protected $_configuration_group;
     protected $_configuration_modified = false;

@@ -26,9 +26,16 @@ define('IN_PRODUCTION', false);
 if(isset($_GET['phpinfo']) and !IN_PRODUCTION) exit(phpinfo());
 
 // 判断是否产品模式，产品模式不显示任何错误提示
-((bool) IN_PRODUCTION != true)
-    ? error_reporting(E_ALL & ~ E_NOTICE)
-    : error_reporting(0);
+if((bool) IN_PRODUCTION == false)
+{
+    error_reporting(E_ALL & ~ E_NOTICE);
+    ini_set('error_displays', 'on');
+}
+else
+{
+	error_reporting(0);
+	ini_set('error_displays', 'on');
+}
 
 define('QUICKPHP_START_TIME', microtime(true));
 define('QUICKPHP_START_MEMORY', memory_get_usage());
@@ -51,12 +58,14 @@ spl_autoload_register(array('QuickPHP', 'autoloader'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-$setting = array(
-	'profiling' => true,                   // 开启分析器
-	'errors'    => true,                    // 开启错误分析
-	'caching'   => true,                    // 开启高速缓存
-	'frontend'  => '',         				// 入口文件名(默认为index.php)
-	'domain'    => $_SERVER['SERVER_NAME']  // 网站域名
+$settings = array(
+	'profiling'  => true,                    // 开启分析器
+	'log_error'  => true,                    // 开启log分析
+	'errors'     => true,                    // 开启错误分析
+	'caching'    => true,                    // 开启高速缓存
+	'frontend'   => '',         				// 入口文件名(默认为index.php)
+	'url_suffix' => 'html',
+	'domain'     => $_SERVER['SERVER_NAME'],  // 网站域名
 );
 
-QuickPHP::instance($setting)->dispatch();
+QuickPHP::instance($settings)->dispatch();

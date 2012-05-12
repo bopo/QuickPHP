@@ -27,22 +27,4 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.QuickPHP.net/license
  */
-class QuickPHP_Config_Exception extends QuickPHP_Exception
-{
-    /**
-     * QuickPHP自定义异常处理,将程序错误的错误信息转化为人类可读内容
-     *
-     * throw new QuickPHP_Exception('Something went terrible wrong, :user',
-     * array(':user' => $user));
-     *
-     * @param   string   错误信息
-     * @param   array    错误变量
-     * @param   integer  异常代码
-     * @return  void
-     */
-    public function __construct($message, array $variables = null, $code = 0)
-    {
-        parent::__construct('config.'.$message, $variables, 500);
-    }
-
-}
+class QuickPHP_Config_Exception extends QuickPHP_Exception {}

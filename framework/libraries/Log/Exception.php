@@ -27,10 +27,4 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.QuickPHP.net/license
  */
-class QuickPHP_Log_Exception extends QuickPHP_Exception
-{
-    public function __construct($message, array $variables = NULL, $code = 0)
-    {
-        parent::__construct('log.'.$message, $variables, 500);
-    }
-}
+class QuickPHP_Log_Exception extends QuickPHP_Exception {}
