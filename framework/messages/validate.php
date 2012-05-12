@@ -20,13 +20,13 @@
 */
 return array(
     'not_empty'     => '{0} 不能为空',
-    'matches'       => '{0} must be the same as :param1',
+    'matches'       => '{0} must be the same as {1}',
     'regex'         => '{0} does not match the required format', // 不符合所要求的格式
-    'exact_length'  => '{0} must be exactly :param1 characters long',
-    'min_length'    => '{0} must be at least :param1 characters long',
-    'max_length'    => '{0} must be less than :param1 characters long',
+    'exact_length'  => '{0} must be exactly {1} characters long',
+    'min_length'    => '{0} must be at least {1} characters long',
+    'max_length'    => '{0} must be less than {1} characters long',
     'in_array'      => '{0} must be one of the available options',
     'digit'         => '{0} must be a digit',
-    'decimal'       => '{0} must be a decimal with :param1 places',
-    'range'         => '{0} must be within the range of :param1 to :param2'
+    'decimal'       => '{0} must be a decimal with {1} places',
+    'range'         => '{0} must be within the range of {1} to {2}'
 );
