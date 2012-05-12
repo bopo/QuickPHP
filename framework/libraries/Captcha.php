@@ -34,8 +34,7 @@ class QuickPHP_Captcha
     protected static $counted;
     protected $driver = 'gd';
 
-    public static $config = array
-    (
+    public static $config = array(
         'style'      => 'basic',
         'width'      => 114,
         'height'     => 34,

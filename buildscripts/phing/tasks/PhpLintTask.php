@@ -54,9 +54,9 @@ class PhpLintTask extends Task
 
             foreach($this->filesets as $fs)
             {
-                $ds     = $fs->getDirectoryScanner($project);
-                $files  = $ds->getIncludedFiles();
-                $dir    = $fs->getDir($this->project)->getPath();
+                $ds    = $fs->getDirectoryScanner($project);
+                $files = $ds->getIncludedFiles();
+                $dir   = $fs->getDir($this->project)->getPath();
 
                 foreach($files as $file)
                 {

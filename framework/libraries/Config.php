@@ -32,9 +32,9 @@ class QuickPHP_Config
 {
 
     protected static $_instance;
-    public static $loaded;
-
     protected $_readers = array();
+
+    public static $loaded;
 
     /**
      * 获得配置对象的实例方法

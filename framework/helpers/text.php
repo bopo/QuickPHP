@@ -42,8 +42,8 @@ class QuickPHP_text
      */
     public static function limit_words($str, $limit = 100, $end_char = NULL)
     {
-        $limit      = (int) $limit;
-        $end_char   = ($end_char === NULL) ? '&#8230;' : $end_char;
+        $limit    = (int) $limit;
+        $end_char = ($end_char === NULL) ? '&#8230;' : $end_char;
 
         if(trim($str) === '')
         {
@@ -82,8 +82,8 @@ class QuickPHP_text
      */
     public static function limit_chars($str, $limit = 100, $end_char = NULL, $preserve_words = FALSE)
     {
-        $end_char   = ($end_char === NULL) ? '&#8230;' : $end_char;
-        $limit      = (int) $limit;
+        $end_char = ($end_char === NULL) ? '&#8230;' : $end_char;
+        $limit    = (int) $limit;
 
         if(trim($str) === '' or Unicode::strlen($str) <= $limit)
         {
@@ -166,9 +166,9 @@ class QuickPHP_text
                 break;
         }
 
-        $pool   = ($utf8 === true) ? Unicode::str_split($pool, 1) : str_split($pool, 1);
-        $max    = count($pool) - 1;
-        $str    = '';
+        $pool = ($utf8 === true) ? Unicode::str_split($pool, 1) : str_split($pool, 1);
+        $max  = count($pool) - 1;
+        $str  = '';
 
         for ($i = 0; $i < $length; $i++)
         {
@@ -341,8 +341,8 @@ class QuickPHP_text
         if((bool) ($html_found = (strpos($str, '<') !== FALSE)))
         {
             $no_p = '(?:p|div|h[1-6r]|ul|ol|li|blockquote|d[dlt]|pre|t[dhr]|t(?:able|body|foot|head)|c(?:aption|olgroup)|form|s(?:elect|tyle)|a(?:ddress|rea)|ma(?:p|th))';
-            $str = preg_replace('~^<' . $no_p . '[^>]*+>~im', "\n$0", $str);
-            $str = preg_replace('~</' . $no_p . '\s*+>$~im', "$0\n", $str);
+            $str  = preg_replace('~^<' . $no_p . '[^>]*+>~im', "\n$0", $str);
+            $str  = preg_replace('~</' . $no_p . '\s*+>$~im', "$0\n", $str);
         }
 
         $str = '<p>' . trim($str) . '</p>';
@@ -378,13 +378,13 @@ class QuickPHP_text
 
         if($si == FALSE or strpos($force_unit, 'i') !== FALSE)
         {
-            $units  = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB');
-            $mod    = 1024;
+            $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB');
+            $mod   = 1024;
         }
         else
         {
-            $units  = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
-            $mod    = 1000;
+            $units = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
+            $mod   = 1000;
         }
 
         if(($power = array_search((string) $force_unit, $units)) === FALSE)

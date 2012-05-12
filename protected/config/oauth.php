@@ -28,11 +28,11 @@ return array(
      * be provided when making OAuth requests.
      */
     'twitter' => array(
-        'key' => 'your consumer key',
+        'key'    => 'your consumer key',
         'secret' => 'your consumer secret'
     ),
     'weibo' => array(
-        'key' => 'your consumer key',
+        'key'    => 'your consumer key',
         'secret' => 'your consumer secret'
     ),
 );

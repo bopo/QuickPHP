@@ -51,12 +51,12 @@ abstract class QuickPHP_Image_Abstract
             {
                 if ( ! $this->$func($args))
                 {
-                    return FALSE;
+                    return false;
                 }
             }
         }
 
-        return TRUE;
+        return true;
     }
 
     /**

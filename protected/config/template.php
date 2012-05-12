@@ -20,13 +20,13 @@
 */
 return array(
     'simple' => array(
-        'layout_dir'        => APPPATH . 'views/layout/',
-        'template_dir'      => APPPATH . 'views/template/',
-        'template_suffix'   => '.html',
-        'compile_dir'       => RUNTIME . '_views/',
-        'cache_dir'         => RUNTIME . '_views/',
-        'compile_lifetime'  => 0, //3600 * 24 * 30,
-        'left_delimiter'    => "{{",
-        'right_delimiter'   => "}}"
+        'layout_dir'       => APPPATH . 'views/layout/',
+        'template_dir'     => APPPATH . 'views/template/',
+        'template_suffix'  => '.html',
+        'compile_dir'      => RUNTIME . '_views/',
+        'cache_dir'        => RUNTIME . '_views/',
+        'compile_lifetime' => 0, //3600 * 24 * 30,
+        'left_delimiter'   => "{{",
+        'right_delimiter'  => "}}"
     ),
 );

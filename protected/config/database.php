@@ -18,57 +18,49 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array
-(
-    'default' => array
-    (
+return array(
+    'default'   => array(
         'type' => 'mysql',
-        'connection' => array
-        (
-            'hostname' => 'localhost',
-            'database' => 'divine',
-            'username' => 'root',
-            'password' => '',
+        'connection' => array(
+            'hostname'   => 'localhost',
+            'database'   => 'divine',
+            'username'   => 'root',
+            'password'   => '',
             'persistent' => FALSE,
         ),
         'table_prefix' => '',
-        'charset' => 'UTF8',
-        'caching' => FALSE,
-        'profiling' => TRUE,
+        'charset'      => 'UTF8',
+        'caching'      => FALSE,
+        'profiling'    => TRUE,
     ),
-    'sqlite' => array
-    (
+    'sqlite'    => array(
         'type' => 'pdo',
-        'connection' => array
-        (
-            'dsn' => 'sqlite:astro.db',
-            'username' => 'root',
-            'password' => '',
+        'connection' => array(
+            'dsn'        => 'sqlite:astro.db',
+            'username'   => 'root',
+            'password'   => '',
             'persistent' => FALSE,
         ),
         'table_prefix' => '',
-        'charset' => 'UTF8',
-        'caching' => FALSE,
-        'profiling' => TRUE,
+        'charset'      => 'UTF8',
+        'caching'      => FALSE,
+        'profiling'    => TRUE,
     ),
-    'postgre' => array
-    (
+    'postgre'   => array(
         'type' => 'postgre',
-        'connection' => array
-        (
-            'hostname' => 'localhost',
-            'database' => 'test',
-            'username' => 'bopo',
-            'password' => '87225300',
+        'connection' => array(
+            'hostname'   => 'localhost',
+            'database'   => 'test',
+            'username'   => 'bopo',
+            'password'   => '87225300',
             'persistent' => FALSE,
         ),
         'table_prefix' => '',
-        'charset' => 'UTF8',
-        'caching' => FALSE,
-        'profiling' => TRUE,
+        'charset'      => 'UTF8',
+        'caching'      => FALSE,
+        'profiling'    => TRUE,
     ),
-    'alternate' => array
-    (
+    'alternate' => array(
         'type' => 'pdo',
         'connection' => array
         (
@@ -80,9 +72,9 @@ return array
              * string   password    database password
              * boolean  persistent  use persistent connections?
              */
-            'dsn' => 'mysql:host=localhost;dbname=mitang',
-            'username' => 'root',
-            'password' => '',
+            'dsn'        => 'mysql:host=localhost;dbname=mitang',
+            'username'   => 'root',
+            'password'   => '',
             'persistent' => FALSE,
         ),
         /**
@@ -91,8 +83,8 @@ return array
          * string   identifier  set the escaping identifier
          */
         'table_prefix' => '',
-        'charset' => 'UTF8',
-        'caching' => FALSE,
-        'profiling' => TRUE,
+        'charset'      => 'UTF8',
+        'caching'      => FALSE,
+        'profiling'    => TRUE,
     )
 );

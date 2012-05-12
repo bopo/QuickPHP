@@ -48,16 +48,22 @@ class QuickPHP_Archive_Driver_Tar implements QuickPHP_Archive_Interface
         sort($paths);
 
         foreach ($paths as $set)
+        {
             $this->add_data($set[0], $set[1], isset($set[2]) ? $set[2] : NULL);
+        }
 
         $tarfile = implode('', $this->data) . pack('a1024', ''); // EOF
 
 
         if($filename == FALSE)
+        {
             return $tarfile;
+        }
 
         if(substr($filename, - 3) != 'tar')
+        {
             $filename .= '.tar';
+        }
 
         // 以写模式创建文件并打开
         $file = fopen($filename, 'wb');
@@ -87,14 +93,11 @@ class QuickPHP_Archive_Driver_Tar implements QuickPHP_Archive_Interface
     public function add_data($file, $name, $contents = NULL)
     {
         // Determine the file type
-        $type = is_dir($file) ? 5 : (is_link($file) ? 2 : 0);
-
+        $type    = is_dir($file) ? 5 : (is_link($file) ? 2 : 0);
         // Get file stat
-        $stat = stat($file);
-
+        $stat    = stat($file);
         // Get path info
-        $path = pathinfo($file);
-
+        $path    = pathinfo($file);
         // File header
         $tmpdata =  pack('a100', $name) . // Name of file
                     pack('a8', sprintf('%07o', $stat[2])) . // File mode
@@ -114,8 +117,7 @@ class QuickPHP_Archive_Driver_Tar implements QuickPHP_Archive_Interface
                     pack('a155', $path['dirname'] === '.' ? '' : $path['dirname']) . // Prefix for file name
                     pack('a12', chr(0)); // End
 
-        $checksum = pack('a8', sprintf('%07o', array_sum(array_map('ord', str_split(substr($tmpdata, 0, 512))))));
-
+        $checksum     = pack('a8', sprintf('%07o', array_sum(array_map('ord', str_split(substr($tmpdata, 0, 512))))));
         $this->data[] = substr_replace($tmpdata, $checksum, 148, 8) . str_pad(file_get_contents($file), (ceil($stat[7] / 512) * 512), chr(0));
     }
 

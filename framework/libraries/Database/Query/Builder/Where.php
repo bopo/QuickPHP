@@ -32,13 +32,10 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
 
     // WHERE ...
     protected $_where    = array();
-
-    // ORDER BY ...
-    protected $_order_by = array();
-
     // LIMIT ...
     protected $_limit    = NULL;
-
+    // ORDER BY ...
+    protected $_order_by = array();
     /**
      * Alias of and_where()
      *

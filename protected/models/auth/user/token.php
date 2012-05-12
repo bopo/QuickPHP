@@ -50,11 +50,15 @@ class Auth_User_Token_Model extends ORM
 
         // Do garbage collection
         if (mt_rand(1, 100) === 1)
+        {
             $this->delete_expired();
+        }
 
         // This object has expired
         if ($this->expires < $this->_now)
+        {
             $this->delete();
+        }
     }
 
     /**
@@ -68,8 +72,8 @@ class Auth_User_Token_Model extends ORM
         if ($this->loaded() === FALSE)
         {
             // Set the created time, token, and hash of the user agent
-            $this->created      = $this->_now;
-            $this->user_agent   = sha1(request::user_agent());
+            $this->created    = $this->_now;
+            $this->user_agent = sha1(request::user_agent());
         }
 
         while (TRUE)

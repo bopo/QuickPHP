@@ -31,9 +31,9 @@
 class QuickPHP_Template_Driver_Simple implements Template_Interface
 {
 
-    protected $_config      = NULL;
-    protected $_data        = array();
-    protected $_delimiter   = array('{{', '}}');
+    protected $_config    = NULL;
+    protected $_data      = array();
+    protected $_delimiter = array('{{', '}}');
 
     /**
      * 构造函数
@@ -291,8 +291,8 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
     private function _debug($tempate, $tag)
     {
-        $line   = 0;
-        $lines  = file($tempate);
+        $line  = 0;
+        $lines = file($tempate);
 
         foreach ($lines as $key => $val)
         {
@@ -579,10 +579,9 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
         if(preg_match('/^(.*) >(>?) ([a-zA-Z0-9_\.]+)$/', $tag, $tagvar))
         {
-            $tag = $tagvar[1];
-
             list($newblock, $newscalar) = $this->_var_name($tagvar[3]);
 
+            $tag = $tagvar[1];
             $cmd = "\${$newblock}['{$newscalar}'] " . (strlen($tagvar[2]) == 0 ? '' : '.') . "=";
         }
 

@@ -58,7 +58,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
         $this->_result = $result;
 
         // Store the SQL locally
-        $this->_query = $sql;
+        $this->_query  = $sql;
 
         if(is_object($as_object))
         {

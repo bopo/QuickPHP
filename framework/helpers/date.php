@@ -61,12 +61,12 @@ class QuickPHP_date
      */
     public static function dos2unix($timestamp = FALSE)
     {
-        $sec    = 2 * ($timestamp & 0x1f);
-        $min    = ($timestamp >> 5) & 0x3f;
-        $hrs    = ($timestamp >> 11) & 0x1f;
-        $day    = ($timestamp >> 16) & 0x1f;
-        $mon    = ($timestamp >> 21) & 0x0f;
-        $year   = ($timestamp >> 25) & 0x7f;
+        $sec  = 2 * ($timestamp & 0x1f);
+        $min  = ($timestamp >> 5) & 0x3f;
+        $hrs  = ($timestamp >> 11) & 0x1f;
+        $day  = ($timestamp >> 16) & 0x1f;
+        $mon  = ($timestamp >> 21) & 0x0f;
+        $year = ($timestamp >> 25) & 0x7f;
 
         return mktime($hrs, $min, $sec, $mon, $day, $year + 1980);
     }
@@ -145,17 +145,17 @@ class QuickPHP_date
      */
     public static function hours($step = 1, $long = FALSE, $start = NULL)
     {
-        $step   = (int) $step;
-        $long   = (bool) $long;
-        $hours  = array();
+        $step  = (int) $step;
+        $long  = (bool) $long;
+        $hours = array();
 
         if($start === NULL)
         {
             $start = ($long === FALSE) ? 1 : 0;
         }
 
-        $hours  = array();
-        $size   = ($long === TRUE) ? 23 : 12;
+        $hours = array();
+        $size  = ($long === TRUE) ? 23 : 12;
 
         for ($i = $start; $i <= $size; $i += $step)
         {
@@ -265,9 +265,9 @@ class QuickPHP_date
      */
     public static function years($start = FALSE, $end = FALSE)
     {
-        $start  = ($start === FALSE) ? date('Y') - 5 : (int) $start;
-        $end    = ($end === FALSE) ? date('Y') + 5 : (int) $end;
-        $years  = array();
+        $start = ($start === FALSE) ? date('Y') - 5 : (int) $start;
+        $end   = ($end === FALSE) ? date('Y') + 5 : (int) $end;
+        $years = array();
         $end   += 1;
 
         for ($i = $start; $i < $end; $i++)

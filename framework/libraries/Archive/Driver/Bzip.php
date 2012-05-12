@@ -44,15 +44,21 @@ class QuickPHP_Archive_Driver_Bzip implements QuickPHP_Archive_Interface
         $archive = new Archive('tar');
 
         foreach ($paths as $set)
+        {
             $archive->add($set[0], $set[1]);
+        }
 
         $gzfile = bzcompress($archive->create());
 
         if($filename == FALSE)
+        {
             return $gzfile;
+        }
 
         if(substr($filename, - 8) !== '.tar.bz2')
+        {
             $filename .= '.tar.bz2';
+        }
 
         // 以写模式创建文件并打开
         $file = fopen($filename, 'wb');

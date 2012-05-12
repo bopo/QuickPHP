@@ -6,23 +6,23 @@ require_once 'phing/Task.php';
  */
 class QuickphpDocTask extends Task
 {
-    private $phpdoc = 'phpdoc';
-
-    private $title = "Default Title";
-
-    private $destdir = ".";
-
-    private $sourcepath = NULL;
-
-    private $ignorelist = '';
-
-    private $output = "";
-
-    private $linksource = false;
-
+    private $phpdoc       = 'phpdoc';
+    
+    private $title        = "Default Title";
+    
+    private $destdir      = ".";
+    
+    private $sourcepath   = NULL;
+    
+    private $ignorelist   = '';
+    
+    private $output       = "";
+    
+    private $linksource   = false;
+    
     private $parseprivate = false;
-
-    private $quite = false;
+    
+    private $quite        = false;
 
     function setPhpdoc($phpdoc)
     {

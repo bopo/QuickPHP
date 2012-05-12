@@ -40,7 +40,7 @@ class QuickPHP_Config_Exception extends QuickPHP_Exception
      * @param   integer  异常代码
      * @return  void
      */
-    public function __construct($message, array $variables = NULL, $code = 0)
+    public function __construct($message, array $variables = null, $code = 0)
     {
         parent::__construct('config.'.$message, $variables, 500);
     }

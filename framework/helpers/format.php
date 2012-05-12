@@ -87,8 +87,8 @@ class QuickPHP_format
      */
     public static function date($date = NULL, $format = 'Y-m-d H:i:s')
     {
-        $date       = empty($date) ? time() : $date;
-        $timestamp  = strtotime($date);
+        $date      = empty($date) ? time() : $date;
+        $timestamp = strtotime($date);
 
         return date($format, $timestamp);
     }

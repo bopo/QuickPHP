@@ -55,12 +55,12 @@ class QuickPHP_Profiler
         $token = 'qp/' . base_convert($counter++, 10, 32);
 
         Profiler::$_marks[$token] = array(
-            'group'         => ($group),
-            'name'          => (string) $name, // Start the benchmark
-            'start_time'    => microtime(true),
-            'start_memory'  => memory_get_usage(), // Set the stop keys without values
-            'stop_time'     => false,
-            'stop_memory'   => false);
+            'group'        => ($group),
+            'name'         => (string) $name, // Start the benchmark
+            'start_time'   => microtime(true),
+            'start_memory' => memory_get_usage(), // Set the stop keys without values
+            'stop_time'    => false,
+            'stop_memory'  => false);
 
         return $token;
     }
@@ -218,7 +218,7 @@ class QuickPHP_Profiler
             }
 
             $count = count($names);
-            $groups[$group]['average']['time'] = $groups[$group]['total']['time'] / $count;
+            $groups[$group]['average']['time']   = $groups[$group]['total']['time'] / $count;
             $groups[$group]['average']['memory'] = $groups[$group]['total']['memory'] / $count;
         }
 
@@ -239,7 +239,7 @@ class QuickPHP_Profiler
 
         if($mark['stop_time'] === false)
         {
-            $mark['stop_time'] = microtime(true);
+            $mark['stop_time']   = microtime(true);
             $mark['stop_memory'] = memory_get_usage();
         }
 
@@ -314,7 +314,7 @@ class QuickPHP_Profiler
 
         // 设置当前的应用程序执行时间和记忆
         // 不要缓存的话,他们具体到当前请求上才有
-        $stats['current']['time'] = $time;
+        $stats['current']['time']   = $time;
         $stats['current']['memory'] = $memory;
 
         // 返回运行时间和内存使用量总数

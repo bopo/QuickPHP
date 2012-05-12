@@ -27,7 +27,6 @@
  */
 $error_id = uniqid('error');
 ?>
-
 <style type="text/css">
 #QuickPHP_error { background: #ddd; font-size: 1em; font-family:sans-serif; text-align: left; color: #111; }
 #QuickPHP_error h1,
@@ -50,7 +49,6 @@ $error_id = uniqid('error');
 #QuickPHP_error ol.trace li { margin: 0; padding: 0; }
 .js .collapsed { display: none; }
 </style>
-
 <script type="text/javascript">
 document.documentElement.className = 'js';
 function koggle(elem)

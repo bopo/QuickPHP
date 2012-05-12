@@ -37,9 +37,9 @@ class QuickPHP_Crypto_Adapter_Encrypt extends QuickPHP_Crypto_Abstract
     protected static $rand;
 
     protected $config = array(
-        'key'       => 'K0H@NA+PHP_7hE-SW!FtFraM3w0R|<',
-        'mode'      => MCRYPT_MODE_NOFB,
-        'cipher'    => MCRYPT_RIJNDAEL_128);
+        'key'    => 'K0H@NA+PHP_7hE-SW!FtFraM3w0R|<',
+        'mode'   => MCRYPT_MODE_NOFB,
+        'cipher' => MCRYPT_RIJNDAEL_128);
 
     /**
      * 构造函数，读取配置和初始化数据
@@ -92,19 +92,27 @@ class QuickPHP_Crypto_Adapter_Encrypt extends QuickPHP_Crypto_Abstract
             else
             {
                 if(defined('MCRYPT_DEV_URANDOM'))
+                {
                     self::$rand = MCRYPT_DEV_URANDOM;
+                }
                 elseif(defined('MCRYPT_DEV_RANDOM'))
+                {
                     self::$rand = MCRYPT_DEV_RANDOM;
+                }
                 else
+                {
                     self::$rand = MCRYPT_RAND;
+                }
             }
         }
 
         if(self::$rand === MCRYPT_RAND)
+        {
             mt_srand();
+        }
 
-        $iv     = mcrypt_create_iv($this->config['iv_size'], self::$rand);
-        $data   = mcrypt_Encrypt($this->config['cipher'], $this->config['key'], $data, $this->config['mode'], $iv);
+        $iv   = mcrypt_create_iv($this->config['iv_size'], self::$rand);
+        $data = mcrypt_Encrypt($this->config['cipher'], $this->config['key'], $data, $this->config['mode'], $iv);
 
         return base64_encode($iv . $data);
     }
@@ -117,9 +125,9 @@ class QuickPHP_Crypto_Adapter_Encrypt extends QuickPHP_Crypto_Abstract
      */
     public function decode($data = null)
     {
-        $data   = base64_decode($data);
-        $iv     = substr($data, 0, $this->config['iv_size']);
-        $data   = substr($data, $this->config['iv_size']);
+        $data = base64_decode($data);
+        $iv   = substr($data, 0, $this->config['iv_size']);
+        $data = substr($data, $this->config['iv_size']);
 
         return rtrim(mcrypt_decrypt($this->config['cipher'], $this->config['key'], $data, $this->config['mode'], $iv), "\0");
     }

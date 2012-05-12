@@ -122,7 +122,7 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
      */
     public function regenerate()
     {
-        session_regenerate_id(TRUE);
+        session_regenerate_id(true);
         return session_id();
     }
 
@@ -133,6 +133,6 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
      */
     public function gc($maxlifetime)
     {
-        return TRUE;
+        return true;
     }
 }

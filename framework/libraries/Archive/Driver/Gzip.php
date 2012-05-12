@@ -45,15 +45,21 @@ class QuickPHP_Archive_Driver_Gzip implements QuickPHP_Archive_Interface
         $archive = new Archive('tar');
 
         foreach ($paths as $set)
+        {
             $archive->add($set[0], $set[1]);
+        }
 
         $gzfile = gzencode($archive->create());
 
         if($filename == FALSE)
+        {
             return $gzfile;
+        }
 
         if(substr($filename, - 7) !== '.tar.gz')
+        {
             $filename .= '.tar.gz';
+        }
 
         // 以写模式创建文件并打开
         $file = fopen($filename, 'wb');

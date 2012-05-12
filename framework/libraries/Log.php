@@ -51,7 +51,7 @@ class QuickPHP_Log
     protected $_messages = array();
 
     // 日志驱动寄存容器
-    protected $_writers = array();
+    protected $_writers  = array();
 
     /**
      * 静态实例方法.
@@ -83,6 +83,7 @@ class QuickPHP_Log
     public function attach(QuickPHP_Log_Abstract $writer, array $types = NULL)
     {
         $this->_writers["{$writer}"] = array('object' => $writer, 'types' => $types);
+        
         return $this;
     }
 
@@ -97,6 +98,7 @@ class QuickPHP_Log
     public function detach(QuickPHP_Log_Abstract $writer)
     {
         unset($this->_writers["{$writer}"]);
+        
         return $this;
     }
 
@@ -128,6 +130,7 @@ class QuickPHP_Log
         }
 
         $this->_messages[] = array('time' => $time, 'type' => $type, 'body' => $message);
+        
         return $this;
     }
 

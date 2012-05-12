@@ -111,8 +111,8 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
     public function reset()
     {
         $this->_table      = NULL;
-        $this->_set        =
-        $this->_where      =
+        $this->_set        = array();
+        $this->_where      = array();
         $this->_parameters = array();
         return $this;
     }

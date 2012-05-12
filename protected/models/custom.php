@@ -38,11 +38,19 @@ class Custom_Model extends ORM
     public function save()
     {
         if ($this->empty_pk())
+        {
             if(isset($this->created))
+            {
                 $this->created = time();
+            }
+        }
         else
+        {
             if(isset($this->modified))
+            {
                 $this->modified = time();
+            }
+        }
 
         return parent::save();
     }
@@ -55,7 +63,9 @@ class Custom_Model extends ORM
     public function register($array)
     {
         foreach( $array as $key => $value )
+        {
             $this->$key = $value;
+        }
 
         return $this->save();
     }

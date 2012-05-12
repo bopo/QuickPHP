@@ -31,7 +31,7 @@
 class QuickPHP_Config_Driver_File extends QuickPHP_Config_Abstract
 {
     protected $_configuration_group;
-    protected $_configuration_modified = FALSE;
+    protected $_configuration_modified = false;
 
     public function __construct($directory = 'config')
     {
@@ -49,9 +49,9 @@ class QuickPHP_Config_Driver_File extends QuickPHP_Config_Abstract
      * @return  $this   clone of the current object
      * @uses    QuickPHP::load
      */
-    public function load($group, array $config = NULL)
+    public function load($group, array $config = null)
     {
-        $files  = QuickPHP::find($this->_directory, $group, NULL, TRUE);
+        $files  = QuickPHP::find($this->_directory, $group, null, true);
         $config = array();
 
         if( ! empty($files))

@@ -19,34 +19,34 @@
  +----------------------------------------------------------------------+
 */
 return array(
-    '_default'              => 'home',
-
+    '_default'                => 'home',
+    
     // console
-    'console'               => 'console_dashboard',
-    'console/(\w+)'         => 'console_$1',
-    'console/(\w+)/(\w+)'   => 'console_$1_$2',
-
+    'console'                 => 'console_dashboard',
+    'console/(\w+)'           => 'console_$1',
+    'console/(\w+)/(\w+)'     => 'console_$1_$2',
+    
     // account
-    'user'                      => 'user_home',
-    'user/divine'               => 'user_divine',
-    'user/divine/(\w+)'         => 'user_divine_$1',
-    'user/divine/(\w+)/(\w+)'   => 'user_divine_$1/$2',
-    'user/(\w+)'                => 'user_$1',
-    'user/(\w+)/(\w+)'          => 'user_$1/$2',
-    'user/(\w+)/(\w+)/(\w+)'    => 'user_$1/$2/$3',
-
+    'user'                    => 'user_home',
+    'user/divine'             => 'user_divine',
+    'user/divine/(\w+)'       => 'user_divine_$1',
+    'user/divine/(\w+)/(\w+)' => 'user_divine_$1/$2',
+    'user/(\w+)'              => 'user_$1',
+    'user/(\w+)/(\w+)'        => 'user_$1/$2',
+    'user/(\w+)/(\w+)/(\w+)'  => 'user_$1/$2/$3',
+    
     // passport
-    'signup'                => 'passport_signup',
-    'signup/(\w+)'          => 'passport_signup/$1',
-    'login'                 => 'passport_login',
-    'login/(\w+)'           => 'passport_login/$1',
-    'logout'                => 'passport_logout',
-    'forget'                => 'passport_forget',
-    'forget/(\w+)'          => 'passport_forget/$1',
-
+    'signup'                  => 'passport_signup',
+    'signup/(\w+)'            => 'passport_signup/$1',
+    'login'                   => 'passport_login',
+    'login/(\w+)'             => 'passport_login/$1',
+    'logout'                  => 'passport_logout',
+    'forget'                  => 'passport_forget',
+    'forget/(\w+)'            => 'passport_forget/$1',
+    
     // sevice
-    'service/(\w+)'         => 'service_$1',
-    'service/(\w+)/(\w+)'   => 'service_$1/$2',
-    'connect'               => 'service_connect',
-    'shortcut'              => 'service_shortcut',
+    'service/(\w+)'           => 'service_$1',
+    'service/(\w+)/(\w+)'     => 'service_$1/$2',
+    'connect'                 => 'service_connect',
+    'shortcut'                => 'service_shortcut',
 );

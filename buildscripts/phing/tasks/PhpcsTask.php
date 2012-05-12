@@ -12,36 +12,39 @@ require_once 'phing/Task.php';
 class PhpcsTask extends Task
 {
 
-	protected $file;	// the source file (from xml attribute)
-	protected $filesets = array(); // all fileset objects assigned to this task
-	protected $standard = 'Squiz';
-	protected $logfile = false;
-
+	protected $file;					// the source file (from xml attribute)
 	protected $errorProperty;
+	protected $filesets      = array(); // all fileset objects assigned to this task
+	protected $standard      = 'Squiz';
+	protected $logfile       = false;
 	protected $haltOnFailure = false;
-	protected $hasErrors = false;
-    private $badFiles = array();
-    private $loghandle = false;
+	protected $hasErrors     = false;
+
+	private $badFiles        = array();
+	private $loghandle       = false;
 
 	/**
 	 * The log files
 	 * @param string $aValue
 	 */
-	public function setLogfile($aValue) {
+	public function setLogfile($aValue) 
+	{
 		$this->logfile = $aValue;
 	}
 	/**
 	 * The standard option
 	 * @param string $aValue
 	 */
-	public function setStandard($aValue) {
+	public function setStandard($aValue) 
+	{
 		$this->standard = $aValue;
 	}
 	/**
 	 * The haltonfailure property
 	 * @param boolean $aValue
 	 */
-	public function setHaltOnFailure($aValue) {
+	public function setHaltOnFailure($aValue) 
+	{
 		$this->haltOnFailure = $aValue;
 	}
 
@@ -49,7 +52,8 @@ class PhpcsTask extends Task
 	 * File to be performed syntax check on
 	 * @param PhingFile $file
 	 */
-	public function setFile(PhingFile $file) {
+	public function setFile(PhingFile $file) 
+	{
 		$this->file = $file;
 	}
 
@@ -67,7 +71,8 @@ class PhpcsTask extends Task
 	 *
 	 * @return FileSet The created fileset object
 	 */
-	function createFileSet() {
+	function createFileSet() 
+	{
 		$num = array_push($this->filesets, new FileSet());
 		return $this->filesets[$num-1];
 	}
@@ -75,36 +80,54 @@ class PhpcsTask extends Task
 	/**
 	 * Execute validate check against PhingFile or a FileSet
 	 */
-	public function main() {
-		if(!isset($this->file) and count($this->filesets) == 0) {
+	public function main() 
+	{
+		if(!isset($this->file) and count($this->filesets) == 0) 
+		{
 			throw new BuildException("Missing either a nested fileset or attribute 'file' set");
 		}
-        if (!empty($this->logfile)) {
+        
+        if (!empty($this->logfile)) 
+        {
             $this->loghandle = fopen($this->logfile, "a");
-            if ( ! $this->loghandle ) {
+            
+            if ( ! $this->loghandle ) 
+            {
 			    throw new BuildException("Cannot create the log file");
             }
         }
 
-		if($this->file instanceof PhingFile) {
+		if($this->file instanceof PhingFile) 
+		{
 			$this->validate($this->file->getPath());
-		} else { // process filesets
+		}
+		else
+		{ 
+			// process filesets
 			$project = $this->getProject();
-			foreach($this->filesets as $fs) {
-				$ds = $fs->getDirectoryScanner($project);
+			
+			foreach($this->filesets as $fs) 
+			{
+				$ds    = $fs->getDirectoryScanner($project);
 				$files = $ds->getIncludedFiles();
-				$dir = $fs->getDir($this->project)->getPath();
-				foreach($files as $file) {
+				$dir   = $fs->getDir($this->project)->getPath();
+				
+				foreach($files as $file) 
+				{
 					$this->validate($dir.DIRECTORY_SEPARATOR.$file);
 				}
 			}
 		}
 
-        if ($this->loghandle) {
+        if ($this->loghandle) 
+        {
             fclose($this->loghandle);
         }
 
-		if ($this->haltOnFailure && $this->hasErrors) throw new BuildException('Syntax error(s) in PHP files: '.implode(', ',$this->badFiles));
+		if ($this->haltOnFailure && $this->hasErrors) 
+		{
+			throw new BuildException('Syntax error(s) in PHP files: '.implode(', ',$this->badFiles));
+		}
 	}
 
 	/**
@@ -116,30 +139,47 @@ class PhpcsTask extends Task
 	protected function validate($file)
     {
 		$command = "phpcs --standard=$this->standard ";
-		if(file_exists($file)) {
-			if(is_readable($file)) {
+
+		if(file_exists($file)) 
+		{
+			if(is_readable($file)) 
+			{
 				$messages = array();
 				exec($command.'"'.$file.'"', $messages);
-				if(preg_match('/^FOUND *[1-9]/', $messages[3])) {
-                    if ($this->errorProperty) {
+			
+				if(preg_match('/^FOUND *[1-9]/', $messages[3])) 
+				{
+                    if ($this->errorProperty) 
+                    {
                         $this->project->setProperty($this->errorProperty, $messages[3]);
                     }
-                    if (empty($this->logfile)) {
+                    
+                    if (empty($this->logfile)) 
+                    {
                         $this->log("{$file}\n{$messages[3]}", Project::MSG_ERR);
-                    } else {
+                    } 
+                    else 
+                    {
                         $this->log("{$file}\n{$messages[3]}", Project::MSG_ERR);
                         fwrite($this->loghandle, implode("\n",$messages));
                     }
+					
 					$this->badFiles[] = $file;
 					$this->hasErrors = true;
 
-				} else {
+				} 
+				else 
+				{
 					$this->log($file.': No errors detected', Project::MSG_INFO);
 				}
-			} else {
+			} 
+			else 
+			{
 				throw new BuildException('Permission denied: '.$file);
 			}
-		} else {
+		} 
+		else 
+		{
 			throw new BuildException('File not found: '.$file);
 		}
 	}

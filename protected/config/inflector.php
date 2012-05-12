@@ -18,8 +18,7 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array
-(
+return array(
     'uncountable' => array(
         'access',
         'advice',

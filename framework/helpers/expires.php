@@ -71,8 +71,8 @@ class QuickPHP_expires
                 $mod_time = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
             }
 
-            $mod_time       = strtotime($mod_time);
-            $mod_time_diff  = $mod_time + $seconds - time();
+            $mod_time      = strtotime($mod_time);
+            $mod_time_diff = $mod_time + $seconds - time();
 
             if($mod_time_diff > 0)
             {

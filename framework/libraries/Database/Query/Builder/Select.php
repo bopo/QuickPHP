@@ -34,7 +34,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     protected $_select   = array();
     
     // DISTINCT
-    protected $_distinct = FALSE;
+    protected $_distinct = false;
     
     // FROM ...
     protected $_from     = array();
@@ -49,7 +49,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     protected $_having   = array();
     
     // OFFSET ...
-    protected $_offset   = NULL;
+    protected $_offset   = null;
 
     // The last JOIN statement created
     protected $_last_join;
@@ -60,7 +60,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   array  column list
      * @return  void
      */
-    public function __construct(array $columns = NULL)
+    public function __construct(array $columns = null)
     {
         if( ! empty($columns))
         {
@@ -76,7 +76,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   boolean  enable or disable distinct columns
      * @return  $this
      */
-    public function distinct($value = NULL)
+    public function distinct($value = null)
     {
         $this->_distinct = (bool) $value;
         return $this;
@@ -89,7 +89,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   ...
      * @return  $this
      */
-    public function select($columns = NULL)
+    public function select($columns = null)
     {
         $columns       = func_get_args();
         $this->_select = array_merge($this->_select, $columns);
@@ -130,7 +130,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   string  join type (LEFT, RIGHT, INNER, etc)
      * @return  $this
      */
-    public function join($table, $type = NULL)
+    public function join($table, $type = null)
     {
         $this->_join[] = $this->_last_join = new Database_Query_Builder_Join($table, $type);
         return $this;
@@ -172,7 +172,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   mixed   column value
      * @return  $this
      */
-    public function having($column, $op, $value = NULL)
+    public function having($column, $op, $value = null)
     {
         return $this->and_having($column, $op, $value);
     }
@@ -185,7 +185,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   mixed   column value
      * @return  $this
      */
-    public function and_having($column, $op, $value = NULL)
+    public function and_having($column, $op, $value = null)
     {
         $this->_having[] = array('AND' => array($column, $op, $value));
 
@@ -200,7 +200,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
      * @param   mixed   column value
      * @return  $this
      */
-    public function or_having($column, $op, $value = NULL)
+    public function or_having($column, $op, $value = null)
     {
         $this->_having[] = array('OR' => array($column, $op, $value));
         return $this;
@@ -299,7 +299,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
         // Start a selection query
         $query = 'SELECT ';
 
-        if($this->_distinct === TRUE)
+        if($this->_distinct === true)
         {
             // Select only unique results
             $query .= 'DISTINCT ';
@@ -352,13 +352,13 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
             $query .= ' ' . $this->_compile_order_by($db, $this->_order_by);
         }
 
-        if($this->_limit !== NULL)
+        if($this->_limit !== null)
         {
             // Add limiting
             $query .= ' LIMIT ' . $this->_limit;
         }
 
-        if($this->_offset !== NULL)
+        if($this->_offset !== null)
         {
             // Add offsets
             $query .= ' OFFSET ' . $this->_offset;
@@ -369,18 +369,18 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
 
     public function reset()
     {
-        $this->_select     =
-        $this->_from       =
-        $this->_join       =
-        $this->_where      =
-        $this->_group_by   =
-        $this->_having     =
-        $this->_order_by   =
+        $this->_select     = array();
+        $this->_from       = array();
+        $this->_join       = array();
+        $this->_where      = array();
+        $this->_group_by   = array();
+        $this->_having     = array();
+        $this->_order_by   = array();
         $this->_parameters = array();
-        $this->_distinct   = FALSE;
-        $this->_limit      =
-        $this->_offset     =
-        $this->_last_join  = NULL;
+        $this->_distinct   = false;
+        $this->_limit      = false;
+        $this->_offset     = false;
+        $this->_last_join  = null;
         return $this;
     }
 }

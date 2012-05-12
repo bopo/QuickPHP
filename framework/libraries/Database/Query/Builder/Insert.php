@@ -32,12 +32,12 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
 
     // INSERT INTO ...
     protected $_table;
-
+    
     // (...)
     protected $_columns = array();
-
+    
     // VALUES (...)
-    protected $_values = array();
+    protected $_values  = array();
 
     /**
      * Set the table and columns for an insert.
@@ -46,7 +46,7 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
      * @param   array  column names
      * @return  void
      */
-    public function __construct($table, array $columns = NULL)
+    public function __construct($table, array $columns = null)
     {
         // Set the inital table name
         $this->_table = $table;
@@ -172,7 +172,7 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
 
     public function reset()
     {
-        $this->_table   = NULL;
+        $this->_table   = null;
         $this->_columns = $this->_values = $this->_parameters = array();
 
         return $this;

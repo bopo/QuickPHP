@@ -43,36 +43,36 @@ class QuickPHP_ORM
 {
 
     // 数据对象关系
-    protected $_has_one = array();
-
+    protected $_has_one    = array();
+    
     protected $_belongs_to = array();
-
-    protected $_has_many = array();
-
+    
+    protected $_has_many   = array();
+    
     // 载入的对象关系
-    protected $_load_with = array();
-
+    protected $_load_with  = array();
+    
     // 验证成员
-    protected $_validate = NULL;
-
-    protected $_rules = array();
-
-    protected $_callbacks = array();
-
-    protected $_filters = array();
-
-    protected $_labels = array();
-
+    protected $_validate   = NULL;
+    
+    protected $_rules      = array();
+    
+    protected $_callbacks  = array();
+    
+    protected $_filters    = array();
+    
+    protected $_labels     = array();
+    
     // 当前对象
-    protected $_object = array();
-
-    protected $_changed = array();
-
-    protected $_related = array();
-
-    protected $_loaded = false;
-
-    protected $_saved = false;
+    protected $_object     = array();
+    
+    protected $_changed    = array();
+    
+    protected $_related    = array();
+    
+    protected $_loaded     = false;
+    
+    protected $_saved      = false;
 
     protected $_sorting;
 
@@ -389,9 +389,9 @@ class QuickPHP_ORM
         }
         elseif(isset($this->_has_one[$column]))
         {
-            $model  = $this->_related($column);
-            $col    = $model->_table_name . '.' . $this->_has_one[$column]['foreign_key'];
-            $val    = $this->pk();
+            $model = $this->_related($column);
+            $col   = $model->_table_name . '.' . $this->_has_one[$column]['foreign_key'];
+            $val   = $this->pk();
 
             $model->where($col, '=', $val)->find();
 
@@ -521,18 +521,18 @@ class QuickPHP_ORM
 
         foreach ($this->_has_one as $alias => $details)
         {
-            $defaults['model']          = $alias;
-            $defaults['foreign_key']    = $this->_object_name . $this->_foreign_key_suffix;
-            $this->_has_one[$alias]     = array_merge($defaults, $details);
+            $defaults['model']       = $alias;
+            $defaults['foreign_key'] = $this->_object_name . $this->_foreign_key_suffix;
+            $this->_has_one[$alias]  = array_merge($defaults, $details);
         }
 
         foreach ($this->_has_many as $alias => $details)
         {
-            $defaults['model']          = inflector::singular($alias);
-            $defaults['foreign_key']    = $this->_object_name . $this->_foreign_key_suffix;
-            $defaults['through']        = NULL;
-            $defaults['far_key']        = inflector::singular($alias) . $this->_foreign_key_suffix;
-            $this->_has_many[$alias]    = array_merge($defaults, $details);
+            $defaults['model']       = inflector::singular($alias);
+            $defaults['foreign_key'] = $this->_object_name . $this->_foreign_key_suffix;
+            $defaults['through']     = NULL;
+            $defaults['far_key']     = inflector::singular($alias) . $this->_foreign_key_suffix;
+            $this->_has_many[$alias] = array_merge($defaults, $details);
         }
 
         $this->reload_columns();
@@ -835,8 +835,8 @@ class QuickPHP_ORM
         {
             if(is_array($this->_updated_column))
             {
-                $column = $this->_updated_column['column'];
-                $format = $this->_updated_column['format'];
+                $column        = $this->_updated_column['column'];
+                $format        = $this->_updated_column['format'];
                 $data[$column] = $this->_object[$column] = ($format === true) ? time() : date($format);
             }
 
@@ -851,9 +851,9 @@ class QuickPHP_ORM
         {
             if(is_array($this->_created_column))
             {
-                $column         = $this->_created_column['column'];
-                $format         = $this->_created_column['format'];
-                $data[$column]  = $this->_object[$column] = ($format === true) ? time() : date($format);
+                $column        = $this->_created_column['column'];
+                $format        = $this->_created_column['format'];
+                $data[$column] = $this->_object[$column] = ($format === true) ? time() : date($format);
             }
 
             $result = Database::insert($this->_table_name)
@@ -904,9 +904,9 @@ class QuickPHP_ORM
 
         if(is_array($this->_updated_column))
         {
-            $column         = $this->_updated_column['column'];
-            $format         = $this->_updated_column['format'];
-            $data[$column]  = $this->_object[$column] = ($format === true) ? time() : date($format);
+            $column        = $this->_updated_column['column'];
+            $format        = $this->_updated_column['format'];
+            $data[$column] = $this->_object[$column] = ($format === true) ? time() : date($format);
         }
 
         $this->_db_builder->set($data)->execute($this->_db);
@@ -962,8 +962,8 @@ class QuickPHP_ORM
     {
         $values = array_combine(array_keys($this->_table_columns), array_fill(0, count($this->_table_columns), NULL));
 
-        $this->_object  =
-        $this->_changed =
+        $this->_object  = array();
+        $this->_changed = array();
         $this->_related = array();
         $this->_load_values($values);
         $this->reset();
@@ -980,9 +980,8 @@ class QuickPHP_ORM
     public function reload()
     {
         $primary_key    = $this->pk();
-
-        $this->_object  =
-        $this->_changed =
+        $this->_object  = array();
+        $this->_changed = array();
         $this->_related = array();
 
         return $this->find($primary_key);
@@ -1046,9 +1045,9 @@ class QuickPHP_ORM
 
         if($data !== NULL)
         {
-            $data       = array_merge(array_combine($columns, $values), $data);
-            $columns    = array_keys($data);
-            $values     = array_values($data);
+            $data    = array_merge(array_combine($columns, $values), $data);
+            $columns = array_keys($data);
+            $values  = array_values($data);
         }
 
         Database::insert($this->_has_many[$alias]['through'])
@@ -1306,7 +1305,7 @@ class QuickPHP_ORM
         }
 
         $this->_db_reset = $next;
+        
         return $this;
     }
-
 }

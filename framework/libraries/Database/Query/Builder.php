@@ -115,11 +115,15 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
 
                         // Set the parameter as the minimum
                         if(is_string($min) and array_key_exists($min, $this->_parameters))
+                        {
                             $min = $this->_parameters[$min];
+                        }
 
                         // Set the parameter as the maximum
                         if(is_string($max) and array_key_exists($max, $this->_parameters))
+                        {
                             $max = $this->_parameters[$max];
+                        }
 
                         // Quote the min and max value
                         $value = $db->quote($min) . ' AND ' . $db->quote($max);
@@ -128,7 +132,9 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
                     {
                         // Set the parameter as the value
                         if(is_string($value) and array_key_exists($value, $this->_parameters))
+                        {
                             $value = $this->_parameters[$value];
+                        }
 
                         // Quote the entire value normally
                         $value = $db->quote($value);

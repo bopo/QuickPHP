@@ -91,6 +91,7 @@ class QuickPHP_Router
 
         return Router::$_instance;
     }
+
     /**
      * 获取已经路由的全部属性值
      *
@@ -147,20 +148,20 @@ class QuickPHP_Router
      */
     public function __reset()
     {
-        $this->current_uri      =
-        $this->query_string     =
-        $this->complete_uri     =
-        $this->routed_uri       =
-        $this->url_suffix       = '';
+        $this->current_uri     = '';
+        $this->query_string    = '';
+        $this->complete_uri    = '';
+        $this->routed_uri      = '';
+        $this->url_suffix      = '';
 
-        $this->segments         =
-        $this->rsegments        =
-        $this->arguments        =
-        $this->query_array      = array();
+        $this->segments        = array();
+        $this->rsegments       = array();
+        $this->arguments       = array();
+        $this->query_array     = array();
 
-        $this->controller_path  =
-        $this->protocol         =
-        $this->controller       = null;
+        $this->controller_path = null;
+        $this->protocol        = null;
+        $this->controller      = null;
     }
 
     /**
@@ -215,17 +216,17 @@ class QuickPHP_Router
             $this->rsegments = $this->routed_uri($this->current_uri);
         }
 
-        $this->routed_uri   = $this->rsegments;
-        $this->rsegments    = explode('/', $this->rsegments);
-        $controller_path    = '';
-        $method_segment     = null;
+        $this->routed_uri = $this->rsegments;
+        $this->rsegments  = explode('/', $this->rsegments);
+        $controller_path  = '';
+        $method_segment   = null;
 
         foreach ($this->rsegments as $key => $segment)
         {
             $controller_path .= str_replace("_", "/", $segment);
 
-            $found  = false;
-            $dirs   = array(APPPATH . 'controllers/', SYSPATH . 'controllers/');
+            $found = false;
+            $dirs  = array(APPPATH . 'controllers/', SYSPATH . 'controllers/');
 
             foreach ($dirs as $dir)
             {
@@ -235,9 +236,9 @@ class QuickPHP_Router
 
                     if($c = str_replace('\\', '/', realpath($dir . $controller_path . EXT)) and is_file($c) and strpos($c, $dir) === 0)
                     {
-                        $this->controller       = $segment;
-                        $this->controller_path  = $c;
-                        $method_segment         = $key + 1;
+                        $this->controller      = $segment;
+                        $this->controller_path = $c;
+                        $method_segment        = $key + 1;
                         break;
                     }
                 }
@@ -333,7 +334,7 @@ class QuickPHP_Router
             if($suffix = QuickPHP::$url_suffix and strpos($this->current_uri, $suffix) !== false)
             {
                 $this->current_uri = preg_replace('#' . preg_quote($suffix) . '$#u', '', $this->current_uri);
-                $this->url_suffix = $suffix;
+                $this->url_suffix  = $suffix;
             }
 
             $this->current_uri = preg_replace('#//+#', '/', $this->current_uri);

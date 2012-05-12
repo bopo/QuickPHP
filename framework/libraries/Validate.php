@@ -32,23 +32,23 @@ class QuickPHP_Validate extends ArrayObject
 {
 
     // 字段过滤器
-    protected $_filters = array();
+    protected $_filters     = array();
 
     // 字段规则
-    protected $_rules = array();
+    protected $_rules       = array();
 
     // 字段回调函数
-    protected $_callbacks = array();
+    protected $_callbacks   = array();
 
     // 字段标签
-    protected $_labels = array();
+    protected $_labels      = array();
 
     // Rules that are executed even when the value is empty
     // 即使执行规则的价值是空的
     protected $_empty_rules = array('not_empty', 'matches');
 
-    // 错误列表，格式: field => rule
-    protected $_errors = array();
+    // 错误列表，格式: field       => rule
+    protected $_errors      = array();
 
     /**
      * 创建一个验证实例.
@@ -69,7 +69,9 @@ class QuickPHP_Validate extends ArrayObject
     public static function not_empty($value)
     {
         if(is_object($value) and $value instanceof ArrayObject)
+        {
             $value = $value->getArrayCopy();
+        }
 
         return ($value === '0' or ! empty($value));
     }
@@ -214,10 +216,14 @@ class QuickPHP_Validate extends ArrayObject
         }
 
         if( ! isset($matches[1]))
+        {
             return TRUE;
+        }
 
         if(strlen($matches[1]) > 253)
+        {
             return FALSE;
+        }
 
         $tld = ltrim(substr($matches[1], (int) strrpos($matches[1], '.')), '.');
 
@@ -236,7 +242,9 @@ class QuickPHP_Validate extends ArrayObject
         $flags = FILTER_FLAG_NO_RES_RANGE;
 
         if($allow_private === FALSE)
+        {
             $flags = $flags | FILTER_FLAG_NO_PRIV_RANGE;
+        }
 
         return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flags);
     }
@@ -253,7 +261,9 @@ class QuickPHP_Validate extends ArrayObject
     public static function credit_card($number, $type = NULL)
     {
         if(($number = preg_replace('/\D+/', '', $number)) === '')
+        {
             return FALSE;
+        }
 
         if($type == NULL)
         {
@@ -262,8 +272,12 @@ class QuickPHP_Validate extends ArrayObject
         elseif(is_array($type))
         {
             foreach ($type as $t)
+            {
                 if(Validate::credit_card($number, $t))
+                {
                     return TRUE;
+                }
+            }
 
             return FALSE;
         }
@@ -272,23 +286,33 @@ class QuickPHP_Validate extends ArrayObject
         $type = strtolower($type);
 
         if( ! isset($cards[$type]))
+        {
             return FALSE;
+        }
 
         $length = strlen($number);
 
         if( ! in_array($length, preg_split('/\D+/', $cards[$type]['length'])))
+        {
             return FALSE;
+        }
 
         if( ! preg_match('/^' . $cards[$type]['prefix'] . '/', $number))
+        {
             return FALSE;
+        }
 
         if($cards[$type]['luhn'] == FALSE)
+        {
             return TRUE;
+        }
 
         $checksum = 0;
 
         for ($i = $length - 1; $i >= 0; $i -= 2)
+        {
             $checksum += substr($number, $i, 1);
+        }
 
         for ($i = $length - 2; $i >= 0; $i -= 2)
         {
@@ -308,7 +332,9 @@ class QuickPHP_Validate extends ArrayObject
     public static function phone($number, $lengths = NULL)
     {
         if( ! is_array($lengths))
+        {
             $lengths = array(7, 10, 11);
+        }
 
         $number = preg_replace('/\D+/', '', $number);
         return in_array(strlen($number), $lengths);
@@ -323,7 +349,9 @@ class QuickPHP_Validate extends ArrayObject
     public static function mobile($number, $lengths = NULL)
     {
         if( ! is_array($lengths))
+        {
             $lengths = array(7, 10, 11);
+        }
 
         $number = preg_replace('/\D+/', '', $number);
         return in_array(strlen($number), $lengths);
@@ -352,7 +380,9 @@ class QuickPHP_Validate extends ArrayObject
         $str = (string) $str;
 
         if($utf8 === true)
+        {
             return (bool) preg_match('/^\pL++$/uD', $str);
+        }
 
         return ctype_alpha($str);
     }
@@ -367,7 +397,9 @@ class QuickPHP_Validate extends ArrayObject
     public static function alpha_numeric($str, $utf8 = false)
     {
         if($utf8 === true)
+        {
             return (bool) preg_match('/^[\pL\pN]++$/uD', $str);
+        }
 
         return ctype_alnum($str);
     }
@@ -382,9 +414,13 @@ class QuickPHP_Validate extends ArrayObject
     public static function alpha_dash($str, $utf8 = FALSE)
     {
         if($utf8 === TRUE)
+        {
             $regex = '/^[-\pL\pN_]++$/uD';
+        }
         else
+        {
             $regex = '/^[-a-z0-9_]++$/iD';
+        }
 
         return (bool) preg_match($regex, $str);
     }
@@ -399,7 +435,9 @@ class QuickPHP_Validate extends ArrayObject
     public static function digit($str, $utf8 = FALSE)
     {
         if($utf8 === TRUE)
+        {
             return (bool) preg_match('/^\pN++$/uD', $str);
+        }
 
         return (is_int($str) and $str >= 0) or ctype_digit($str);
     }
@@ -443,9 +481,13 @@ class QuickPHP_Validate extends ArrayObject
     public static function decimal($str, $places = 2, $digits = NULL)
     {
         if($digits > 0)
+        {
             $digits = '{' . (int) $digits . '}';
+        }
         else
+        {
             $digits = '+';
+        }
 
         list($decimal) = array_values(localeconv());
 
@@ -544,7 +586,9 @@ class QuickPHP_Validate extends ArrayObject
     public function filter($field, $filter, array $params = NULL)
     {
         if($field !== TRUE and ! isset($this->_labels[$field]))
+        {
             $this->_labels[$field] = preg_replace('/[^\pL]+/u', ' ', $field);
+        }
 
         $this->_filters[$field][$filter] = (array) $params;
 
@@ -561,7 +605,9 @@ class QuickPHP_Validate extends ArrayObject
     public function filters($field, array $filters)
     {
         foreach ($filters as $filter => $params)
+        {
             $this->filter($field, $filter, $params);
+        }
 
         return $this;
     }
@@ -582,7 +628,9 @@ class QuickPHP_Validate extends ArrayObject
     public function rule($field, $rule, array $params = NULL)
     {
         if($field !== TRUE and ! isset($this->_labels[$field]))
+        {
             $this->_labels[$field] = preg_replace('/[^\pL]+/u', ' ', $field);
+        }
 
         $this->_rules[$field][$rule] = (array) $params;
 
@@ -599,7 +647,9 @@ class QuickPHP_Validate extends ArrayObject
     public function rules($field, array $rules)
     {
         foreach ($rules as $rule => $params)
+        {
             $this->rule($field, $rule, $params);
+        }
 
         return $this;
     }
@@ -621,13 +671,19 @@ class QuickPHP_Validate extends ArrayObject
     public function callback($field, $callback, array $params = array())
     {
         if( ! isset($this->_callbacks[$field]))
+        {
             $this->_callbacks[$field] = array();
+        }
 
         if($field !== TRUE and ! isset($this->_labels[$field]))
+        {
             $this->_labels[$field] = preg_replace('/[^\pL]+/u', ' ', $field);
+        }
 
         if( ! in_array($callback, $this->_callbacks[$field], TRUE))
+        {
             $this->_callbacks[$field][] = array($callback, $params);
+        }
 
         return $this;
     }
@@ -642,7 +698,9 @@ class QuickPHP_Validate extends ArrayObject
     public function callbacks($field, array $callbacks)
     {
         foreach ($callbacks as $callback)
+        {
             $this->callback($field, $callback);
+        }
 
         return $this;
     }
@@ -662,7 +720,9 @@ class QuickPHP_Validate extends ArrayObject
     public function check($allow_empty = FALSE)
     {
         if(QuickPHP::$profiling === TRUE)
+        {
             $benchmark = Profiler::start('Validation', __FUNCTION__);
+        }
 
         $data       = $this->_errors = array();
         $submitted  = FALSE;
@@ -686,7 +746,9 @@ class QuickPHP_Validate extends ArrayObject
             if(isset($filters[TRUE]))
             {
                 if( ! isset($filters[$field]))
+                {
                     $filters[$field] = array();
+                }
 
                 $filters[$field] += $filters[TRUE];
             }
@@ -694,7 +756,9 @@ class QuickPHP_Validate extends ArrayObject
             if(isset($rules[TRUE]))
             {
                 if( ! isset($rules[$field]))
+                {
                     $rules[$field] = array();
+                }
 
                 $rules[$field] += $rules[TRUE];
             }
@@ -702,7 +766,9 @@ class QuickPHP_Validate extends ArrayObject
             if(isset($callbacks[TRUE]))
             {
                 if( ! isset($callbacks[$field]))
+                {
                     $callbacks[$field] = array();
+                }
 
                 $callbacks[$field] += $callbacks[TRUE];
             }
@@ -711,7 +777,9 @@ class QuickPHP_Validate extends ArrayObject
         $this->exchangeArray($data);
 
         if($submitted === FALSE)
+        {
             return (boolean) $allow_empty;
+        }
 
         unset($filters[TRUE], $rules[TRUE], $callbacks[TRUE]);
 
@@ -726,13 +794,13 @@ class QuickPHP_Validate extends ArrayObject
                 if(strpos($filter, '::') === FALSE)
                 {
                     $function = new ReflectionFunction($filter);
-                    $value = $function->invokeArgs($params);
+                    $value    = $function->invokeArgs($params);
                 }
                 else
                 {
                     list($class, $method) = explode('::', $filter, 2);
                     $method = new ReflectionMethod($class, $method);
-                    $value = $method->invokeArgs(NULL, $params);
+                    $value  = $method->invokeArgs(NULL, $params);
                 }
             }
 
@@ -746,7 +814,9 @@ class QuickPHP_Validate extends ArrayObject
             foreach ($set as $rule => $params)
             {
                 if( ! in_array($rule, $this->_empty_rules) and ! Validate::not_empty($value))
+                {
                     continue;
+                }
 
                 array_unshift($params, $value);
 
@@ -755,9 +825,13 @@ class QuickPHP_Validate extends ArrayObject
                     $method = new ReflectionMethod($this, $rule);
 
                     if($method->isStatic())
+                    {
                         $passed = $method->invokeArgs(NULL, $params);
+                    }
                     else
+                    {
                         $passed = call_user_func_array(array($this, $rule), $params);
+                    }
                 }
                 elseif(strpos($rule, '::') === FALSE)
                 {
@@ -783,14 +857,18 @@ class QuickPHP_Validate extends ArrayObject
         foreach ($callbacks as $field => $set)
         {
             if(isset($this->_errors[$field]))
+            {
                 continue;
+            }
 
             foreach ($set as $callback_array)
             {
                 list($callback, $params) = $callback_array;
 
                 if(is_string($callback) and strpos($callback, '::') !== FALSE)
+                {
                     $callback = explode('::', $callback, 2);
+                }
 
                 if(is_array($callback))
                 {
@@ -798,7 +876,9 @@ class QuickPHP_Validate extends ArrayObject
                     $method = new ReflectionMethod($object, $method);
 
                     if( ! is_object($object))
+                    {
                         $object = NULL;
+                    }
 
                     $method->invoke($object, $this, $field, $params);
                 }
@@ -809,12 +889,16 @@ class QuickPHP_Validate extends ArrayObject
                 }
 
                 if(isset($this->_errors[$field]))
+                {
                     break;
+                }
             }
         }
 
         if(isset($benchmark))
+        {
             Profiler::stop($benchmark);
+        }
 
         return empty($this->_errors);
     }
@@ -855,7 +939,9 @@ class QuickPHP_Validate extends ArrayObject
     public function errors($file = NULL, $translate = TRUE)
     {
         if($file === NULL)
+        {
             return $this->_errors;
+        }
 
         $messages = array();
 
@@ -865,27 +951,34 @@ class QuickPHP_Validate extends ArrayObject
             $label = $this->_labels[$field];
 
             if($translate)
+            {
                 $label = QuickPHP::__($label);
+            }
 
             $values = array(':field' => $label, ':value' => $this[$field]);
 
             if(is_array($values[':value']))
+            {
                 $values[':value'] = implode(', ', Arr::flatten($values[':value']));
+            }
 
             if($params)
             {
                 foreach ($params as $key => $value)
                 {
                     if(is_array($value))
+                    {
                         $value = implode(', ', Arr::flatten($value));
+                    }
 
                     if(isset($this->_labels[$value]))
                     {
                         $value = $this->_labels[$value];
 
                         if($translate)
+                        {
                             $value = QuickPHP::__($value);
-
+                        }
                     }
 
                     $values[':param' . ($key + 1)] = $value;
@@ -916,9 +1009,13 @@ class QuickPHP_Validate extends ArrayObject
             if($translate)
             {
                 if(is_string($translate))
+                {
                     $message = QuickPHP::__($message, $values, $translate);
+                }
                 else
+                {
                     $message = QuickPHP::__($message, $values);
+                }
             }
             else
             {

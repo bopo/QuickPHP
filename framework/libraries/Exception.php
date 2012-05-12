@@ -33,6 +33,7 @@ class QuickPHP_Exception extends Exception
 {
 
     /**
+     * 
      * @var  array  PHP error code => human readable name
      */
     public static $php_errors = array(
@@ -67,18 +68,26 @@ class QuickPHP_Exception extends Exception
         $message = QuickPHP::message(current($message), end($message));
 
         if(is_array($variables))
+        {
             foreach($variables as $key => $val)
+            {
                 $variable["{{$key}}"] = $val;
+            }
+        }
 
         // E_DEPRECATED only exists in PHP >= 5.3.0
         if (defined('E_DEPRECATED'))
+        {
             QuickPHP_Exception::$php_errors[E_DEPRECATED] = 'Deprecated';
+        }
 
         // Save the unmodified code
         $this->code = $code;
 
         if(isset($variable))
+        {
             $message = strtr($message, $variable);
+        }
 
         parent::__construct($message, (int) $code);
     }
@@ -119,7 +128,9 @@ class QuickPHP_Exception extends Exception
             {
                 // Use the human-readable error name
                 if (isset(QuickPHP_Exception::$php_errors[$code]))
+                {
                     $code = QuickPHP_Exception::$php_errors[$code];
+                }
 
                 if (version_compare(PHP_VERSION, '5.3', '<'))
                 {
@@ -152,7 +163,9 @@ class QuickPHP_Exception extends Exception
             }
 
             if (QuickPHP::$is_cli)
+            {
                 exit($error);
+            }
 
             if ( ! headers_sent())
             {
@@ -162,14 +175,20 @@ class QuickPHP_Exception extends Exception
             }
 
             if (request::is_ajax()) // 后续增加 firephp
+            {
                 exit(PHP_EOL.$error.PHP_EOL);
+            }
 
             ob_start();
 
             if ($view_file = QuickPHP::find('errors', QuickPHP_Exception::$error_view))
+            {
                 include $view_file;
+            }
             else
+            {
                 throw new QuickPHP_Exception('not exist: views/{0}', array(QuickPHP_Exception::$error_view));
+            }
 
             echo ob_get_clean();
             exit(0);
@@ -195,5 +214,4 @@ class QuickPHP_Exception extends Exception
         return sprintf('%s [ %s ]: %s ~ %s [ %d ]',
             get_class($e), $e->getCode(), strip_tags($e->getMessage()), debug::path($e->getFile()), $e->getLine());
     }
-
 }

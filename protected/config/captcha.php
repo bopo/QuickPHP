@@ -35,8 +35,7 @@
  * fonts      - Font files
  * promote    - Valid response count threshold to promote user (FALSE to disable)
  */
-return array
-(
+return array(
     'default' => array(
         'style'      => 'basic',
         'width'      => 88,

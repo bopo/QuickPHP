@@ -37,7 +37,7 @@ class Auth_Role_Model extends Custom_Model
 
     // 验证规则
     protected $_rules = array(
-        'name' => array(
+        'name'        => array(
             'not_empty'  => NULL,
             'min_length' => array(4),
             'max_length' => array(32),

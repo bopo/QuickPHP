@@ -68,10 +68,12 @@ abstract class QuickPHP_Config_Abstract extends ArrayObject
      * @param   array   配置数组数据
      * @return  $this
      */
-    public function load($group, array $config = NULL)
+    public function load($group, array $config = null)
     {
-        if($config === NULL)
-            return FALSE;
+        if($config === null)
+        {
+            return false;
+        }
 
         // 克隆当前配置组名
         $object = clone $this;
@@ -107,7 +109,7 @@ abstract class QuickPHP_Config_Abstract extends ArrayObject
      * @param   mixed    默认值
      * @return  mixed
      */
-    public function get($key, $default = NULL)
+    public function get($key, $default = null)
     {
         return $this->offsetExists($key) ? $this->offsetGet($key) : $default;
     }

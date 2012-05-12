@@ -76,7 +76,6 @@ class QuickPHP_form
     public static function open_multipart($action = NULL, $attr = array(), $hidden = array())
     {
         $attr['enctype'] = 'multipart/form-data';
-
         return form::open($action, $attr, $hidden);
     }
 

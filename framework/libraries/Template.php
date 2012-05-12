@@ -66,15 +66,15 @@ class QuickPHP_Template
      * @var array 模板引擎缓存配置容器
      */
     public static $config   = array(
-            'layout_dir'        => null,
-            'template_dir'      => null,
-            'template_suffix'   => null,
-            'compile_dir'       => null,
-            'cache_dir'         => null,
-            'compile_lifetime'  => null,
-            'left_delimiter'    => null,
-            'right_delimiter'   => null,
-            'compress_html'     => null,
+            'layout_dir'       => null,
+            'template_dir'     => null,
+            'template_suffix'  => null,
+            'compile_dir'      => null,
+            'cache_dir'        => null,
+            'compile_lifetime' => null,
+            'left_delimiter'   => null,
+            'right_delimiter'  => null,
+            'compress_html'    => null,
         );
 
     /**
@@ -161,10 +161,10 @@ class QuickPHP_Template
     {
         if($this->cache_status == false)
         {
-            $this->cache_status     = true;
-            $this->cache_lifetime   = $lifetime;
-            $this->cache_driver     = Cache::instance();
-            $this->cache_key        = md5($_SERVER['REQUEST_URI']);
+            $this->cache_status   = true;
+            $this->cache_lifetime = $lifetime;
+            $this->cache_driver   = Cache::instance();
+            $this->cache_key      = md5($_SERVER['REQUEST_URI']);
         }
 
         $output = $this->cache_driver->get($this->cache_key);
@@ -255,7 +255,9 @@ class QuickPHP_Template
     public function __set($key, $value = null)
     {
         if(isset($this->_assigned[$key]))
+        {
             $this->driver->append($key, $value);
+        }
 
         $this->_assigned[$key] = true;
         $this->driver->assign($key, $value);
@@ -284,6 +286,7 @@ class QuickPHP_Template
         $string = preg_replace('/<!--\s*[^\[].*?[^\/\/]-->/m', '', $string);
         $string = preg_replace('/^\s+/m', '', $string);
         $string = preg_replace('/\s+$/m', '', $string);
+        
         return $string;  
     } 
 }

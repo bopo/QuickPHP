@@ -52,7 +52,7 @@ class Auth_User_Model extends Custom_Model
         'password_confirm' => array(
             'matches'    => array('password'),
         ),
-        'email' => array(
+        'email'    => array(
             'not_empty'  => NULL,
             'min_length' => array(4),
             'max_length' => array(127),
@@ -110,7 +110,9 @@ class Auth_User_Model extends Custom_Model
             {
                 // 跳转到成功页面
                 if (is_string($redirect))
+                {
                     return url::redirect($redirect);
+                }
 
                 // 登录成功状态
                 $status = TRUE;
@@ -147,7 +149,9 @@ class Auth_User_Model extends Custom_Model
 
             // 跳转成功页面
             if ($status = (bool) $this->save() AND is_string($redirect))
+            {
                 return url::redirect($redirect);
+            }
         }
 
         return $status;
@@ -162,10 +166,12 @@ class Auth_User_Model extends Custom_Model
     {
         // 判断是否载入
         if ( ! $this->_loaded)
+        {
             return TRUE;
+        }
 
         // 更新用户登录测试
-        $this->logins += 1;
+        $this->logins     += 1;
 
         // 设置最后登录时间
         $this->last_login = time();
@@ -185,7 +191,9 @@ class Auth_User_Model extends Custom_Model
     public function username_available($array, $field)
     {
         if ($this->unique_key_exists($array[$field]))
+        {
             $array->error($field, 'username_available', array($array[$field]));
+        }
     }
 
     /**
@@ -199,7 +207,9 @@ class Auth_User_Model extends Custom_Model
     public function email_available($array, $field)
     {
         if ($this->unique_key_exists($array[$field]))
+        {
             $array->error($field, 'email_available', array($array[$field]));
+        }
     }
 
     /**
@@ -238,7 +248,9 @@ class Auth_User_Model extends Custom_Model
     {
         // 判断密码如果被载入，则加密密码
         if (array_key_exists('password', $this->_changed))
+        {
             $this->_object['password'] = Auth::instance()->hash_password($this->_object['password']);
+        }
 
         return parent::save();
     }

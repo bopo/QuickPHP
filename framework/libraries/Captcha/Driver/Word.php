@@ -43,8 +43,12 @@ class QuickPHP_Captcha_Driver_Word extends Captcha_Driver_Basic
         shuffle($words);
 
         foreach ($words as $word)
+        {
             if(abs(Captcha::$config['complexity'] - strlen($word)) < 2)
+            {
                 return strtoupper($word);
+            }
+        }
 
         return strtoupper($words[array_rand($words)]);
     }

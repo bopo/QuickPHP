@@ -34,7 +34,6 @@ class QuickPHP_Database_Result_Cached extends QuickPHP_Database_Result
     public function __construct(array $result, $sql, $as_object = NULL)
     {
         parent::__construct($result, $sql, $as_object);
-
         $this->_total_rows = count($result);
     }
 
@@ -52,7 +51,6 @@ class QuickPHP_Database_Result_Cached extends QuickPHP_Database_Result
         if($this->offsetExists($offset))
         {
             $this->_current_row = $offset;
-
             return true;
         }
 

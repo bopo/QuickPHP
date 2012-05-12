@@ -34,8 +34,8 @@ class User_Model extends Auth_User_Model
 
     // Relationships
     protected $_has_one = array(
-        '_profile'  => array('model' => 'profile'),
-        '_token'    => array('model' => 'user_token'),
+        '_profile' => array('model' => 'profile'),
+        '_token'   => array('model' => 'user_token'),
     );
 
     protected $_has_many = array(
@@ -75,11 +75,17 @@ class User_Model extends Auth_User_Model
     public function unique_key($value)
     {
         if(Validate::email($value))
+        {
             return 'email';
+        }
         elseif(Validate::mobile($value))
+        {
             return 'mobile';
+        }
         else
+        {
             return 'username';
+        }
     }
 
     /**
@@ -90,11 +96,19 @@ class User_Model extends Auth_User_Model
     public function save()
     {
         if ($this->empty_pk())
+        {
             if(isset($this->created))
+            {
                 $this->created = time();
+            }
+        }
         else
+        {
             if(isset($this->modified))
+            {
                 $this->modified = time();
+            }
+        }
 
         return parent::save();
     }

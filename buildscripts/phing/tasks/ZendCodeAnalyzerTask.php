@@ -32,12 +32,12 @@ require_once 'phing/Task.php';
 class ZendCodeAnalyzerTask extends Task
 {
     protected $analyzerPath = ""; // Path to ZendCodeAnalyzer binary
-    protected $file = "";  // the source file (from xml attribute)
-    protected $filesets = array(); // all fileset objects assigned to this task
-    protected $warnings = array();
-    protected $counter = 0;
-    protected $disable = array();
-    protected $enable = array();
+    protected $file         = "";  // the source file (from xml attribute)
+    protected $filesets     = array(); // all fileset objects assigned to this task
+    protected $warnings     = array();
+    protected $counter      = 0;
+    protected $disable      = array();
+    protected $enable       = array();
 
   /**
    * File to be analyzed

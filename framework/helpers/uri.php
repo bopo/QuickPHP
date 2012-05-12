@@ -343,12 +343,11 @@ class QuickPHP_uri
 
             return $retval;
         }
-
+        
         $segments = array_slice($this->$segment_array(), ($n - 1));
-
-        $i          = 0;
-        $lastval    = '';
-        $retval     = array();
+        $i        = 0;
+        $lastval  = '';
+        $retval   = array();
 
         foreach ($segments as $seg)
         {

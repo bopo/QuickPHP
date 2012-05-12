@@ -67,23 +67,23 @@ class QuickPHP_Captcha_Driver_Alpha extends Captcha_Abstract
             imagefilledellipse($this->image, mt_rand(0, Captcha::$config['width']), mt_rand(0, Captcha::$config['height']), $size, $size, $color);
         }
 
-        $default_size   = min(Captcha::$config['width'], Captcha::$config['height'] * 2) / strlen($this->response);
-        $spacing        = (int) (Captcha::$config['width'] * 0.9 / strlen($this->response));
-        $color_limit    = mt_rand(96, 160);
-        $chars          = 'ABEFGJKLPQRTVY';
+        $default_size = min(Captcha::$config['width'], Captcha::$config['height'] * 2) / strlen($this->response);
+        $spacing      = (int) (Captcha::$config['width'] * 0.9 / strlen($this->response));
+        $color_limit  = mt_rand(96, 160);
+        $chars        = 'ABEFGJKLPQRTVY';
 
         for ($i = 0, $strlen = strlen($this->response); $i < $strlen; $i++)
         {
-            $font   = Captcha::$config['fontpath'] . Captcha::$config['fonts'][array_rand(Captcha::$config['fonts'])];
-            $angle  = mt_rand(- 40, 20);
-
-            $size   = $default_size / 10 * mt_rand(8, 12);
-            $box    = imageftbbox($size, $angle, $font, $this->response[$i]);
-
-            $x      = $spacing / 4 + $i * $spacing;
-            $y      = Captcha::$config['height'] / 2 + ($box[2] - $box[5]) / 4;
-
-            $color  = imagecolorallocate($this->image, mt_rand(150, 255), mt_rand(200, 255), mt_rand(0, 255));
+            $font  = Captcha::$config['fontpath'] . Captcha::$config['fonts'][array_rand(Captcha::$config['fonts'])];
+            $angle = mt_rand(- 40, 20);
+            
+            $size  = $default_size / 10 * mt_rand(8, 12);
+            $box   = imageftbbox($size, $angle, $font, $this->response[$i]);
+            
+            $x     = $spacing / 4 + $i * $spacing;
+            $y     = Captcha::$config['height'] / 2 + ($box[2] - $box[5]) / 4;
+            
+            $color = imagecolorallocate($this->image, mt_rand(150, 255), mt_rand(200, 255), mt_rand(0, 255));
 
             imagefttext($this->image, $size, $angle, $x, $y, $color, $font, $this->response[$i]);
 

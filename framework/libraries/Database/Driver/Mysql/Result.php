@@ -80,7 +80,7 @@ class QuickPHP_Database_Driver_MySQL_Result extends QuickPHP_Database_Result
             return $this->_current_row = $this->_internal_row = $offset;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -96,7 +96,7 @@ class QuickPHP_Database_Driver_MySQL_Result extends QuickPHP_Database_Result
     {
         if($this->_current_row !== $this->_internal_row and ! $this->seek($this->_current_row))
         {
-            return FALSE;
+            return false;
         }
 
         $this->_internal_row++;

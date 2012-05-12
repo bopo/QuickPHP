@@ -71,14 +71,14 @@ class QuickPHP_Captcha_Driver_Basic extends Captcha_Abstract
 
         for ($i = 0, $strlen = strlen($this->response); $i < $strlen; $i++)
         {
-            $font   = Captcha::$config['fontpath'] . Captcha::$config['fonts'][array_rand(Captcha::$config['fonts'])];
-            $color  = imagecolorallocate($this->image, mt_rand(0, 150), mt_rand(0, 150), mt_rand(0, 150));
-            $angle  = mt_rand(- 40, 20);
-            $size   = $default_size / 10 * mt_rand(8, 12);
-            $box    = imageftbbox($size, $angle, $font, $this->response[$i]);
-
-            $x = $spacing / 4 + $i * $spacing;
-            $y = Captcha::$config['height'] / 2 + ($box[2] - $box[5]) / 4;
+            $font  = Captcha::$config['fontpath'] . Captcha::$config['fonts'][array_rand(Captcha::$config['fonts'])];
+            $color = imagecolorallocate($this->image, mt_rand(0, 150), mt_rand(0, 150), mt_rand(0, 150));
+            $angle = mt_rand(- 40, 20);
+            $size  = $default_size / 10 * mt_rand(8, 12);
+            $box   = imageftbbox($size, $angle, $font, $this->response[$i]);
+            
+            $x     = $spacing / 4 + $i * $spacing;
+            $y     = Captcha::$config['height'] / 2 + ($box[2] - $box[5]) / 4;
 
             imagefttext($this->image, $size, $angle, $x, $y, $color, $font, $this->response[$i]);
         }

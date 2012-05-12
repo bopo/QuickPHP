@@ -269,14 +269,14 @@ class QuickPHP_UnitTest_Controller extends Template_Controller
 			return $whitelist;
 		}
 
-		$whitelist = array();
-
+		$whitelist          = array();
+		
 		$whitelist['k_app'] = 'Application';
-
-		$k_modules = array_keys(QuickPHP::modules());
-
-		$whitelist += array_map('ucfirst', array_combine($k_modules, $k_modules));
-
+		
+		$k_modules          = array_keys(QuickPHP::modules());
+		
+		$whitelist          += array_map('ucfirst', array_combine($k_modules, $k_modules));
+		
 		$whitelist['k_sys'] = 'QuickPHP Core';
 
 		return $whitelist;

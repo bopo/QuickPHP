@@ -21,11 +21,11 @@
 /**
  * 首页(Home)
  *
- @category   Store
- @package    Store_Home
- @copyright  Copyright (c) 2010 http://quickphp.net All rights reserved.
- @license    http://framework.quickphp.net/licenses/LICENSE-2.0
- @version    $Id: passport.php 8773 2012-01-16 06:25:20Z bopo $
+ * @category   Store
+ * @package    Store_Home
+ * @copyright  Copyright (c) 2010 http://quickphp.net All rights reserved.
+ * @license    http://framework.quickphp.net/licenses/LICENSE-2.0
+ * @version    $Id: passport.php 8773 2012-01-16 06:25:20Z bopo $
  */
 abstract class Abstract_Passport_Controller extends Abstract_Frontend_Controller
 {

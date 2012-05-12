@@ -27,10 +27,16 @@ system(PEAR_CMD.' channel-update pear.phing.info');
 
 // Checking if Phing is already installed
 $result = exec(PEAR_CMD.' info phing/phing');
-if(strstr($result, 'No information found for')) { // Install
-  system(PEAR_CMD.' install --alldeps phing/phing');
-} else { // Try to upgrade
-  system(PEAR_CMD.' upgrade --alldeps phing/phing');
+
+if(strstr($result, 'No information found for')) 
+{ 
+	// Install
+  	system(PEAR_CMD.' install --alldeps phing/phing');
+} 
+else
+{ 
+	// Try to upgrade
+  	system(PEAR_CMD.' upgrade --alldeps phing/phing');
 }
 
 // Setting your preferred state back to what it was

@@ -46,7 +46,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     {
         if($this->_connection)
         {
-            return TRUE;
+            return true;
         }
 
         if(Database_Driver_Mysql::$_set_names === NULL)
@@ -69,7 +69,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
         {
             if(empty($persistent))
             {
-                $this->_connection = mysql_connect($hostname, $username, $password, TRUE);
+                $this->_connection = mysql_connect($hostname, $username, $password, true);
             }
             else
             {
@@ -78,7 +78,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
         }
         catch(ErrorException $e)
         {
-            $this->_connection = NULL;
+            $this->_connection = null;
             throw $e;
         }
 
@@ -115,7 +115,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     {
         try
         {
-            $status = TRUE;
+            $status = true;
 
             if(is_resource($this->_connection))
             {
@@ -123,7 +123,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
 
                 if( ! empty($status))
                 {
-                    $this->_connection = NULL;
+                    $this->_connection = null;
                 }
             }
         }
@@ -143,7 +143,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     {
         $this->_connection or $this->connect();
 
-        if(Database_Driver_Mysql::$_set_names === TRUE)
+        if(Database_Driver_Mysql::$_set_names === true)
         {
             $status = (bool) mysql_query('SET NAMES ' . $this->quote($charset), $this->_connection);
         }
@@ -152,7 +152,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $status = (bool) mysql_set_charset($charset, $this->_connection);
         }
 
-        if($status === FALSE)
+        if($status === false)
         {
             throw new QuickPHP_Database_Exception('error', array(mysql_error($this->_connection), mysql_errno($this->_connection)));
         }
@@ -176,7 +176,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $this->_select_db($this->_config['connection']['database']);
         }
 
-        if(($result = mysql_query($sql, $this->_connection)) === FALSE)
+        if(($result = mysql_query($sql, $this->_connection)) === false)
         {
             if(isset($benchmark))
             {
@@ -277,6 +277,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $sql = 'SHOW TABLES';
         }
 
+        /** @todo 产品模式增加缓存 */
         if(IN_PRODUCTION == true)
         {
             $cache_key = 'Database::list_tables("' . $db . '", "' . $sql . '")';

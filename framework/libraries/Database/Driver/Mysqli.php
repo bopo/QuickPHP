@@ -43,13 +43,13 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
         }
 
         extract($this->_config['connection'] + array(
-            'database'  => '',
-            'hostname'  => '',
-            'port'      => NULL,
-            'socket'    => NULL,
-            'username'  => '',
-            'password'  => '',
-            'persistent'=> FALSE));
+            'database'   => '',
+            'hostname'   => '',
+            'port'       => NULL,
+            'socket'     => NULL,
+            'username'   => '',
+            'password'   => '',
+            'persistent' => FALSE));
 
         unset($this->_config['connection']['username'], $this->_config['connection']['password']);
 

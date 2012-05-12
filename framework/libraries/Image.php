@@ -31,15 +31,15 @@
 class QuickPHP_Image
 {
     // 缩放控制尺寸
-    const NONE          = 1;    // 不自适应比例
-    const AUTO          = 2;    // 自动适应比例
-    const HEIGHT        = 3;    // 按高度自适应比例
-    const WIDTH         = 4;    // 按宽度自适应比例
-    const SPHERE        = 5;    // 按宽度自适应比例
+    const NONE       = 1;    // 不自适应比例
+    const AUTO       = 2;    // 自动适应比例
+    const HEIGHT     = 3;    // 按高度自适应比例
+    const WIDTH      = 4;    // 按宽度自适应比例
+    const SPHERE     = 5;    // 按宽度自适应比例
 
     // 翻转方向
-    const HORIZONTAL    = 6;    // 水平方向
-    const VERTICAL      = 7;    // 垂直方向
+    const HORIZONTAL = 6;    // 水平方向
+    const VERTICAL   = 7;    // 垂直方向
 
     // 图形允许格式类型
     public static $allowed_types = array
@@ -58,7 +58,7 @@ class QuickPHP_Image
     protected $actions = array();
 
     // 当前图像参考文件名
-    protected $image = '';
+    protected $image   = '';
 
     /**
      * 创建一个图形实例，并返回这个图形实例.
@@ -96,7 +96,7 @@ class QuickPHP_Image
             throw new Image_Exception('file_not_found', $image);
         }
 
-        $ER = error_reporting(0);
+        $ER         = error_reporting(0);
         $image_info = getimagesize($image);
         error_reporting($ER);
 
@@ -114,12 +114,12 @@ class QuickPHP_Image
 
         // 的形象已经被确认,负荷
         $this->image = array(
-            'file'  => str_replace('\\', '/', realpath($image)),
-            'width' => $image_info[0],
-            'height'=> $image_info[1],
-            'type'  => $image_info[2],
-            'ext'   => Image::$allowed_types[$image_info[2]],
-            'mime'  => $image_info['mime']
+            'file'   => str_replace('\\', '/', realpath($image)),
+            'width'  => $image_info[0],
+            'height' => $image_info[1],
+            'type'   => $image_info[2],
+            'ext'    => Image::$allowed_types[$image_info[2]],
+            'mime'   => $image_info['mime']
         );
 
         if(is_array($config))
@@ -478,5 +478,4 @@ class QuickPHP_Image
 
         return TRUE;
     }
-
 }

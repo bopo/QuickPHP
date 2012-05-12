@@ -291,15 +291,21 @@ class QuickPHP_Session
     public function set($keys, $val = false)
     {
         if(empty($keys))
+        {
             return false;
+        }
 
         if( ! is_array($keys))
+        {
             $keys = array($keys => $val);
+        }
 
         foreach ($keys as $key => $val)
         {
             if(isset(Session::$protect[$key]))
+            {
                 continue;
+            }
 
             $_SESSION[$key] = $val;
         }
@@ -317,15 +323,21 @@ class QuickPHP_Session
     public function set_flash($keys, $val = false)
     {
         if(empty($keys))
+        {
             return false;
+        }
 
         if( ! is_array($keys))
+        {
             $keys = array($keys => $val);
+        }
 
         foreach ($keys as $key => $val)
         {
             if($key == false)
+            {
                 continue;
+            }
 
             Session::$flash[$key] = 'new';
             Session::set($key, $val);
@@ -345,8 +357,12 @@ class QuickPHP_Session
         $keys = ($keys === null) ? array_keys(Session::$flash) : func_get_args();
 
         foreach ($keys as $key)
+        {
             if(isset(Session::$flash[$key]))
+            {
                 Session::$flash[$key] = 'new';
+            }
+        }
     }
 
     /**
@@ -357,16 +373,22 @@ class QuickPHP_Session
     public function expire_flash()
     {
         if(Session::$run === true)
+        {
             return;
+        }
 
         if( ! empty(Session::$flash))
         {
             foreach (Session::$flash as $key => $state)
             {
                 if($state === 'old')
+                {
                     unset(Session::$flash[$key], $_SESSION[$key]);
+                }
                 else
+                {
                     Session::$flash[$key] = 'old';
+                }
             }
         }
 
@@ -383,7 +405,9 @@ class QuickPHP_Session
     public function get($key = false, $default = false)
     {
         if(empty($key))
+        {
             return $_SESSION;
+        }
 
         $result = isset($_SESSION[$key]) ? $_SESSION[$key] : null;
 
@@ -424,7 +448,9 @@ class QuickPHP_Session
         foreach ($args as $key)
         {
             if(isset(Session::$protect[$key]))
+            {
                 continue;
+            }
 
             unset($_SESSION[$key]);
         }

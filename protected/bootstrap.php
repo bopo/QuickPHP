@@ -19,12 +19,15 @@
  +----------------------------------------------------------------------+
 */
 
+/** 系统常量 IN_PRODUCTION,产品模式开关，如果设置成 FALSE 则为开发模式 */
+define('IN_PRODUCTION', false);
+
 // 判断是否产品模式，产品模式不显示任何错误提示
-((bool) IN_PRODUCTION != TRUE)
+((bool) IN_PRODUCTION != true)
     ? error_reporting(E_ALL & ~ E_NOTICE)
     : error_reporting(0);
 
-define('QUICKPHP_START_TIME', microtime(TRUE));
+define('QUICKPHP_START_TIME', microtime(true));
 define('QUICKPHP_START_MEMORY', memory_get_usage());
 
 version_compare(PHP_VERSION, '5.2', '<') and exit('QuickPHP requires PHP 5.2 or newer.');
@@ -46,11 +49,11 @@ spl_autoload_register(array('QuickPHP', 'autoloader'));
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 $setting = array(
-    'profiling' => false,                   // 开启分析器
-    'errors'    => true,                    // 开启错误分析
-    'caching'   => true,                    // 开启高速缓存
-    'frontend'  => 'index_dev.php',         // 入口文件名(默认为index.php)
-    'domain'    => $_SERVER['SERVER_NAME']  // 网站域名
+	'profiling' => false,                   // 开启分析器
+	'errors'    => true,                    // 开启错误分析
+	'caching'   => true,                    // 开启高速缓存
+	'frontend'  => '',         				// 入口文件名(默认为index.php)
+	'domain'    => $_SERVER['SERVER_NAME']  // 网站域名
 );
 
 QuickPHP::instance($setting)->dispatch();

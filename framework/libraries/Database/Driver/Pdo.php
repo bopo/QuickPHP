@@ -54,7 +54,7 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
 
         try
         {
-            $this->_connection = new PDO($dsn, $username, $password);
+            $this->_connection    = new PDO($dsn, $username, $password);
             $this->_connection_id = sha1($dsn . '_' . $username . '_' . $password);
         }
         catch(PDOException $e)

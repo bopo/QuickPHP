@@ -47,12 +47,12 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
      * @param   string  type of JOIN: INNER, RIGHT, LEFT, etc
      * @return  void
      */
-    public function __construct($table, $type = NULL)
+    public function __construct($table, $type = null)
     {
         // Set the table to JOIN on
         $this->_table = $table;
 
-        if($type !== NULL)
+        if($type !== null)
         {
             $this->_type = (string) $type;
         }
@@ -116,7 +116,7 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
 
     public function reset()
     {
-        $this->_type = $this->_table = NULL;
+        $this->_type = $this->_table = null;
         $this->_on   = array();
     }
 }

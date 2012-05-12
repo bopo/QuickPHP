@@ -44,10 +44,10 @@ class QuickPHP_feed
             throw new QuickPHP_Exception('Feed Error: SimpleXML must be installed!');
         }
 
-        $ER     = error_reporting(0);
-        $limit  = (int) $limit;
-        $load   = (is_file($feed) or valid::url($feed)) ? 'simplexml_load_file' : 'simplexml_load_string';
-        $feed   = $load($feed, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $ER    = error_reporting(0);
+        $limit = (int) $limit;
+        $load  = (is_file($feed) or valid::url($feed)) ? 'simplexml_load_file' : 'simplexml_load_string';
+        $feed  = $load($feed, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         error_reporting($ER);
 
@@ -56,9 +56,9 @@ class QuickPHP_feed
             return array();
         }
 
-        $feed   = isset($feed->channel) ? $feed->xpath('//item') : $feed->entry;
-        $i      = 0;
-        $items  = array();
+        $feed  = isset($feed->channel) ? $feed->xpath('//item') : $feed->entry;
+        $i     = 0;
+        $items = array();
 
         foreach ($feed as $item)
         {

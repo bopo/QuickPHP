@@ -218,9 +218,9 @@ class QuickPHP_arr
      */
     public static function unshift(array & $array, $key, $val)
     {
-        $array          = array_reverse($array, TRUE);
-        $array[$key]    = $val;
-        $array          = array_reverse($array, TRUE);
+        $array       = array_reverse($array, TRUE);
+        $array[$key] = $val;
+        $array       = array_reverse($array, TRUE);
 
         return $array;
     }

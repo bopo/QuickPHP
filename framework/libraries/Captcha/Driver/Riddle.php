@@ -49,8 +49,8 @@ class QuickPHP_Captcha_Driver_Riddle extends Captcha_Abstract
             array('今天是这周的哪一天?', strftime('%A')),
             array('现在是几月份？', strftime('%B')));
 
-        $riddle         = $riddles[array_rand($riddles)];
-        $this->riddle   = $riddle[0];
+        $riddle       = $riddles[array_rand($riddles)];
+        $this->riddle = $riddle[0];
 
         return $riddle[1];
     }

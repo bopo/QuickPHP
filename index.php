@@ -25,8 +25,6 @@ $protected  = dirname(__FILE__) . "/protected";
 /** runtime 目录路径 */
 $runtime    = dirname(__FILE__) . "/runtime";
 
-/** 系统常量 IN_PRODUCTION,产品模式开关，如果设置成 FALSE 则为开发模式 */
-define('IN_PRODUCTION', false);
 /** 系统常量 EXT,入口文件扩展名称 */
 define('EXT', '.' . pathinfo(__FILE__, PATHINFO_EXTENSION));
 /** 系统常量 FRONTEND,入口文件名称 */

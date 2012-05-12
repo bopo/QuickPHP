@@ -407,11 +407,11 @@ class QuickPHP_debug
             }
 
             $output[] = array(
-                'function'  => $function,
-                'args'      => isset($args) ? $args : null,
-                'file'      => isset($file) ? $file : null,
-                'line'      => isset($line) ? $line : null,
-                'source'    => isset($source) ? $source : null);
+                'function' => $function,
+                'args'     => isset($args) ? $args : null,
+                'file'     => isset($file) ? $file : null,
+                'line'     => isset($line) ? $line : null,
+                'source'   => isset($source) ? $source : null);
 
             unset($function, $args, $file, $line, $source);
         }

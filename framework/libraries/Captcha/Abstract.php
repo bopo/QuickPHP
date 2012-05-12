@@ -97,11 +97,19 @@ abstract class QuickPHP_Captcha_Abstract
     {
         switch (strtolower(substr(strrchr($filename, '.'), 1)))
         {
-            case 'png'  :   return 'png';
-            case 'gif'  :   return 'gif';
+            case 'png'  : 
+                return 'png';
+                break;
+            case 'gif'  : 
+                return 'gif';
+                break;
             case 'jpg'  :
-            case 'jpeg' :   return 'jpeg';
-            default     :   return FALSE;
+            case 'jpeg' : 
+                return 'jpeg';
+                break;
+            default     : 
+                return false;
+                break;
         }
     }
 
@@ -115,7 +123,9 @@ abstract class QuickPHP_Captcha_Abstract
     public function image_create($background = NULL)
     {
         if( ! function_exists('imagegd2'))
+        {
             throw new QuickPHP_Captcha_Exception('requires_GD2');
+        }
 
         $this->image = imagecreatetruecolor(Captcha::$config['width'], Captcha::$config['height']);
 
@@ -160,11 +170,11 @@ abstract class QuickPHP_Captcha_Abstract
         $color1 = imagecolorsforindex($this->image, $color1);
         $color2 = imagecolorsforindex($this->image, $color2);
         $steps  = ($direction === 'horizontal') ? Captcha::$config['width'] : Captcha::$config['height'];
-
-        $r1 = ($color1['red'] - $color2['red']) / $steps;
-        $g1 = ($color1['green'] - $color2['green']) / $steps;
-        $b1 = ($color1['blue'] - $color2['blue']) / $steps;
-        $i  = NULL;
+        
+        $r1     = ($color1['red'] - $color2['red']) / $steps;
+        $g1     = ($color1['green'] - $color2['green']) / $steps;
+        $b1     = ($color1['blue'] - $color2['blue']) / $steps;
+        $i      = null;
 
         if($direction === 'horizontal')
         {
@@ -261,14 +271,20 @@ abstract class QuickPHP_Captcha_Abstract
         $str  = '';
 
         for ($i = 0; $i < $length; $i++)
+        {
             $str .= $pool[mt_rand(0, $max)];
+        }
 
         if($type === 'alnum' and $length > 1)
         {
             if(ctype_alpha($str))
+            {
                 $str[mt_rand(0, $length - 1)] = chr(mt_rand(48, 57));
+            }
             elseif(ctype_digit($str))
+            {
                 $str[mt_rand(0, $length - 1)] = chr(mt_rand(65, 90));
+            }
         }
 
         return $str;

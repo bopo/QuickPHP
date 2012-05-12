@@ -62,12 +62,12 @@ class QuickPHP_Captcha_Driver_Black extends Captcha_Abstract
             imagearc($this->image, mt_rand(- Captcha::$config['width'], Captcha::$config['width']), mt_rand(- Captcha::$config['height'], Captcha::$config['height']), mt_rand(- Captcha::$config['width'], Captcha::$config['width']), mt_rand(- Captcha::$config['height'], Captcha::$config['height']), mt_rand(0, 360), mt_rand(0, 360), $color);
         }
 
-        $font   = Captcha::$config['fontpath'] . Captcha::$config['fonts'][array_rand(Captcha::$config['fonts'])];
-        $size   = (int) min(Captcha::$config['height'] / 2, Captcha::$config['width'] * 0.8 / strlen($this->response));
-        $angle  = mt_rand(- 15 + strlen($this->response), 15 - strlen($this->response));
-        $x      = mt_rand(1, Captcha::$config['width'] * 0.9 - $size * strlen($this->response));
-        $y      = ((Captcha::$config['height'] - $size) / 2) + $size;
-        $color  = imagecolorallocate($this->image, 255, 255, 255);
+        $font  = Captcha::$config['fontpath'] . Captcha::$config['fonts'][array_rand(Captcha::$config['fonts'])];
+        $size  = (int) min(Captcha::$config['height'] / 2, Captcha::$config['width'] * 0.8 / strlen($this->response));
+        $angle = mt_rand(- 15 + strlen($this->response), 15 - strlen($this->response));
+        $x     = mt_rand(1, Captcha::$config['width'] * 0.9 - $size * strlen($this->response));
+        $y     = ((Captcha::$config['height'] - $size) / 2) + $size;
+        $color = imagecolorallocate($this->image, 255, 255, 255);
 
         imagefttext($this->image, $size, $angle, $x + 1, $y + 1, $color, $font, $this->response);
 

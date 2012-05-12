@@ -52,8 +52,10 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
     {
         $this->config = QuickPHP::config('session');
 
-        if($this->config->get('encryption', FALSE))
+        if($this->config->get('encryption', false))
+        {
             $this->encrypt = new Encrypt();
+        }
     }
 
     /**
@@ -76,7 +78,9 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
             $name = $config;
 
             if(($config = QuickPHP::config('cache')->get($config)) === NULL)
+            {
                 throw new QuickPHP_Cache_Exception('cache.undefined_group', $name);
+            }
         }
 
         $config['lifetime'] = ($this->config->expiration == 0) ? 86400 : $this->config->get('expiration');
@@ -107,7 +111,9 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
         $data   = $this->cache->get($id);
 
         if(empty($data))
+        {
             return $this->config->encryption ? $this->encrypt->decode($data) : $data;
+        }
 
         return '';
     }
@@ -121,8 +127,8 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
      */
     public function write($id, $data)
     {
-        $id     = 'session_' . $id;
-        $data   = $this->config->encryption ? $this->encrypt->encode($data) : $data;
+        $id   = 'session_' . $id;
+        $data = $this->config->encryption ? $this->encrypt->encode($data) : $data;
 
         return $this->cache->set($id, $data);
     }

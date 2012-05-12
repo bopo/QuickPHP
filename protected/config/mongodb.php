@@ -20,25 +20,25 @@
 */
 return array (
     // Generally will be localhost if you're querying from the machine that Mongo is installed on
-    'mongo_host' => 'localhost',
+    'mongo_host'                  => 'localhost',
     // Generally will be 27017 unless you've configured Mongo otherwise
-    'mongo_port' => 27017,
+    'mongo_port'                  => 27017,
     // The database you want to work from (required)
-    'mongo_db' => '',
+    'mongo_db'                    => '',
     // Leave blank if Mongo is not running in auth mode
-    'mongo_user' => '',
-    'mongo_pass' => '',
+    'mongo_user'                  => '',
+    'mongo_pass'                  => '',
     // Persistant connections
-    'mongo_persist' => true,
-    'mongo_persist_key' => '__mongo_persist',
+    'mongo_persist'               => true,
+    'mongo_persist_key'           => '__mongo_persist',
     // Get results as an object instead of an array
-    'mongo_return' => 'array',
+    'mongo_return'                => 'array',
     // When you run an insert/update/delete how sure do you want to be that the database has received the query?
-    // safe = the database has receieved and executed the query
-    // fysnc = as above + the change has been committed to harddisk <- NOTE: will introduce a performance penalty
-    'mongo_query_safety' => 'safe',
+    // safe                       = the database has receieved and executed the query
+    // fysnc                      = as above + the change has been committed to harddisk <- NOTE: will introduce a performance penalty
+    'mongo_query_safety'          => 'safe',
     // Supress connection error password display
     'mongo_supress_connect_error' => true,
     // If you are having problems connecting try changing this to TRUE
-    'host_db_flag' => false,
+    'host_db_flag'                => false,
 );

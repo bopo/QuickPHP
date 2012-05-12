@@ -203,8 +203,7 @@ abstract class QuickPHP_Database_Abstract
      */
     public function datatype($type)
     {
-        static $types = array
-        (
+        static $types = array(
             // SQL-92
             'bit'                             => array('type' => 'string', 'exact' => TRUE),
             'bit varying'                     => array('type' => 'string'),

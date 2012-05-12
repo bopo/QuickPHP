@@ -45,16 +45,16 @@ class QuickPHP_download
 
         if(is_file($filename))
         {
-            $filepath   = str_replace('\\', '/', realpath($filename));
-            $filesize   = filesize($filepath);
-            $filename   = substr(strrchr('/' . $filepath, '/'), 1);
-            $extension  = strtolower(substr(strrchr($filepath, '.'), 1));
+            $filepath  = str_replace('\\', '/', realpath($filename));
+            $filesize  = filesize($filepath);
+            $filename  = substr(strrchr('/' . $filepath, '/'), 1);
+            $extension = strtolower(substr(strrchr($filepath, '.'), 1));
         }
         else
         {
-            $filesize   = strlen($data);
-            $filename   = substr(strrchr('/' . $filename, '/'), 1);
-            $extension  = strtolower(substr(strrchr($filename, '.'), 1));
+            $filesize  = strlen($data);
+            $filename  = substr(strrchr('/' . $filename, '/'), 1);
+            $extension = strtolower(substr(strrchr($filename, '.'), 1));
         }
 
         $mime = QuickPHP::config('mimes')->get($extension, array('application/octet-stream'));

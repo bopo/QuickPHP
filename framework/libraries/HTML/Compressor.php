@@ -36,41 +36,43 @@
  */
 class HTML_Compressor
 {
-    protected static $tempPreBlock        = "%%%HTMLCOMPRESS~PRE&&&";
-    protected static $tempTextAreaBlock   = "%%%HTMLCOMPRESS~TEXTAREA&&&";
-    protected static $tempScriptBlock     = "%%%HTMLCOMPRESS~SCRIPT&&&";
-    protected static $tempStyleBlock      = "%%%HTMLCOMPRESS~STYLE&&&";
-    protected static $tempPHPBlock        = "%%%HTMLCOMPRESS~PHP&&&";
-
-    protected static $commentPattern      = "<!--\\s*[^\\[].*?-->";
-    protected static $itsPattern          = ">\\s+?<";
-    protected static $prePattern          = "<pre[^>]*?>.*?</pre>";
-    protected static $taPattern           = "<textarea[^>]*?>.*?</textarea>";
-    protected static $phpPattern          = "<\?php([^-@][\\w\\W]*?)\?>";
-
+    protected static $tempPreBlock         = "%%%HTMLCOMPRESS~PRE&&&";
+    protected static $tempTextAreaBlock    = "%%%HTMLCOMPRESS~TEXTAREA&&&";
+    protected static $tempScriptBlock      = "%%%HTMLCOMPRESS~SCRIPT&&&";
+    protected static $tempStyleBlock       = "%%%HTMLCOMPRESS~STYLE&&&";
+    protected static $tempPHPBlock         = "%%%HTMLCOMPRESS~PHP&&&";
+    
+    protected static $commentPattern       = "<!--\\s*[^\\[].*?-->";
+    protected static $itsPattern           = ">\\s+?<";
+    protected static $prePattern           = "<pre[^>]*?>.*?</pre>";
+    protected static $taPattern            = "<textarea[^>]*?>.*?</textarea>";
+    protected static $phpPattern           = "<\?php([^-@][\\w\\W]*?)\?>";
+    
     // 脚本标签
-    protected static $scriptPattern   = "(?:<script\\s*>|<script type=['\"]text/javascript['\"]\\s*>)(.*?)</script>";
-    protected static $stylePattern    = "<style[^>()]*?>(.+)</style>";
-
+    protected static $scriptPattern        = "(?:<script\\s*>|<script type=['\"]text/javascript['\"]\\s*>)(.*?)</script>";
+    protected static $stylePattern         = "<style[^>()]*?>(.+)</style>";
+    
     // 单行注释，
-    protected static $signleCommentPattern    = "[^\S|;]//.*";
+    protected static $signleCommentPattern = "[^\S|;]//.*";
     // 多行注释
-    protected static $multiCommentPattern     = "/\\*.*?\\*/";
-
+    protected static $multiCommentPattern  = "/\\*.*?\\*/";
+    
     // trim去空格和换行符
-    protected static $trimPattern             = "\\n\\s*";
-    protected static $trimPattern2            = "\\s*\\r";
+    protected static $trimPattern          = "\\n\\s*";
+    protected static $trimPattern2         = "\\s*\\r";
 
     public static function compress($html)
     {
         if($html == null || strlen($html) == 0)
+        {
             return $html;
+        }
 
-        $preBlocks      =
-        $taBlocks       =
-        $scriptBlocks   =
-        $styleBlocks    =
-        $phpBlocks      = array();
+        $preBlocks    =
+        $taBlocks     =
+        $scriptBlocks =
+        $styleBlocks  =
+        $phpBlocks    = array();
 
         $result = $html;
 
@@ -151,7 +153,9 @@ class HTML_Compressor
     protected static function processPHPBlocks($html, array $blocks = null)
     {
         foreach($blocks as $key => $block)
+        {
             $blocks[$key] = self::compressPHP($block);
+        }
 
         preg_match_all("#" . self::$tempPHPBlock . "#is", $html, $matches);
 
@@ -180,7 +184,9 @@ class HTML_Compressor
     protected static function processScriptBlocks($html, array $blocks = null)
     {
         foreach($blocks as $key => $block)
+        {
             $blocks[$key] = self::compressJavaScript($block);
+        }
 
         preg_match_all("#" . self::$tempScriptBlock . "#is", $html, $matches);
         $result = str_replace($matches[0], $blocks, $html);
@@ -191,7 +197,9 @@ class HTML_Compressor
     protected static function processStyleBlocks($html, array $blocks = null)
     {
         foreach($blocks as $key => $block)
+        {
             $blocks[$key] = self::compressCssStyles($block);
+        }
 
         preg_match_all("#" . self::$tempStyleBlock . "#is", $html, $matches);
         $result = str_replace($matches[0], $blocks, $html);
@@ -205,7 +213,9 @@ class HTML_Compressor
         preg_match("#".self::$phpPattern."#is", $source, $matches);
 
         if($matches[0])
+        {
             $source = self::compressPHPJs($matches[0]);
+        }
 
         return trim($source);
 
@@ -217,7 +227,9 @@ class HTML_Compressor
         preg_match("#".self::$scriptPattern."#is", $source, $matches);
 
         if($matches[0])
+        {
             $source = self::compressPHPJs($matches[0]);
+        }
 
         return trim($source);
     }

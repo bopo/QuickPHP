@@ -42,9 +42,9 @@ class QuickPHP_Database_Query
 
     // Quoted query parameters
     protected $_parameters = array();
-
+    
     // Return results as associative arrays or objects
-    protected $_as_object = FALSE;
+    protected $_as_object  = FALSE;
 
     /**
      * Creates a new SQL query of the specified type.
@@ -198,8 +198,8 @@ class QuickPHP_Database_Query
 
         if( ! empty($this->_lifetime) and $this->_type === Database::SELECT)
         {
-            $cache_key  = 'Database::query("' . $db . '", "' . $sql . '")';
-            $result     = QuickPHP::cache($cache_key, NULL, $this->_lifetime);
+            $cache_key = 'Database::query("' . $db . '", "' . $sql . '")';
+            $result    = QuickPHP::cache($cache_key, NULL, $this->_lifetime);
 
             if( ! empty($result))
             {

@@ -61,8 +61,8 @@ class QuickPHP_file
 
         if(function_exists('finfo_open'))
         {
-            $finfo  = finfo_open(FILEINFO_MIME);
-            $mime   = finfo_file($finfo, $filename);
+            $finfo = finfo_open(FILEINFO_MIME);
+            $mime  = finfo_file($finfo, $filename);
 
             finfo_close($finfo);
 

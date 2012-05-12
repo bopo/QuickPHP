@@ -41,11 +41,11 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
     );
     */
 
-    protected $db           = 'default';
-    protected $table        = 'sessions';
-    protected $encrypt      = NULL;
-    protected $session_id   = NULL;
-    protected $written      = FALSE;
+    protected $db         = 'default';
+    protected $table      = 'sessions';
+    protected $encrypt    = NULL;
+    protected $session_id = NULL;
+    protected $written    = FALSE;
 
     /**
      * 构造函数,初始化session数据库模型
@@ -72,7 +72,7 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
      */
     public function open($path, $name)
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -82,7 +82,7 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
      */
     public function close()
     {
-        return TRUE;
+        return true;
     }
 
     /**

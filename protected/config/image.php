@@ -18,8 +18,7 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array
-(
+return array(
     'driver' => 'gd',
     'params' => array()
 );

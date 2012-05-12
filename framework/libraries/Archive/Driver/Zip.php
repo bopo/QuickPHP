@@ -56,14 +56,14 @@ class QuickPHP_Archive_Driver_Zip implements QuickPHP_Archive_Interface
 
         // 每个路径单独添加
         foreach ($paths as $set)
+        {
             $this->add_data($set[0], $set[1], isset($set[2]) ? $set[2] : NULL);
+        }
 
         // 文件数据
-        $data = implode('', $this->data);
-
+        $data    = implode('', $this->data);
         // 目录数据
-        $dirs = implode('', $this->dirs);
-
+        $dirs    = implode('', $this->dirs);
         $zipfile = $data . // 文件数据
                     $dirs . // 目录数据
                     "\x50\x4b\x05\x06\x00\x00\x00\x00" . // 目录的末尾
@@ -75,10 +75,14 @@ class QuickPHP_Archive_Driver_Zip implements QuickPHP_Archive_Interface
 
 
         if($filename == FALSE)
+        {
             return $zipfile;
+        }
 
         if(substr($filename, - 3) != 'zip')
+        {
             $filename .= '.zip';
+        }
 
         // 以写模式创建文件并打开
         $file = fopen($filename, 'wb');
@@ -108,16 +112,13 @@ class QuickPHP_Archive_Driver_Zip implements QuickPHP_Archive_Interface
     public function add_data($file, $name, $contents = NULL)
     {
         // Determine the file type: 16 = dir, 32 = file
-        $type = (substr($file, - 1) === '/') ? 16 : 32;
-
+        $type      = (substr($file, - 1) === '/') ? 16 : 32;
         // Fetch the timestamp, using the current time if manually setting the contents
         $timestamp = date::unix2dos(($contents === NULL) ? filemtime($file) : time());
-
         // Read the file or use the defined contents
-        $data = ($contents === NULL) ? file_get_contents($file) : $contents;
-
+        $data      = ($contents === NULL) ? file_get_contents($file) : $contents;
         // Gzip the data, use substr to fix a CRC bug
-        $zdata = substr(gzcompress($data), 2, - 4);
+        $zdata     = substr(gzcompress($data), 2, - 4);
 
         $this->data[] = "\x50\x4b\x03\x04" . // Zip header
                         "\x14\x00" . // Version required for extraction
