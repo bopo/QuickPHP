@@ -22,11 +22,12 @@
  * QuickPHP 控制器的抽象类。
  *
  * @category    QuickPHP
- * @package     Controller
+ * @package     Librares
+ * @subpackage  Controller
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
- * @version     $Id: Controller.php 8320 2011-10-05 14:59:55Z bopo $
+ * @version     $Id: Config.php 8641 2012-01-05 08:35:39Z bopo $
  */
 abstract class QuickPHP_Controller
 {

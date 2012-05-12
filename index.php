@@ -19,11 +19,11 @@
  +----------------------------------------------------------------------+
 */
 /** framework 目录路径  */
-$framework  = dirname(__FILE__) . "/framework";
+$framework = dirname(__FILE__) . "/framework";
 /** protected 目录路径 */
-$protected  = dirname(__FILE__) . "/protected";
+$protected = dirname(__FILE__) . "/protected";
 /** runtime 目录路径 */
-$runtime    = dirname(__FILE__) . "/runtime";
+$runtime   = dirname(__FILE__) . "/runtime";
 
 /** 系统常量 EXT,入口文件扩展名称 */
 define('EXT', '.' . pathinfo(__FILE__, PATHINFO_EXTENSION));
@@ -38,9 +38,5 @@ define('SYSPATH', str_replace("\\", "/", realpath($framework)) . '/');
 /** 系统常量 APPPATH 目录路径 */
 define('APPPATH', str_replace("\\", "/", realpath($protected)) . '/');
 
-// 调试时使用，生产模式删除改行
-if(isset($_GET['phpinfo']) and !IN_PRODUCTION) die(phpinfo());
-
 /** 载入框架,加载相关配置,进行调度,执行应用 */
 require APPPATH . 'bootstrap' . EXT;
-//http://www.phpunit.de/manual/current/en/installation.html

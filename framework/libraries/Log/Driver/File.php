@@ -27,7 +27,7 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.QuickPHP.net/license
  */
-class QuickPHP_Log_Driver_File extends QuickPHP_Log_Abstract
+class QuickPHP_Log_Driver_File extends Log_Abstract
 {
 
     // Directory to place log files in
@@ -46,7 +46,7 @@ class QuickPHP_Log_Driver_File extends QuickPHP_Log_Abstract
     {
         if( ! is_dir($directory) or ! is_writable($directory))
         {
-            throw new QuickPHP_Exception('Directory {0} must be writable', array(debug::path($directory)));
+            throw new Log_Exception('Directory {0} must be writable', array(debug::path($directory)));
         }
 
         // Determine the directory path

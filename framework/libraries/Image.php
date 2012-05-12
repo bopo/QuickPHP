@@ -17,16 +17,16 @@
 // | Author: BoPo <ibopo@126.com>                                         |
 // +----------------------------------------------------------------------+
 /**
- * Manipulate images using standard methods such as resize, crop, rotate, etc.
+ * Manipulate images using standard methods such as resize, crop, rotate,watermark, etc.
  * This class must be re-initialized for every image you wish to manipulate.
- * 缺少个水印方法(watermark)
  *
  * @category    QuickPHP
- * @package     Image
+ * @package     Librares
+ * @subpackage  Image
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
- * @version     $Id: Image.php 8761 2012-01-15 05:10:59Z bopo $
+ * @version     $Id: Config.php 8641 2012-01-05 08:35:39Z bopo $
  */
 class QuickPHP_Image
 {
@@ -35,7 +35,7 @@ class QuickPHP_Image
     const AUTO       = 2;    // 自动适应比例
     const HEIGHT     = 3;    // 按高度自适应比例
     const WIDTH      = 4;    // 按宽度自适应比例
-    const SPHERE     = 5;    // 按宽度自适应比例
+    const SPHERE     = 5;    // 按SPHERE自适应比例
 
     // 翻转方向
     const HORIZONTAL = 6;    // 水平方向
@@ -141,7 +141,7 @@ class QuickPHP_Image
 
         if ( ! ($this->driver Instanceof Image_Abstract))
         {
-            throw new QuickPHP_Exception('driver_implements', array($this->config['driver'], get_class($this), 'Image_Abstract'));
+            throw new Image_Exception('driver_implements', array($this->config['driver'], get_class($this), 'Image_Abstract'));
         }
 
         return ;

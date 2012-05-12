@@ -19,14 +19,17 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Captcha library.
+ * Provides a driver-based interface for finding, creating, and deleting Cached
+ * resources. Caches are identified by a unique string. Tagging of Caches is
+ * also supported, and Caches can be found and deleted by id or tag.
  *
- * $Id: Captcha.php 8761 2012-01-15 05:10:59Z bopo $
- *
- * @package Captcha
- * @author BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2007 Quick
- * @license http://www.quickphp.net/license/
+ * @category    QuickPHP
+ * @package     Libraries
+ * @subpackage  Captcha
+ * @author      BoPo <ibopo@126.com>
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Cache.php 8320 2011-10-05 14:59:55Z bopo $
  */
 class QuickPHP_Captcha
 {

@@ -24,9 +24,10 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Select.php 8641 2012-01-05 08:35:39Z bopo $ */
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Select.php 8641 2012-01-05 08:35:39Z bopo $ 
+ */
 class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Builder_Where
 {
 
@@ -188,7 +189,6 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     public function and_having($column, $op, $value = null)
     {
         $this->_having[] = array('AND' => array($column, $op, $value));
-
         return $this;
     }
 
@@ -381,6 +381,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
         $this->_limit      = false;
         $this->_offset     = false;
         $this->_last_join  = null;
+        
         return $this;
     }
 }

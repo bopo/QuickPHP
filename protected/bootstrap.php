@@ -22,6 +22,9 @@
 /** 系统常量 IN_PRODUCTION,产品模式开关，如果设置成 FALSE 则为开发模式 */
 define('IN_PRODUCTION', false);
 
+// 调试时使用，生产模式删除改行
+if(isset($_GET['phpinfo']) and !IN_PRODUCTION) exit(phpinfo());
+
 // 判断是否产品模式，产品模式不显示任何错误提示
 ((bool) IN_PRODUCTION != true)
     ? error_reporting(E_ALL & ~ E_NOTICE)

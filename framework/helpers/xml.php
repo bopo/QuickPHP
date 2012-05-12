@@ -23,6 +23,7 @@
  *
  * @category    QuickPHP
  * @package     Helpers
+ * @subpackage  xml
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
@@ -103,6 +104,7 @@ class QuickPHP_xml
         $str  = str_replace(array("&", "<", ">", "\"", "'", "-"), array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"), $xml);
         $str  = preg_replace("/$temp(\d+);/", "&#\\1;", $xml);
         $str  = preg_replace("/$temp(\w+);/", "&\\1;", $xml);
+        
         return $xml;
     }
 }

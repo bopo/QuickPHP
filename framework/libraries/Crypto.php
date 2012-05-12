@@ -19,15 +19,15 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Encrypt的加/解密类,该类依赖PHP的MCrypt扩展.
- * @see http://php.net/mcrypt
+ * QuickPHP 的加/解密类,该类依赖PHP的MCrypt扩展。
  *
  * @category    QuickPHP
- * @package     Encrypt
+ * @package     Librares
+ * @subpackage  Crypto
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
- * @version     $Id: Encrypt.php 8320 2011-10-05 14:59:55Z bopo $
+ * @version     $Id: Config.php 8641 2012-01-05 08:35:39Z bopo $
  */
 class QuickPHP_Crypto
 {

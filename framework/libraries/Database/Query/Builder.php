@@ -30,7 +30,6 @@
  */
 abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
 {
-
     /**
      * Compiles an array of JOIN statements into an SQL partial.
      *
@@ -65,14 +64,12 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
 
         foreach ($conditions as $group)
         {
-            // Process groups of conditions
             foreach ($group as $logic => $condition)
             {
                 if($condition === '(')
                 {
                     if( ! empty($sql) and $last_condition !== '(')
                     {
-                        // Include logic operator
                         $sql .= ' ' . $logic . ' ';
                     }
 
@@ -86,7 +83,9 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
                 {
                     // Add the logic operator
                     if( ! empty($sql) and $last_condition !== '(')
+                    {
                         $sql .= ' ' . $logic . ' ';
+                    }
 
                     // Split the condition
                     list ($column, $op, $value) = $condition;
@@ -193,7 +192,6 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
         {
             list ($column, $direction) = $group;
 
-            // Make the direction uppercase
             if( ! empty($direction))
             {
                 $direction = ' ' . strtoupper($direction);

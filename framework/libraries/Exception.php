@@ -23,11 +23,12 @@
  * @see http://php.net/manual/en/language.exceptions.php
  *
  * @category    QuickPHP
- * @package     Exception
+ * @package     Librares
+ * @subpackage  Exception
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
- * @version     $Id: Exception.php 8604 2011-12-22 04:40:40Z bopo $
+ * @version     $Id: Config.php 8641 2012-01-05 08:35:39Z bopo $
  */
 class QuickPHP_Exception extends Exception
 {

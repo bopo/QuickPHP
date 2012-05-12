@@ -134,9 +134,9 @@ class QuickPHP_Crypto_Adapter_XXTEA extends QuickPHP_Crypto_Abstract
         $n     = count($v) - 1;
         $z     = $v[$n];
         $y     = $v[0];
-        $delta = 0x9E3779B9;
         $q     = floor(6 + 52 / ($n + 1));
         $sum   = 0;
+        $delta = 0x9E3779B9;
 
         while (0 < $q--) 
         {

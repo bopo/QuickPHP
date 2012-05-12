@@ -38,6 +38,7 @@
   -->
   <fileset dir="." id="framework">
     <exclude name="**/.svn" />
+    <exclude name="**/.git" />
     <exclude name="**/*.bak" />
     <exclude name="**/*~" />
     <include name="framework/**/*" />
@@ -47,6 +48,7 @@
   -->
   <fileset dir="." id="misc">
     <exclude name="**/.svn" />
+    <exclude name="**/.git" />
     <exclude name="**/*.bak" />
     <exclude name="**/*~" />
     <include name="index.php" />
@@ -58,6 +60,7 @@
   -->
   <fileset dir="." id="docs">
     <exclude name="**/.svn" />
+    <exclude name="**/.git" />
     <exclude name="**/*.bak" />
     <exclude name="**/*~" />
     <exclude name="**/latex" />
@@ -69,12 +72,14 @@
   -->
   <fileset dir="." id="protected">
     <exclude name="**/.svn" />
+    <exclude name="**/.git" />
     <exclude name="**/*.bak" />
     <exclude name="**/*~" />
     <include name="protected/**/*" />
   </fileset>
 
   <fileset dir="." id="assets">
+    <exclude name="**/.git" />
     <exclude name="**/.svn" />
     <exclude name="**/*.bak" />
     <exclude name="**/*~" />
@@ -82,6 +87,7 @@
   </fileset>
 
   <fileset dir="." id="runtime">
+    <exclude name="**/.git" />
     <exclude name="**/.svn" />
     <exclude name="**/*.bak" />
     <exclude name="**/*~" />

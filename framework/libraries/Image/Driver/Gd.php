@@ -1,21 +1,23 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
-// +----------------------------------------------------------------------+
-// | Quick PHP Framework Version 0.10                                     |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2007 Quick.cn All rights reserved.                     |
-// +----------------------------------------------------------------------+
-// | Licensed under the Apache License, Version 2.0 (the 'License');      |
-// | you may not use this file except in compliance with the License.     |
-// | You may obtain a copy of the License at                              |
-// | http://www.apache.org/licenses/LICENSE-2.0                           |
-// | Unless required by applicable law or agreed to in writing, software  |
-// | distributed under the License is distributed on an 'AS IS' BASIS,    |
-// | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
-// | implied. See the License for the specific language governing         |
-// | permissions and limitations under the License.                       |
-// +----------------------------------------------------------------------+
-// | Author: BoPo <ibopo@126.com>                                         |
-// +----------------------------------------------------------------------+
+/*
+ +----------------------------------------------------------------------+
+ | QuickPHP Framework Version 0.10                                      |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2010 QuickPHP.net All rights reserved.                 |
+ +----------------------------------------------------------------------+
+ | Licensed under the Apache License, Version 2.0 (the 'License');      |
+ | you may not use this file except in compliance with the License.     |
+ | You may obtain a copy of the License at                              |
+ | http://www.apache.org/licenses/LICENSE-2.0                           |
+ | Unless required by applicable law or agreed to in writing, software  |
+ | distributed under the License is distributed on an 'AS IS' BASIS,    |
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
+ | implied. See the License for the specific language governing         |
+ | permissions and limitations under the License.                       |
+ +----------------------------------------------------------------------+
+ | Author: BoPo <ibopo@126.com>                                         |
+ +----------------------------------------------------------------------+
+*/
 /**
  * QucikPHP 图形处理 GD 驱动.
  *
@@ -28,10 +30,10 @@
  */
 class QuickPHP_Image_Driver_Gd extends Image_Abstract
 {
+    protected static $params;
     protected static $blank_png;
     protected static $blank_png_width;
     protected static $blank_png_height;
-    protected static $params;
 
     public function __construct($params = array())
     {
@@ -39,14 +41,14 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
 
         if ( ! function_exists('gd_info'))
         {
-            throw new QuickPHP_Image_Exception('gd_requires_v2');
+            throw new Image_Exception('gd_requires_v2');
         }
 
         $info = gd_info();
 
         if (strpos($info['GD Version'], '2.') === FALSE)
         {
-            throw new QuickPHP_Image_Exception('gd_requires_v2');
+            throw new Image_Exception('gd_requires_v2');
         }
     }
 
@@ -57,16 +59,20 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
             case IMAGETYPE_JPEG:
                 $create = 'imagecreatefromjpeg';
             break;
+            
             case IMAGETYPE_GIF:
                 $create = 'imagecreatefromgif';
             break;
+
             case IMAGETYPE_PNG:
                 $create = 'imagecreatefrompng';
             break;
         }
 
         if (empty($create) OR ! function_exists($create))
-            throw new QuickPHP_Image_Exception('image.type_not_allowed', $file);
+        {
+            throw new Image_Exception('image.type_not_allowed', $file);
+        }
 
         return $create($file);
     }
@@ -79,16 +85,18 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
             case 'jpeg':
                 $save = 'imagejpeg';
             break;
+            
             case 'gif':
                 $save = 'imagegif';
             break;
+
             case 'png':
                 $save = 'imagepng';
             break;
         }
 
         if (empty($save) OR ! function_exists($save))
-            throw new QuickPHP_Image_Exception('image.type_not_allowed', $dir.$file);
+            throw new Image_Exception('image.type_not_allowed', $dir.$file);
 
         $this->tmp_image = $this->create($image['file'], $image['type']);
         $quality         = arr::remove('quality', $actions);
@@ -103,9 +111,11 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
                 case 'imagejpeg':
                     ($quality === NULL) and $quality = 95;
                 break;
+
                 case 'imagegif':
                     unset($quality);
                 break;
+
                 case 'imagepng':
                     $quality = 9;
                 break;
@@ -122,9 +132,11 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
                     case 'imagejpeg':
                         header('Content-Type: image/jpeg');
                     break;
+
                     case 'imagegif':
                         header('Content-Type: image/gif');
                     break;
+
                     case 'imagepng':
                         header('Content-Type: image/png');
                     break;
@@ -149,12 +161,16 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
         if ($direction === Image::HORIZONTAL)
         {
             for ($x = 0; $x < $src_width; $x++)
+            {
                 $status = imagecopy($flipped, $this->tmp_image, $x, 0, $src_width - $x - 1, 0, 1, $src_height);
+            }
         }
         elseif ($direction === Image::VERTICAL)
         {
             for ($y = 0; $y < $src_height; $y++)
+            {
                 $status = imagecopy($flipped, $this->tmp_image, 0, $y, 0, $src_height - $y - 1, $src_width, 1);
+            }
         }
         else
         {
@@ -173,10 +189,9 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
     public function crop($properties)
     {
         $properties = $this->sanitize_geometry($properties);
-
         $src_width  = imagesx($this->tmp_image);
         $src_height = imagesy($this->tmp_image);
-        $img    = $this->imagecreatetransparent($properties['width'], $properties['height']);
+        $img        = $this->imagecreatetransparent($properties['width'], $properties['height']);
 
         if ($status = imagecopyresampled($img, $this->tmp_image, 0, 0, $properties['left'], $properties['top'], $src_width, $src_height, $src_width, $src_height))
         {
@@ -205,22 +220,32 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
         }
 
         if (substr($properties['width'], -1) === '%')
+        {
             $properties['width'] = round($src_width * (substr($properties['width'], 0, -1) / 100));
+        }
 
         if (substr($properties['height'], -1) === '%')
+        {
             $properties['height'] = round($src_height * (substr($properties['height'], 0, -1) / 100));
+        }
 
         empty($properties['width'])  and $properties['width']  = round($src_width * $properties['height'] / $src_height);
         empty($properties['height']) and $properties['height'] = round($src_height * $properties['width'] / $src_width);
 
         if ($properties['master'] === Image::AUTO)
+        {
             $properties['master'] = (($src_width / $properties['width']) > ($src_height / $properties['height'])) ? Image::WIDTH : Image::HEIGHT;
+        }
 
         if (empty($properties['height']) OR $properties['master'] === Image::WIDTH)
+        {
             $properties['height'] = round($src_height * $properties['width'] / $src_width);
+        }
 
         if (empty($properties['width']) OR $properties['master'] === Image::HEIGHT)
+        {
             $properties['width'] = round($src_width * $properties['height'] / $src_height);
+        }
 
         if ($properties['width'] > $src_width / 2 AND $properties['height'] > $src_height / 2)
         {
@@ -261,9 +286,9 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
 
     public function rotate($amount)
     {
-        $img            = $this->tmp_image;
-        $transparent    = imagecolorallocatealpha($img, 255, 255, 255, 127);
-        $img            = imagerotate($img, 360 - $amount, $transparent, -1);
+        $img         = $this->tmp_image;
+        $transparent = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        $img         = imagerotate($img, 360 - $amount, $transparent, -1);
 
         imagecolortransparent($img, $transparent);
 
@@ -281,7 +306,9 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
     public function sharpen($amount)
     {
         if ( ! function_exists('imageconvolution'))
-            throw new QuickPHP_Image_Exception('image.unsupported_method', __FUNCTION__);
+        {
+            throw new Image_Exception('image.unsupported_method', __FUNCTION__);
+        }
 
         $amount = round(abs(-18 + ($amount * 0.08)), 2);
 
@@ -360,11 +387,12 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
 
         if (!file_exists($params['wm_overlay_path']))
         {
-            throw new QuickPHP_Image_Exception('imglib_missing_overlay_path');
+            throw new Image_Exception('imglib_missing_overlay_path');
         }
 
         $image_info = getimagesize($params['wm_overlay_path']);
         $wm_img     = $this->create($params['wm_overlay_path'], $image_info[2]);
+        
         $wm_width   = $image_info[0];;
         $wm_height  = $image_info[1];
 
@@ -441,7 +469,7 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
 
         if ($params['wm_use_truetype'] == TRUE AND ! file_exists($params['wm_font_path']))
         {
-            throw new QuickPHP_Image_Exception('imglib_missing_font');
+            throw new Image_Exception('imglib_missing_font');
         }
 
         $src_width  = imagesx($this->tmp_image);
@@ -461,15 +489,21 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
         $drp_color  = imagecolorclosest($this->tmp_image, $R2, $G2, $B2);
 
         if ($params['wm_vrt_alignment'] == 'B')
+        {
             $params['wm_vrt_offset'] = $params['wm_vrt_offset'] * -1;
+        }
 
         if ($params['wm_hor_alignment'] == 'R')
+        {
             $params['wm_hor_offset'] = $params['wm_hor_offset'] * -1;
+        }
 
         if ($params['wm_use_truetype'] == TRUE)
         {
             if ($params['wm_font_size'] == '')
+            {
                 $params['wm_font_size'] = '17';
+            }
 
             $fontwidth  = $params['wm_font_size']-($params['wm_font_size']/4);
             $fontheight = $params['wm_font_size'];
@@ -485,7 +519,9 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
         $y_axis = $params['wm_vrt_offset'] + $params['wm_padding'];
 
         if ($params['wm_use_drop_shadow'] == FALSE)
+        {
             $params['wm_shadow_distance'] = 0;
+        }
 
         $params['wm_vrt_alignment'] = strtoupper(substr($params['wm_vrt_alignment'], 0, 1));
         $params['wm_hor_alignment'] = strtoupper(substr($params['wm_hor_alignment'], 0, 1));
@@ -494,8 +530,10 @@ class QuickPHP_Image_Driver_Gd extends Image_Abstract
         {
             case "T" :
                 break;
+
             case "M":   $y_axis += ($src_height/2)+($fontheight/2);
                 break;
+
             case "B":   $y_axis += ($src_height - $fontheight - $params['wm_shadow_distance'] - ($fontheight/2));
                 break;
         }

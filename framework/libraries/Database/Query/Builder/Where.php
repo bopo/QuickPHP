@@ -24,18 +24,22 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Where.php 8320 2011-10-05 14:59:55Z bopo $ */
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Where.php 8320 2011-10-05 14:59:55Z bopo $ 
+ */
 abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Query_Builder
 {
 
     // WHERE ...
     protected $_where    = array();
+    
     // LIMIT ...
     protected $_limit    = NULL;
+    
     // ORDER BY ...
     protected $_order_by = array();
+
     /**
      * Alias of and_where()
      *

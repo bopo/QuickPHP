@@ -233,6 +233,7 @@ abstract class QuickPHP_Database_Abstract
             'timestamp'                       => array('type' => 'string'),
             'timestamp with time zone'        => array('type' => 'string'),
             'varchar'                         => array('type' => 'string'),
+            
             // SQL:1999
             'binary large object'             => array('type' => 'string', 'binary' => TRUE),
             'blob'                            => array('type' => 'string', 'binary' => TRUE),
@@ -245,10 +246,12 @@ abstract class QuickPHP_Database_Abstract
             'nclob'                           => array('type' => 'string'),
             'time without time zone'          => array('type' => 'string'),
             'timestamp without time zone'     => array('type' => 'string'),
+
             // SQL:2003
             'bigint'                          => array('type' => 'int',
             'min'                             => '-9223372036854775808',
             'max'                             => '9223372036854775807'),
+
             // SQL:2008
             'binary'                          => array('type' => 'string', 'binary' => TRUE, 'exact' => TRUE),
             'binary varying'                  => array('type' => 'string', 'binary' => TRUE),

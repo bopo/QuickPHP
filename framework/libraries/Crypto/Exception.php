@@ -21,10 +21,10 @@
  *
  * $Id: Exception.php 8320 2011-10-05 14:59:55Z bopo $
  *
- * @author BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2007 Quick
- * @license http://www.quickphp.net/license/
- * @package Image
+ * @author 		BoPo <ibopo@126.com>
+ * @copyright 	Copyright &copy; 2007 Quick
+ * @license 	http://www.quickphp.net/license/
+ * @package 	Crypto_Exception
  */
 class QuickPHP_Crypto_Exception extends QuickPHP_Exception
 {

@@ -24,7 +24,8 @@
  * also supported, and Caches can be found and deleted by id or tag.
  *
  * @category    QuickPHP
- * @package     Database
+ * @package     Libraries
+ * @subpackage  Cache
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/

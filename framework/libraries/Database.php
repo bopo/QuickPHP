@@ -22,11 +22,12 @@
  * 数据库连接的包装。 所有数据库实例是参照一个名字。 查询通常由[Database_Query],而不是用数据库对象直
  *
  * @category    QuickPHP
- * @package     Database
+ * @package     Librares
+ * @subpackage  Database
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
- * @license     http://www.quickphp.net/license.html
- * @version     $Id: Database.php 8761 2012-01-15 05:10:59Z bopo $
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Config.php 8641 2012-01-05 08:35:39Z bopo $
  */
 class QuickPHP_Database
 {

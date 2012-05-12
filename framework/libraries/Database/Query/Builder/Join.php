@@ -69,7 +69,6 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
     public function on($c1, $op, $c2)
     {
         $this->_on[] = array($c1, $op, $c2);
-
         return $this;
     }
 

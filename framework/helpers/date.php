@@ -23,6 +23,7 @@
  *
  * @category    QuickPHP
  * @package     Helpers
+ * @subpackage  date
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/

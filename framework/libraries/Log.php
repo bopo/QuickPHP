@@ -56,19 +56,19 @@ class QuickPHP_Log
     /**
      * 静态实例方法.
      *
-     * $log = QuickPHP_Log::instance();
+     * $log = Log::instance();
      *
      * @return  QuickPHP_Log
      */
     public static function instance()
     {
-        if(QuickPHP_Log::$_instance === NULL)
+        if(Log::$_instance === NULL)
         {
-            QuickPHP_Log::$_instance = new Log();
-            register_shutdown_function(array(QuickPHP_Log::$_instance, 'write'));
+            Log::$_instance = new Log();
+            register_shutdown_function(array(Log::$_instance, 'write'));
         }
 
-        return QuickPHP_Log::$_instance;
+        return Log::$_instance;
     }
 
     /**
@@ -80,7 +80,7 @@ class QuickPHP_Log
      * @param   array   写入类型
      * @return  $this
      */
-    public function attach(QuickPHP_Log_Abstract $writer, array $types = NULL)
+    public function attach(Log_Abstract $writer, array $types = NULL)
     {
         $this->_writers["{$writer}"] = array('object' => $writer, 'types' => $types);
         
@@ -95,7 +95,7 @@ class QuickPHP_Log
      * @param   object  驱动实例
      * @return  $this
      */
-    public function detach(QuickPHP_Log_Abstract $writer)
+    public function detach(Log_Abstract $writer)
     {
         unset($this->_writers["{$writer}"]);
         
@@ -114,14 +114,14 @@ class QuickPHP_Log
      */
     public function add($type, $message, array $values = NULL)
     {
-        if(QuickPHP_Log::$timezone)
+        if(Log::$timezone)
         {
-            $time = new DateTime('now', new DateTimeZone(QuickPHP_Log::$timezone));
-            $time = $time->format(QuickPHP_Log::$timestamp);
+            $time = new DateTime('now', new DateTimeZone(Log::$timezone));
+            $time = $time->format(Log::$timestamp);
         }
         else
         {
-            $time = date(QuickPHP_Log::$timestamp);
+            $time = date(Log::$timestamp);
         }
 
         if((bool) $values)

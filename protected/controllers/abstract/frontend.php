@@ -23,7 +23,7 @@ abstract class Abstract_Frontend_Controller extends Template_Controller
 {
     const ALLOW_PRODUCTION = TRUE;
 
-    public $directory = 'frontend';
+    public $directory = '';
 
     /**
      * Loads the template [View] object.

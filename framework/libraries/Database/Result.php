@@ -112,7 +112,6 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
 
         if($key === NULL and $value === NULL)
         {
-            // Indexed rows
             foreach ($this as $row)
             {
                 $results[] = $row;
@@ -120,7 +119,6 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
         }
         elseif($key === NULL)
         {
-            // Indexed columns
             if($this->_as_object)
             {
                 foreach ($this as $row)
@@ -155,7 +153,6 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
         }
         else
         {
-            // Associative columns
             if($this->_as_object)
             {
                 foreach ($this as $row)
@@ -173,7 +170,6 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
         }
 
         $this->rewind();
-
         return $results;
     }
 

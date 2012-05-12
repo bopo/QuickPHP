@@ -23,6 +23,7 @@
  *
  * @category   QuickPHP
  * @package    Helper
+ * @subpackage request
  * @copyright  Copyright (c) 2010 http://quickphp.net All rights reserved.
  * @license    http://framework.quickphp.net/licenses/LICENSE-2.0
  * @version    $Id: request.php 8582 2011-12-19 01:47:02Z bopo $

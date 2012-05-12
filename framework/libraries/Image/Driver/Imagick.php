@@ -1,30 +1,32 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
-// +----------------------------------------------------------------------+
-// | Quick PHP Framework Version 0.10                                     |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2007 Quick.cn All rights reserved.                     |
-// +----------------------------------------------------------------------+
-// | Licensed under the Apache License, Version 2.0 (the 'License');      |
-// | you may not use this file except in compliance with the License.     |
-// | You may obtain a copy of the License at                              |
-// | http://www.apache.org/licenses/LICENSE-2.0                           |
-// | Unless required by applicable law or agreed to in writing, software  |
-// | distributed under the License is distributed on an 'AS IS' BASIS,    |
-// | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
-// | implied. See the License for the specific language governing         |
-// | permissions and limitations under the License.                       |
-// +----------------------------------------------------------------------+
-// | Author: BoPo <ibopo@126.com>                                         |
-// +----------------------------------------------------------------------+
+/*
+ +----------------------------------------------------------------------+
+ | QuickPHP Framework Version 0.10                                      |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2010 QuickPHP.net All rights reserved.                 |
+ +----------------------------------------------------------------------+
+ | Licensed under the Apache License, Version 2.0 (the 'License');      |
+ | you may not use this file except in compliance with the License.     |
+ | You may obtain a copy of the License at                              |
+ | http://www.apache.org/licenses/LICENSE-2.0                           |
+ | Unless required by applicable law or agreed to in writing, software  |
+ | distributed under the License is distributed on an 'AS IS' BASIS,    |
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
+ | implied. See the License for the specific language governing         |
+ | permissions and limitations under the License.                       |
+ +----------------------------------------------------------------------+
+ | Author: BoPo <ibopo@126.com>                                         |
+ +----------------------------------------------------------------------+
+*/
 /**
  * QucikPHP 图形处理ImageMagick驱动.
  *
  * $Id: ImageMagick.php 8320 2011-10-05 14:59:55Z bopo $
  *
- * @author BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2007 Quick
- * @license http://www.quickphp.net/license/
- * @package Image
+ * @author      BoPo <ibopo@126.com>
+ * @copyright   Copyright &copy; 2007 Quick
+ * @license     http://www.quickphp.net/license/
+ * @package     Image
  */
 class QuickPHP_Image_Driver_Imagick extends Image_Abstract
 {
@@ -50,7 +52,7 @@ class QuickPHP_Image_Driver_Imagick extends Image_Abstract
     {
         if ( ! extension_loaded('imagick'))
         {
-            throw new QuickPHP_Image_Exception('imagick_not_loaded', array('dfsdf'));
+            throw new QuickPHP_Image_Exception('extension_not_loaded', array('imagick'));
         }
 
         $this->imagick = new Imagick();
@@ -62,7 +64,6 @@ class QuickPHP_Image_Driver_Imagick extends Image_Abstract
      */
     public function process($image, $actions, $dir, $file, $render = FALSE)
     {
-        // We only need the filename
         $this->imagick->readImage($image['file']);
         $quality = arr::remove('quality', $actions);
 
@@ -81,10 +82,12 @@ class QuickPHP_Image_Driver_Imagick extends Image_Abstract
                         header('Content-Type: image/jpeg');
                         $this->imagick->setCompression(Imagick::COMPRESSION_JPEG);
                     break;
+
                     case 'gif':
                         header('Content-Type: image/gif');
                         $this->imagick->setCompression(Imagick::COMPRESSION_JPEG);
                     break;
+
                     case 'png':
                         header('Content-Type: image/png');
                     break;
@@ -140,7 +143,6 @@ class QuickPHP_Image_Driver_Imagick extends Image_Abstract
     {
         $sigma  = 0.5;
         $radius = $sigma * 2;
-        // $amount = round(($amount / 80) * 3.14, 2);
         return $this->imagick->sharpenImage( $radius , $sigma, Imagick::CHANNEL_ALL );
     }
 
@@ -156,24 +158,24 @@ class QuickPHP_Image_Driver_Imagick extends Image_Abstract
         $draw->setFont($font);
         $draw->setFontSize($fontSize);
         
-        //$draw->setGravity(Imagick::GRAVITY_SOUTHEAST);//设置水印位置
         if(!empty($underColor)) 
+        {
             $draw->setTextUnderColor(new ImagickPixel($underColor));
+        }
 
         if(!empty($fillColor)) 
+        {
             $draw->setFillColor(new ImagickPixel($fillColor));
+        }
         
         return $draw;
     }
 
     protected function createWaterImagickDraw($waterImg='water.png',$x=10,$y=85,$width=16,$height=16)
     {
-        $water = new Imagick($waterImg);
+        $water = new Imagick($waterImg);        
+        $draw  = new ImagickDraw();
         
-        //$second->setImageOpacity (0.4);//设置透明度
-        $draw = new ImagickDraw();
-        
-        //$draw->setGravity(Imagick::GRAVITY_CENTER);//设置位置
         $draw->composite($water->getImageCompose(), $x, $y, $width, $height,$water);
         return $draw;
     }
@@ -187,20 +189,18 @@ class QuickPHP_Image_Driver_Imagick extends Image_Abstract
     public function text_watermark($options = array())
     {
         $image_name = '01351346.gif';
-        //$image_name = 'Left_spinning_dancer.gif';
-        //$image_name = 'gifmerge.gif';
-        $image = new Imagick($image_name);
-        $animation = new Imagick();
+        $image      = new Imagick($image_name);
+        $animation  = new Imagick();
         $animation->setFormat( "gif" );
-        $image = $image->coalesceImages();
-        $unitl = $image->getNumberImages();
+        $image      = $image->coalesceImages();
+        $unitl      = $image->getNumberImages();
 
         for ($i=0; $i<$unitl; $i++) 
         {
             $image->setImageIndex($i);
             $thisimage = new Imagick();
             $thisimage->readImageBlob($image);
-            $delay = $thisimage->getImageDelay();
+            $delay     = $thisimage->getImageDelay();
             
             $thisimage->annotateImage(createTextImagickDraw(12, 'red'), 30, 100, 0, '阿维卡');
             $thisimage->annotateImage(createTextImagickDraw(12, 'green'), 10, 120, 0, 'http://kller.cn');

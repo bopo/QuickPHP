@@ -18,11 +18,13 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
+
 /**
  * QuickPHP 配置文件操作类。
  *
  * @category    QuickPHP
- * @package     Config
+ * @package     Librares
+ * @subpackage  Config
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/

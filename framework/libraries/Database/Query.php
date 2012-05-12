@@ -24,9 +24,9 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Query.php 8641 2012-01-05 08:35:39Z bopo $
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Query.php 8641 2012-01-05 08:35:39Z bopo $
  */
 class QuickPHP_Database_Query
 {

@@ -39,9 +39,10 @@
  *
  * @category    QuickPHP
  * @package     Controller
+ * @subpackage  Reset_Controller
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
- * @license     http://www.quickphp.net/license/
+ * @license     http://www.quickphp.net/license.html
  * @version     $Id: rest.php 8320 2011-10-05 14:59:55Z bopo $
  */
 abstract class QuickPHP_REST_Controller extends QuickPHP_Controller

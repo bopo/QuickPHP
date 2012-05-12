@@ -22,7 +22,8 @@
  * 压缩存档库,提供多种压缩格式(zip,gzip,tar,bz2)
  *
  * @category    QuickPHP
- * @package     Archive
+ * @package     Libraries
+ * @subpackage  Archive
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
