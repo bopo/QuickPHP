@@ -923,23 +923,26 @@ class QuickPHP
      */
     public static function message($file, $path = null, $default = null)
     {
-        if( isset(QuickPHP::$_messages[$file]) and (QuickPHP::$caching === true))
+        $cache_key = "QuickPHP::message()";
+
+        if (QuickPHP::$_messages == null)
         {
-            // 设置缓存
+            QuickPHP::$_messages = QuickPHP::cache($cache_key);
         }
-        else
+
+        if( ! isset(QuickPHP::$_messages[$file]) or empty(QuickPHP::$_messages[$file]))
         {
             QuickPHP::$_messages[$file] = array();
 
             $files = QuickPHP::find('messages', $file);
 
-            if(file_exists($files))
+            if(!empty($files))
             {
                 if(is_array($files))
                 {
-                    foreach ($files as $msg)
+                    foreach ($files as $val)
                     {
-                        QuickPHP::$_messages[$file] = array_merge(QuickPHP::$_messages[$file], QuickPHP::load($msg));
+                        QuickPHP::$_messages[$file] = array_merge(QuickPHP::$_messages[$file], QuickPHP::load($val));
                     }
                 }
                 else
@@ -947,6 +950,8 @@ class QuickPHP
                     QuickPHP::$_messages[$file] = array_merge(QuickPHP::$_messages[$file], QuickPHP::load($files));
                 }
             }
+
+            QuickPHP::cache($cache_key, QuickPHP::$_messages);
         }
 
         if($path === null)
@@ -957,7 +962,7 @@ class QuickPHP
         return arr::path(QuickPHP::$_messages[$file], $path, $default);
     }
 
-    public static function locale($file, $lang = null)
+    public static function lang($file, $lang = null)
     {
         if( ! isset(QuickPHP::$_locale[$lang]))
         {
