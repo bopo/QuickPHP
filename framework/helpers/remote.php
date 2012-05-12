@@ -54,7 +54,7 @@ class QuickPHP_remote
 
         if ( ! is_resource($remote))
         {
-            return FALSE;
+            return false;
         }
 
         $CRLF = "\r\n";
@@ -69,7 +69,7 @@ class QuickPHP_remote
         {
             $line = trim(fgets($remote, 512));
 
-            if ($line !== '' AND preg_match('#^HTTP/1\.[01] (\d{3})#', $line, $matches))
+            if ($line !== '' and preg_match('#^HTTP/1\.[01] (\d{3})#', $line, $matches))
             {
                 $response = (int) $matches[1];
                 break;

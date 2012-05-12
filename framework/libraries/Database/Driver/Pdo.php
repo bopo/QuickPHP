@@ -97,7 +97,7 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
     public function set_charset($charset)
     {
         $this->_connection or $this->connect();
-        return TRUE;
+        return true;
     }
 
     public function query($type, $sql, $as_object)
@@ -109,12 +109,12 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
             $benchmark = Profiler::start("Database ({$this->_instance})", $sql);
         }
 
-        if( ! empty($this->_config['connection']['persistent']) AND $this->_config['connection']['database'] !== self::$_current_databases[$this->_connection_id])
+        if( ! empty($this->_config['connection']['persistent']) and $this->_config['connection']['database'] !== self::$_current_databases[$this->_connection_id])
         {
             $this->_select_db($this->_config['connection']['database']);
         }
 
-        $error_message = NULL;
+        $error_message = null;
 
         try
         {
@@ -122,14 +122,14 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
         }
         catch(PDOException $e)
         {
-            $this->_connection = NULL;
+            $this->_connection = null;
 
             if(isset($benchmark))
             {
                 Profiler::delete($benchmark);
             }
 
-            throw new QuickPHP_Database_Exception('error', array($this->_connection->lastError(), $sql));
+            throw new Database_Exception('error', array($this->_connection->lastError(), $sql));
         }
 
         if(isset($benchmark))
@@ -158,15 +158,15 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
         return parent::datatype($type);
     }
 
-    public function list_tables($like = NULL)
+    public function list_tables($like = null)
     {
         if(is_string($like))
         {
-            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE type='table'", FALSE);
+            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE type='table'", false);
         }
         else
         {
-            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE type='table'", FALSE);
+            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE type='table'", false);
         }
 
         $tables = array();
@@ -179,7 +179,7 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
         return $tables;
     }
 
-    public function list_columns($table, $like = NULL)
+    public function list_columns($table, $like = null)
     {
         if(is_string($like))
         {
@@ -253,9 +253,9 @@ class QuickPHP_Database_Driver_Pdo extends QuickPHP_Database_Abstract
     {
         $this->_connection or $this->connect();
 
-        if(($value = $this->_connection->quote($value) === FALSE))
+        if(($value = $this->_connection->quote($value) === false))
         {
-            throw new QuickPHP_Database_Exception('error', array($this->_connection->errorInfo()));
+            throw new Database_Exception('error', array($this->_connection->errorInfo()));
         }
 
         return $value;

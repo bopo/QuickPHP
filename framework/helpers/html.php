@@ -67,7 +67,7 @@ class QuickPHP_html
     /**
      * @var  boolean  连接是否打开新的窗口
      */
-    public static $windowed_urls = FALSE;
+    public static $windowed_urls = false;
 
     /**
      * Convert special characters to HTML entities. All untrusted content
@@ -79,7 +79,7 @@ class QuickPHP_html
      * @param   boolean  encode existing entities
      * @return  string
      */
-    public static function chars($value, $double_encode = TRUE)
+    public static function chars($value, $double_encode = true)
     {
         return htmlspecialchars((string) $value, ENT_QUOTES, QuickPHP::$charset, $double_encode);
     }
@@ -95,7 +95,7 @@ class QuickPHP_html
      * @param   boolean  encode existing entities
      * @return  string
      */
-    public static function entities($value, $double_encode = TRUE)
+    public static function entities($value, $double_encode = true)
     {
         return htmlentities((string) $value, ENT_QUOTES, QuickPHP::$charset, $double_encode);
     }
@@ -159,14 +159,14 @@ class QuickPHP_html
      * @uses    url::base
      * @uses    html::attributes
      */
-    public static function file_anchor($file, $title = NULL, array $attributes = NULL, $protocol = NULL)
+    public static function file_anchor($file, $title = null, array $attributes = null, $protocol = null)
     {
-        if($title === NULL)
+        if($title === null)
         {
             $title = basename($file);
         }
 
-        $attributes['href'] = url::base(FALSE, $protocol) . $file;
+        $attributes['href'] = url::base(false, $protocol) . $file;
         return '<a' . html::attributes($attributes) . '>' . $title . '</a>';
     }
 
@@ -232,11 +232,11 @@ class QuickPHP_html
      * @uses    html::email
      * @uses    html::attributes
      */
-    public static function mailto($email, $title = NULL, array $attributes = NULL)
+    public static function mailto($email, $title = null, array $attributes = null)
     {
         $email = html::email($email);
 
-        if($title === NULL)
+        if($title === null)
         {
             $title = $email;
         }
@@ -256,9 +256,9 @@ class QuickPHP_html
      * @uses    url::base
      * @uses    html::attributes
      */
-    public static function style($file, array $attributes = NULL, $index = FALSE)
+    public static function style($file, array $attributes = null, $index = false)
     {
-        if(strpos($file, '://') === FALSE)
+        if(strpos($file, '://') === false)
         {
             $file = url::base($index) . $file;
         }
@@ -282,9 +282,9 @@ class QuickPHP_html
      * @uses    url::base
      * @uses    html::attributes
      */
-    public static function script($file, array $attributes = NULL, $index = FALSE)
+    public static function script($file, array $attributes = null, $index = false)
     {
-        if(strpos($file, '://') === FALSE)
+        if(strpos($file, '://') === false)
         {
             $file = url::base($index) . $file;
         }
@@ -306,9 +306,9 @@ class QuickPHP_html
      * @uses    url::base
      * @uses    html::attributes
      */
-    public static function image($file, array $attributes = NULL, $index = FALSE)
+    public static function image($file, array $attributes = null, $index = false)
     {
-        if(strpos($file, '://') === FALSE)
+        if(strpos($file, '://') === false)
         {
             $file = url::base($index) . $file;
         }
@@ -327,7 +327,7 @@ class QuickPHP_html
      * @param   array   attribute list
      * @return  string
      */
-    public static function attributes(array $attributes = NULL)
+    public static function attributes(array $attributes = null)
     {
         if(empty($attributes))
         {
@@ -349,7 +349,7 @@ class QuickPHP_html
 
         foreach ($attributes as $key => $value)
         {
-            if($value === NULL)
+            if($value === null)
             {
                 continue;
             }

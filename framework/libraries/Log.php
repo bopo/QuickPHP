@@ -62,7 +62,7 @@ class QuickPHP_Log
      */
     public static function instance()
     {
-        if(Log::$_instance === NULL)
+        if(Log::$_instance === null)
         {
             Log::$_instance = new Log();
             register_shutdown_function(array(Log::$_instance, 'write'));
@@ -80,10 +80,10 @@ class QuickPHP_Log
      * @param   array   写入类型
      * @return  $this
      */
-    public function attach(Log_Abstract $writer, array $types = NULL)
+    public function attach(Log_Abstract $writer, array $types = null)
     {
         $this->_writers["{$writer}"] = array('object' => $writer, 'types' => $types);
-        
+
         return $this;
     }
 
@@ -98,7 +98,7 @@ class QuickPHP_Log
     public function detach(Log_Abstract $writer)
     {
         unset($this->_writers["{$writer}"]);
-        
+
         return $this;
     }
 
@@ -112,7 +112,7 @@ class QuickPHP_Log
      * @param   array   消息替换参数
      * @return  $this
      */
-    public function add($type, $message, array $values = NULL)
+    public function add($type, $message, array $values = null)
     {
         if(Log::$timezone)
         {
@@ -130,7 +130,7 @@ class QuickPHP_Log
         }
 
         $this->_messages[] = array('time' => $time, 'type' => $type, 'body' => $message);
-        
+
         return $this;
     }
 
@@ -145,7 +145,7 @@ class QuickPHP_Log
     {
         if(empty($this->_messages))
         {
-            return TRUE;
+            return true;
         }
 
         $messages = $this->_messages;

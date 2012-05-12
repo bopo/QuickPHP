@@ -31,7 +31,7 @@
 class QuickPHP_Template_Driver_Simple implements Template_Interface
 {
 
-    protected $_config    = NULL;
+    protected $_config    = null;
     protected $_data      = array();
     protected $_delimiter = array('{{', '}}');
 
@@ -162,7 +162,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
      * @param array $_top Content Array
      * @desc Execute parsed Template
      */
-    public function render($tempate = NULL, $_top = array(), $return = TRUE)
+    public function render($tempate = null, $_top = array(), $return = true)
     {
         if( ! empty($this->_data))
         {
@@ -171,7 +171,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
         if(empty($tempate))
         {
-            throw new QuickPHP_Template_Exception('template_content_null',array($tempate));
+            throw new Template_Exception('template_content_null',array($tempate));
         }
 
         $_obj                  = $_top;
@@ -185,7 +185,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
         $buffer = ob_get_contents();
         ob_end_clean();
 
-        if((bool) $return === TRUE)
+        if((bool) $return === true)
         {
 //            require DOCROOT . 'php_speedy/libs/php_speedy/php_speedy' . EXT;
 //            $buffer = $compressor->finish($buffer);
@@ -209,23 +209,23 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
             if(empty($expire))
             {
-                return FALSE;
+                return false;
             }
 
             if($expire == -1)
             {
-                return TRUE;
+                return true;
             }
 
             $expire += filemtime($filename);
 
             if($expire > time())
             {
-                return FALSE;
+                return false;
             }
         }
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -303,7 +303,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
             }
         }
 
-        $exception = new QuickPHP_Template_Exception('template_syntax_invalid',array($tag));
+        $exception = new Template_Exception('template_syntax_invalid',array($tag));
         $exception->setLineNumber($line);
         $exception->setTemplateFile($tempate);
         throw $exception;
@@ -318,9 +318,9 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
     private function _compile($tempate, $compile)
     {
         // 编译文件过期判断
-        if($this->expired($compile) !== TRUE)
+        if($this->expired($compile) !== true)
         {
-            return TRUE;
+            return true;
         }
 
         $tempate = $this->_config['template_dir'] . $tempate . $this->_config['template_suffix'];
@@ -329,7 +329,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
         if( ! file_exists($tempate))
         {
-            throw new QuickPHP_Template_Exception('template_content_null',array($tempate));
+            throw new Template_Exception('template_content_null',array($tempate));
         }
 
         // 编译文件到缓存目录
@@ -491,9 +491,9 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
             $page = HTML_Compressor::compress($page);
         }
 
-        if(FALSE == file_put_contents($compile, $page))
+        if(false == file_put_contents($compile, $page))
         {
-            throw new QuickPHP_Template_Exception('write_error', array($tempate));
+            throw new Template_Exception('write_error', array($tempate));
         }
 
         return true;
@@ -574,7 +574,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
         if( ! is_string($tag))
         {
-            return NULL;
+            return null;
         }
 
         if(preg_match('/^(.*) >(>?) ([a-zA-Z0-9_\.]+)$/', $tag, $tagvar))

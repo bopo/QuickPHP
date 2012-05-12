@@ -106,18 +106,18 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
      * @param   string  column for values
      * @return  array
      */
-    public function as_array($key = NULL, $value = NULL)
+    public function as_array($key = null, $value = null)
     {
         $results = array();
 
-        if($key === NULL and $value === NULL)
+        if($key === null and $value === null)
         {
             foreach ($this as $row)
             {
                 $results[] = $row;
             }
         }
-        elseif($key === NULL)
+        elseif($key === null)
         {
             if($this->_as_object)
             {
@@ -134,7 +134,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
                 }
             }
         }
-        elseif($value === NULL)
+        elseif($value === null)
         {
             if($this->_as_object)
             {
@@ -183,7 +183,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
      * @param   mixed   default value if the column does not exist
      * @return  mixed
      */
-    public function get($name, $default = NULL)
+    public function get($name, $default = null)
     {
         $row = $this->current();
 
@@ -243,7 +243,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     {
         if( ! $this->seek($offset))
         {
-            return NULL;
+            return null;
         }
 
         return $this->current();
@@ -259,7 +259,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
      */
     final public function offsetSet($offset, $value)
     {
-        throw new QuickPHP_Database_Exception('Database results are read-only');
+        throw new Database_Exception('result_read_only');
     }
 
     /**
@@ -272,7 +272,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
      */
     final public function offsetUnset($offset)
     {
-        throw new QuickPHP_Database_Exception('Database results are read-only');
+        throw new Database_Exception('result_read_only');
     }
 
     /**

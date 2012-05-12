@@ -77,7 +77,7 @@ class QuickPHP_cookie
      * @param   boolean  use XSS cleaning on the value
      * @return  string
      */
-    public static function get($name, $default = NULL, $xss_clean = FALSE)
+    public static function get($name, $default = null, $xss_clean = false)
     {
         return request::cookie($name, $default, $xss_clean);
     }
@@ -90,18 +90,18 @@ class QuickPHP_cookie
      * @param   string   URL domain
      * @return  boolean
      */
-    public static function delete($name, $path = NULL, $domain = NULL)
+    public static function delete($name, $path = null, $domain = null)
     {
         if( ! isset($_COOKIE[$name]))
         {
-            return FALSE;
+            return false;
         }
 
         unset($_COOKIE[$name]);
-        return cookie::set($name, '', -86400, $path, $domain, FALSE, FALSE);
+        return cookie::set($name, '', -86400, $path, $domain, false, false);
     }
 
-    public static function remove($name, $path = NULL, $domain = NULL)
+    public static function remove($name, $path = null, $domain = null)
     {
         return cookie::delete($name, $path, $domain);
     }

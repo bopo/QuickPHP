@@ -42,7 +42,7 @@ class QuickPHP_file
     {
         if( ! (is_file($filename) and is_readable($filename)))
         {
-            return FALSE;
+            return false;
         }
 
         $extension = strtolower(substr(strrchr($filename, '.'), 1));
@@ -83,7 +83,7 @@ class QuickPHP_file
             }
         }
 
-        $mime = QuickPHP::config('mimes')->get($extension, NULL);
+        $mime = QuickPHP::config('mimes')->get($extension, null);
 
         if( ! empty($extension) and is_array($mime))
         {

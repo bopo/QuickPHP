@@ -38,10 +38,10 @@ class QuickPHP_url
      * echo url::base();
      *
      * // 绝对路径，带主机和协议
-     * echo url::base(TRUE, TRUE);
+     * echo url::base(true, true);
      *
      * // 绝对路径，带主机和自定义“https”协议
-     * echo url::base(TRUE, 'https');
+     * echo url::base(true, 'https');
      *
      * @param   boolean  是否带URL的索引文件
      * @param   mixed    协议字符串,不写则为默认
@@ -53,12 +53,12 @@ class QuickPHP_url
     {
         $domain = QuickPHP::$domain;
 
-        if($protocol === TRUE)
+        if($protocol === true)
         {
             $protocol = QuickPHP::$protocol;
         }
 
-        if($index === TRUE and ! empty(QuickPHP::$frontend))
+        if($index === true and ! empty(QuickPHP::$frontend))
         {
             $domain .= QuickPHP::$frontend . '/';
         }
@@ -86,7 +86,7 @@ class QuickPHP_url
      * @return  string
      * @uses    url::base
      */
-    public static function site($uri = '', $protocol = FALSE)
+    public static function site($uri = '', $protocol = false)
     {
         $path  = trim(parse_url($uri, PHP_URL_PATH), '/');
         $query = parse_url($uri, PHP_URL_QUERY);
@@ -119,9 +119,9 @@ class QuickPHP_url
      * @param   array   array $params
      * @return  string
      */
-    public static function build_query(array $params = NULL)
+    public static function build_query(array $params = null)
     {
-        if($params === NULL)
+        if($params === null)
         {
             $params = $_GET;
         }
@@ -130,7 +130,7 @@ class QuickPHP_url
             $params = array_merge($_GET, $params);
         }
 
-        if(empty($params)) 
+        if(empty($params))
         {
             return '';
         }
@@ -148,9 +148,9 @@ class QuickPHP_url
      */
     public static function redirect($uri = '', $method = '')
     {
-        if(strpos($uri, '://') === FALSE)
+        if(strpos($uri, '://') === false)
         {
-            $uri = url::site($uri, TRUE);
+            $uri = url::site($uri, true);
         }
 
         switch ($method)

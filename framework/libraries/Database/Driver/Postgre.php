@@ -39,7 +39,7 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
     // Pgsql uses a backtick for identifiers
     protected $_identifier        = array('"');
 
-    protected $_connection_string = NULL;
+    protected $_connection_string = null;
 
     protected $_escape_char       = '"';
 
@@ -51,17 +51,17 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
     {
         if($this->_connection)
         {
-            return TRUE;
+            return true;
         }
 
         extract($this->_config['connection'] + array(
             'database'   => '',
             'hostname'   => '',
-            'port'       => NULL,
-            'socket'     => NULL,
+            'port'       => null,
+            'socket'     => null,
             'username'   => '',
             'password'   => '',
-            'persistent' => FALSE));
+            'persistent' => false));
 
         unset($this->_config['connection']['username'], $this->_config['connection']['password']);
 
@@ -89,7 +89,7 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
         }
         catch(ErrorException $e)
         {
-            $this->_connection = NULL;
+            $this->_connection = null;
             throw $e;
         }
 
@@ -134,7 +134,7 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
     public function set_charset($charset)
     {
         $this->_connection or $this->connect();
-        return TRUE;
+        return true;
     }
 
     public function query($type, $sql, $as_object)
@@ -160,7 +160,7 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
                 Profiler::delete($benchmark);
             }
 
-            throw new QuickPHP_Database_Exception('error', array($this->_connection->lastError(), $sql));
+            throw new Database_Exception('error', array($this->_connection->lastError(), $sql));
         }
 
         if(isset($benchmark))
@@ -201,8 +201,8 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
         if(is_string($like))
         {
             $result = $this->query(Database::SELECT,
-                "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name LIKE '"
-                .$this->escape($like)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_char), FALSE);
+                "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' and table_name LIKE '"
+                .$this->escape($like)."%' ".sprintf($this->_like_escape_str, $this->_like_escape_char), false);
         }
         else
         {
@@ -219,13 +219,13 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
         return $tables;
     }
 
-    public function list_columns($table, $like = NULL)
+    public function list_columns($table, $like = null)
     {
         $table = $this->quote_table($table);
 
         if(is_string($like))
         {
-            $result = $this->query(Database::SELECT, "SELECT * FROM information_schema.columns WHERE table_name ='".$table."'" . ' LIKE ' . $this->quote($like) . '%', FALSE);
+            $result = $this->query(Database::SELECT, "SELECT * FROM information_schema.columns WHERE table_name ='".$table."'" . ' LIKE ' . $this->quote($like) . '%', false);
         }
         else
         {
@@ -299,9 +299,9 @@ class QuickPHP_Database_Driver_Postgre extends QuickPHP_Database_Abstract
     {
         $this->_connection or $this->connect();
 
-        if(($value = pg_escape_string($this->_connection, $value)) === FALSE)
+        if(($value = pg_escape_string($this->_connection, $value)) === false)
         {
-            throw new QuickPHP_Database_Exception('error', array(pg_last_notice($this->_connection)), pg_last_error($this->_connection));
+            throw new Database_Exception('error', array(pg_last_notice($this->_connection)), pg_last_error($this->_connection));
         }
 
         return "'$value'";

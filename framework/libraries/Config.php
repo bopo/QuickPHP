@@ -47,7 +47,7 @@ class QuickPHP_Config
      */
     public static function instance()
     {
-        if(self::$_instance === NULL)
+        if(self::$_instance === null)
         {
             self::$_instance = new self();
         }
@@ -59,15 +59,15 @@ class QuickPHP_Config
      * 装载一个配置驱动类型
      *
      * $config->attach($reader);        // Try first
-     * $config->attach($reader, FALSE); // Try last
+     * $config->attach($reader, false); // Try last
      *
      * @param   object   Config_Abstract instance
      * @param   boolean  驱动对象
      * @return  $this
      */
-    public function attach(Config_Abstract $reader, $first = TRUE)
+    public function attach(Config_Abstract $reader, $first = true)
     {
-        if($first === TRUE)
+        if($first === true)
         {
             array_unshift($this->_readers, $reader);
         }
@@ -87,9 +87,9 @@ class QuickPHP_Config
      * @param   object  QuickPHP_Config_Reader instance
      * @return  $this
      */
-    public function detach(QuickPHP_Config_Abstract $reader)
+    public function detach(Config_Abstract $reader)
     {
-        if(($key = array_search($reader, $this->_readers)) !== FALSE)
+        if(($key = array_search($reader, $this->_readers)) !== false)
         {
             unset($this->_readers[$key]);
         }
@@ -120,7 +120,7 @@ class QuickPHP_Config
 
         if( ! is_object($config = current($this->_readers)))
         {
-            throw new QuickPHP_Config_Exception('No configuration readers attached');
+            throw new Config_Exception('no_readers_attached');
         }
 
         return $config->load($group, array());

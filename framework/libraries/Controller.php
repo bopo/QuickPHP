@@ -35,12 +35,12 @@ abstract class QuickPHP_Controller
     /**
      * @const string 用来定义控制器是否为产品模式下运行,子类可以重载
      */
-    const ALLOW_PRODUCTION = TRUE;
+    const ALLOW_PRODUCTION = true;
 
     /**
      * @const string
      */
-    public $response = NULL;
+    public $response = null;
 
     /**
      * 控制器执行前运行的方法.

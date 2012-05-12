@@ -49,7 +49,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             return true;
         }
 
-        if(Database_Driver_Mysql::$_set_names === NULL)
+        if(Database_Driver_Mysql::$_set_names === null)
         {
             Database_Driver_Mysql::$_set_names = ! function_exists('mysql_set_charset');
         }
@@ -57,11 +57,11 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
         extract($this->_config['connection'] + array(
             'database'   => '',
             'hostname'   => '',
-            'port'       => NULL,
-            'socket'     => NULL,
+            'port'       => null,
+            'socket'     => null,
             'username'   => '',
             'password'   => '',
-            'persistent' => FALSE));
+            'persistent' => false));
 
         unset($this->_config['connection']['username'], $this->_config['connection']['password']);
 
@@ -101,7 +101,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     {
         if( ! mysql_select_db($database, $this->_connection))
         {
-            throw new QuickPHP_Database_Exception('connection', array(mysql_error($this->_connection), mysql_errno($this->_connection)));
+            throw new Database_Exception('invalid_connection', array(mysql_error($this->_connection), mysql_errno($this->_connection)));
         }
 
         self::$_current_databases[$this->_connection_id] = $database;
@@ -154,7 +154,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
 
         if($status === false)
         {
-            throw new QuickPHP_Database_Exception('error', array(mysql_error($this->_connection), mysql_errno($this->_connection)));
+            throw new Database_Exception('error', array(mysql_error($this->_connection), mysql_errno($this->_connection)));
         }
     }
 
@@ -183,7 +183,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
                 Profiler::delete($benchmark);
             }
 
-            throw new QuickPHP_Database_Exception('invalid_query', array(mysql_error($this->_connection), $sql), $sql);
+            throw new Database_Exception('invalid_query', array(mysql_error($this->_connection), $sql), $sql);
         }
 
         if(isset($benchmark))
@@ -215,35 +215,35 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     {
         static $types = array
         (
-            'blob'                      => array('type' => 'string', 'binary' => TRUE, 'character_maximum_length' => '65535'),
+            'blob'                      => array('type' => 'string', 'binary' => true, 'character_maximum_length' => '65535'),
             'bool'                      => array('type' => 'bool'),
             'bigint unsigned'           => array('type' => 'int', 'min' => '0', 'max' => '18446744073709551615'),
             'datetime'                  => array('type' => 'string'),
-            'decimal unsigned'          => array('type' => 'float', 'exact' => TRUE, 'min' => '0'),
+            'decimal unsigned'          => array('type' => 'float', 'exact' => true, 'min' => '0'),
             'double'                    => array('type' => 'float'),
             'double precision unsigned' => array('type' => 'float', 'min' => '0'),
             'double unsigned'           => array('type' => 'float', 'min' => '0'),
             'enum'                      => array('type' => 'string'),
-            'fixed'                     => array('type' => 'float', 'exact' => TRUE),
-            'fixed unsigned'            => array('type' => 'float', 'exact' => TRUE, 'min' => '0'),
+            'fixed'                     => array('type' => 'float', 'exact' => true),
+            'fixed unsigned'            => array('type' => 'float', 'exact' => true, 'min' => '0'),
             'float unsigned'            => array('type' => 'float', 'min' => '0'),
             'int unsigned'              => array('type' => 'int', 'min' => '0', 'max' => '4294967295'),
             'integer unsigned'          => array('type' => 'int', 'min' => '0', 'max' => '4294967295'),
-            'longblob'                  => array('type' => 'string', 'binary' => TRUE, 'character_maximum_length' => '4294967295'),
+            'longblob'                  => array('type' => 'string', 'binary' => true, 'character_maximum_length' => '4294967295'),
             'longtext'                  => array('type' => 'string', 'character_maximum_length' => '4294967295'),
-            'mediumblob'                => array('type' => 'string', 'binary' => TRUE, 'character_maximum_length' => '16777215'),
+            'mediumblob'                => array('type' => 'string', 'binary' => true, 'character_maximum_length' => '16777215'),
             'mediumint'                 => array('type' => 'int', 'min' => '-8388608', 'max' => '8388607'),
             'mediumint unsigned'        => array('type' => 'int', 'min' => '0', 'max' => '16777215'),
             'mediumtext'                => array('type' => 'string', 'character_maximum_length' => '16777215'),
             'national varchar'          => array('type' => 'string'),
-            'numeric unsigned'          => array('type' => 'float', 'exact' => TRUE, 'min' => '0'),
+            'numeric unsigned'          => array('type' => 'float', 'exact' => true, 'min' => '0'),
             'nvarchar'                  => array('type' => 'string'),
-            'point'                     => array('type' => 'string', 'binary' => TRUE),
+            'point'                     => array('type' => 'string', 'binary' => true),
             'real unsigned'             => array('type' => 'float', 'min' => '0'),
             'set'                       => array('type' => 'string'),
             'smallint unsigned'         => array('type' => 'int', 'min' => '0', 'max' => '65535'),
             'text'                      => array('type' => 'string', 'character_maximum_length' => '65535'),
-            'tinyblob'                  => array('type' => 'string', 'binary' => TRUE, 'character_maximum_length' => '255'),
+            'tinyblob'                  => array('type' => 'string', 'binary' => true, 'character_maximum_length' => '255'),
             'tinyint'                   => array('type' => 'int', 'min' => '-128', 'max' => '127'),
             'tinyint unsigned'          => array('type' => 'int', 'min' => '0', 'max' => '255'),
             'tinytext'                  => array('type' => 'string', 'character_maximum_length' => '255'),
@@ -264,7 +264,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
      * 数据库中的列表(non-PHPdoc)
      * @see framework/libraries/Database/QuickPHP_Database_Abstract::list_tables()
      */
-    public function list_tables($like = NULL)
+    public function list_tables($like = null)
     {
         // @todo 增加缓存
 
@@ -310,7 +310,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
      * 列出表中的字段(non-PHPdoc)
      * @see framework/libraries/Database/QuickPHP_Database_Abstract::list_columns()
      */
-    public function list_columns($table, $like = NULL)
+    public function list_columns($table, $like = null)
     {
         $table = $this->quote_table($table);
 
@@ -334,7 +334,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             }
         }
 
-        $result  = $this->query(Database::SELECT, $sql, FALSE);
+        $result  = $this->query(Database::SELECT, $sql, false);
         $count   = 0;
         $columns = array();
 
@@ -347,7 +347,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $column['column_name']      = $row['Field'];
             $column['column_default']   = $row['Default'];
             $column['data_type']        = $type;
-            $column['is_nullable']      = ($row['Null'] == 'YES');
+            $column['is_nullable']      = ($row['null'] == 'YES');
             $column['ordinal_position'] = ++$count;
 
             switch ($column['type'])
@@ -413,9 +413,9 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     {
         $this->_connection or $this->connect();
 
-        if(($value = mysql_real_escape_string((string) $value, $this->_connection)) === FALSE)
+        if(($value = mysql_real_escape_string((string) $value, $this->_connection)) === false)
         {
-            throw new QuickPHP_Database_Exception('error', array(mysql_error($this->_connection)));
+            throw new Database_Exception('error', array(mysql_error($this->_connection)));
         }
 
         return "'$value'";

@@ -33,6 +33,6 @@ class QuickPHP_Captcha_Controller extends QuickPHP_Controller
     public function __call($method, $args)
     {
         $method = ($method == 'index') ? 'default' : $method;
-        Captcha::factory($method)->render(FALSE);
+        Captcha::factory($method)->render(false);
     }
 }

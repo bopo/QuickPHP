@@ -27,14 +27,14 @@
  * @copyright  (c) 2007 Quick
  * @license    http://www.quickphp.net/licenses/
  */
-function _substr_replace($str, $replacement, $offset, $length = NULL)
+function _substr_replace($str, $replacement, $offset, $length = null)
 {
     if(Unicode::is_ascii($str))
     {
-        return ($length === NULL) ? substr_replace($str, $replacement, $offset) : substr_replace($str, $replacement, $offset, $length);
+        return ($length === null) ? substr_replace($str, $replacement, $offset) : substr_replace($str, $replacement, $offset, $length);
     }
 
-    $length = ($length === NULL) ? Unicode::strlen($str) : (int) $length;
+    $length = ($length === null) ? Unicode::strlen($str) : (int) $length;
 
     preg_match_all('/./us', $str, $str_array);
     preg_match_all('/./us', $replacement, $replacement_array);

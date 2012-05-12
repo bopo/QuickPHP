@@ -39,16 +39,16 @@ class QuickPHP_form
      * @param   array   hidden fields to be created immediately after the form tag
      * @return  string
      */
-    public static function open($action = NULL, $attr = array(), $hidden = NULL)
+    public static function open($action = null, $attr = array(), $hidden = null)
     {
         empty($attr['method']) and $attr['method'] = 'post';
 
-        if ($attr['method'] !== 'post' AND $attr['method'] !== 'get')
+        if ($attr['method'] !== 'post' and $attr['method'] !== 'get')
         {
             $attr['method'] = 'post';
         }
 
-        if ($action === NULL)
+        if ($action === null)
         {
             $action = url::site(Router::$complete_uri);
         }
@@ -74,7 +74,7 @@ class QuickPHP_form
      * @param   array   hidden fields to be created immediately after the form tag
      * @return  string
      */
-    public static function open_multipart($action = NULL, $attr = array(), $hidden = array())
+    public static function open_multipart($action = null, $attr = array(), $hidden = array())
     {
         $attr['enctype'] = 'multipart/form-data';
         return form::open($action, $attr, $hidden);
@@ -87,7 +87,7 @@ class QuickPHP_form
      * @param   string  a string to be attached to the end of the attributes
      * @return  string
      */
-    public static function open_fieldset($data = NULL, $extra = '')
+    public static function open_fieldset($data = null, $extra = '')
     {
         return '<fieldset' . html::attributes((array) $data) . ' ' . $extra . '>' . "\n";
     }
@@ -110,7 +110,7 @@ class QuickPHP_form
      * @param   string  a string to be attached to the end of the attributes
      * @return  string
      */
-    public static function legend($text = '', $data = NULL, $extra = '')
+    public static function legend($text = '', $data = null, $extra = '')
     {
         return '<legend' . form::attributes((array) $data) . ' ' . $extra . '>' . $text . '</legend>' . "\n";
     }
@@ -218,7 +218,7 @@ class QuickPHP_form
      * @param   boolean       encode existing entities
      * @return  string
      */
-    public static function textarea($data, $value = '', $extra = '', $double_encode = TRUE)
+    public static function textarea($data, $value = '', $extra = '', $double_encode = true)
     {
         if ( ! is_array($data))
         {
@@ -241,7 +241,7 @@ class QuickPHP_form
      * @param   string        a string to be attached to the end of the attributes
      * @return  string
      */
-    public static function select($data, $options = NULL, $selected = NULL, $extra = '')
+    public static function select($data, $options = null, $selected = null, $extra = '')
     {
         if ( ! is_array($data))
         {
@@ -318,7 +318,7 @@ class QuickPHP_form
 
         $data['type'] = 'checkbox';
 
-        if ($checked == TRUE OR (isset($data['checked']) AND $data['checked'] == TRUE))
+        if ($checked == true OR (isset($data['checked']) and $data['checked'] == true))
         {
             $data['checked'] = 'checked';
         }
@@ -348,7 +348,7 @@ class QuickPHP_form
 
         $data['type'] = 'radio';
 
-        if ($checked == TRUE OR (isset($data['checked']) AND $data['checked'] == TRUE))
+        if ($checked == true OR (isset($data['checked']) and $data['checked'] == true))
         {
             $data['checked'] = 'checked';
         }
@@ -405,7 +405,7 @@ class QuickPHP_form
             unset($data['name']);
         }
 
-        if (isset($data['value']) AND empty($value))
+        if (isset($data['value']) and empty($value))
         {
             $value = arr::remove('value', $data);
         }
@@ -432,7 +432,7 @@ class QuickPHP_form
      * @param   string        a string to be attached to the end of the attributes
      * @return  string
      */
-    public static function label($data = '', $text = NULL, $extra = '')
+    public static function label($data = '', $text = null, $extra = '')
     {
         if ( ! is_array($data))
         {
@@ -446,7 +446,7 @@ class QuickPHP_form
             }
         }
 
-        if ($text === NULL AND isset($data['for']))
+        if ($text === null and isset($data['for']))
         {
             $text = ucwords(inflector::humanize($data['for']));
         }
@@ -461,16 +461,16 @@ class QuickPHP_form
      * @param   array   HTML attributes array
      * @return  string
      */
-    public static function attributes($attr, $type = NULL)
+    public static function attributes($attr, $type = null)
     {
         if (empty($attr))
         {
             return '';
         }
 
-        if (isset($attr['name']) AND empty($attr['id']) AND strpos($attr['name'], '[') === false)
+        if (isset($attr['name']) and empty($attr['id']) and strpos($attr['name'], '[') === false)
         {
-            if ($type === NULL AND ! empty($attr['type']))
+            if ($type === null and ! empty($attr['type']))
             {
                 $type = $attr['type'];
             }

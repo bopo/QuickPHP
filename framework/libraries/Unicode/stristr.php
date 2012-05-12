@@ -33,16 +33,21 @@ function _stristr($str, $search)
     {
         return stristr($str, $search);
     }
+
     if($search == '')
     {
         return $str;
     }
+
     $str_lower = Unicode::strtolower($str);
     $search_lower = Unicode::strtolower($search);
+
     preg_match('/^(.*?)' . preg_quote($search, '/') . '/s', $str_lower, $matches);
+
     if(isset($matches[1]))
     {
         return substr($str, strlen($matches[1]));
     }
-    return FALSE;
+
+    return false;
 }

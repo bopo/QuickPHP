@@ -122,7 +122,7 @@ class QuickPHP_Template
 
         if( ! isset($config->$group))
         {
-            throw new QuickPHP_Template_Exception('undefined_group', array($group));
+            throw new QuickPHP_Exception('undefined_group', array($group));
         }
 
         foreach ($config->$group as $key => $value)
@@ -138,7 +138,7 @@ class QuickPHP_Template
 
         if( ! ($this->driver instanceof QuickPHP_Template_Interface))
         {
-            throw new QuickPHP_Template_Exception('core.driver_implements' , array($config['style'], get_class($this)));
+            throw new QuickPHP_Exception('driver_implements' , array($config['style'], get_class($this)));
         }
     }
 
@@ -275,18 +275,18 @@ class QuickPHP_Template
 
 
     /**
-     * 压缩html : 清除换行符,清除制表符,去掉注释标记  
-     * @param   $string  
-     * @return  压缩后的$string 
+     * 压缩html : 清除换行符,清除制表符,去掉注释标记
+     * @param   $string
+     * @return  压缩后的$string
      * */
-    protected static function compress_html($string) 
-    {  
+    protected static function compress_html($string)
+    {
         $string = str_replace("\t", '', $string); //清除制表符
         $string = preg_replace('/\/\*.*?\*\//si', '', $string);
         $string = preg_replace('/<!--\s*[^\[].*?[^\/\/]-->/m', '', $string);
         $string = preg_replace('/^\s+/m', '', $string);
         $string = preg_replace('/\s+$/m', '', $string);
-        
-        return $string;  
-    } 
+
+        return $string;
+    }
 }

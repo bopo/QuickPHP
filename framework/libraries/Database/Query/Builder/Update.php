@@ -26,7 +26,7 @@
  * @author      BoPo <ibopo@126.com>
  * @copyright Copyright &copy; 2010 QuickPHP
  * @license http://www.quickphp.net/license/
- * @version    $Id: Update.php 8320 2011-10-05 14:59:55Z bopo $ 
+ * @version    $Id: Update.php 8320 2011-10-05 14:59:55Z bopo $
  */
 class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Builder_Where
 {
@@ -111,7 +111,7 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
 
     public function reset()
     {
-        $this->_table      = NULL;
+        $this->_table      = null;
         $this->_set        = array();
         $this->_where      = array();
         $this->_parameters = array();

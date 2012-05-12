@@ -38,11 +38,11 @@ class QuickPHP_uri
      * @param   mixed           default value returned if segment does not exist
      * @return  string
      */
-    public static function segment($index = 1, $default = FALSE)
+    public static function segment($index = 1, $default = false)
     {
         if(is_string($index))
         {
-            if(($key = array_search($index, QuickPHP::route()->segments)) === FALSE)
+            if(($key = array_search($index, QuickPHP::route()->segments)) === false)
             {
                 return $default;
             }
@@ -62,11 +62,11 @@ class QuickPHP_uri
      * @param   mixed           default value returned if segment does not exist
      * @return  string
      */
-    public static function rsegment($index = 1, $default = FALSE)
+    public static function rsegment($index = 1, $default = false)
     {
         if(is_string($index))
         {
-            if(($key = array_search($index, QuickPHP::route()->rsegments)) === FALSE)
+            if(($key = array_search($index, QuickPHP::route()->rsegments)) === false)
             {
                 return $default;
             }
@@ -86,11 +86,11 @@ class QuickPHP_uri
      * @param   mixed           default value returned if segment does not exist
      * @return  string
      */
-    public static function argument($index = 1, $default = FALSE)
+    public static function argument($index = 1, $default = false)
     {
         if(is_string($index))
         {
-            if(($key = array_search($index, QuickPHP::route()->arguments)) === FALSE)
+            if(($key = array_search($index, QuickPHP::route()->arguments)) === false)
             {
                 return $default;
             }
@@ -110,7 +110,7 @@ class QuickPHP_uri
      * @param   boolean  return an associative array
      * @return  array
      */
-    public static function segment_array($offset = 0, $associative = FALSE)
+    public static function segment_array($offset = 0, $associative = false)
     {
         return $this->build_array(QuickPHP::route()->segments, $offset, $associative);
     }
@@ -122,7 +122,7 @@ class QuickPHP_uri
      * @param   boolean  return an associative array
      * @return  array
      */
-    public function rsegment_array($offset = 0, $associative = FALSE)
+    public function rsegment_array($offset = 0, $associative = false)
     {
         return $this->build_array(QuickPHP::route()->rsegments, $offset, $associative);
     }
@@ -134,7 +134,7 @@ class QuickPHP_uri
      * @param   boolean  return an associative array
      * @return  array
      */
-    public static function argument_array($offset = 0, $associative = FALSE)
+    public static function argument_array($offset = 0, $associative = false)
     {
         return $this->build_array(QuickPHP::route()->arguments, $offset, $associative);
     }
@@ -147,13 +147,13 @@ class QuickPHP_uri
      * @param   boolean  create an associative array
      * @return  array
      */
-    public static function build_array($array, $offset = 0, $associative = FALSE)
+    public static function build_array($array, $offset = 0, $associative = false)
     {
         array_unshift($array, 0);
 
-        $array = array_slice($array, $offset + 1, count($array) - 1, TRUE);
+        $array = array_slice($array, $offset + 1, count($array) - 1, true);
 
-        if($associative === FALSE)
+        if($associative === false)
         {
             return $array;
         }
@@ -225,7 +225,7 @@ class QuickPHP_uri
      * @param   mixed   default value returned if segment does not exist
      * @return  string
      */
-    public static function last_segment($default = FALSE)
+    public static function last_segment($default = false)
     {
         if(($end = $this->total_segments()) < 1)
         {
@@ -241,7 +241,7 @@ class QuickPHP_uri
      * @param   mixed   default value returned if segment does not exist
      * @return  string
      */
-    public static function last_rsegment($default = FALSE)
+    public static function last_rsegment($default = false)
     {
         if(($end = $this->total_segments()) < 1)
         {
@@ -257,7 +257,7 @@ class QuickPHP_uri
      * @param   boolean  return a full url, or only the path specifically
      * @return  string
      */
-    public static function controller_path($full = TRUE)
+    public static function controller_path($full = true)
     {
         return ($full) ? url::site(QuickPHP::route()->controller_path) : QuickPHP::route()->controller_path;
     }
@@ -268,7 +268,7 @@ class QuickPHP_uri
      * @param   boolean  return a full url, or only the controller specifically
      * @return  string
      */
-    public static function controller($full = TRUE)
+    public static function controller($full = true)
     {
         return ($full) ? url::site(QuickPHP::route()->controller_path . QuickPHP::route()->controller) : QuickPHP::route()->controller;
     }
@@ -279,7 +279,7 @@ class QuickPHP_uri
      * @param   boolean  return a full url, or only the method specifically
      * @return  string
      */
-    public static function method($full = TRUE)
+    public static function method($full = true)
     {
         return ($full) ? url::site(QuickPHP::route()->controller_path . QuickPHP::route()->controller . '/' . QuickPHP::route()->method) : QuickPHP::route()->method;
     }
@@ -339,12 +339,12 @@ class QuickPHP_uri
 
             foreach ($default as $val)
             {
-                $retval[$val] = FALSE;
+                $retval[$val] = false;
             }
 
             return $retval;
         }
-        
+
         $segments = array_slice($this->$segment_array(), ($n - 1));
         $i        = 0;
         $lastval  = '';
@@ -358,7 +358,7 @@ class QuickPHP_uri
             }
             else
             {
-                $retval[$seg] = FALSE;
+                $retval[$seg] = false;
                 $lastval = $seg;
             }
 
@@ -371,7 +371,7 @@ class QuickPHP_uri
             {
                 if( ! array_key_exists($val, $retval))
                 {
-                    $retval[$val] = FALSE;
+                    $retval[$val] = false;
                 }
             }
         }

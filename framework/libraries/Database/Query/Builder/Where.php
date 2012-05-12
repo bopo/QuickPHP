@@ -26,17 +26,17 @@
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
- * @version     $Id: Where.php 8320 2011-10-05 14:59:55Z bopo $ 
+ * @version     $Id: Where.php 8320 2011-10-05 14:59:55Z bopo $
  */
 abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Query_Builder
 {
 
     // WHERE ...
     protected $_where    = array();
-    
+
     // LIMIT ...
-    protected $_limit    = NULL;
-    
+    protected $_limit    = null;
+
     // ORDER BY ...
     protected $_order_by = array();
 
@@ -152,7 +152,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
      * @param   string  direction of sorting
      * @return  $this
      */
-    public function order_by($column, $direction = NULL)
+    public function order_by($column, $direction = null)
     {
         $this->_order_by[] = array($column, $direction);
         return $this;

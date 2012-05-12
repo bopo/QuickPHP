@@ -58,7 +58,7 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
      */
     public function open($path, $name)
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -68,7 +68,7 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
      */
     public function close()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -99,7 +99,7 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
 
         if(strlen($data) > 4048)
         {
-            return FALSE;
+            return false;
         }
 
         return cookie::set($this->cookie_name, $data, QuickPHP::config('session')->get('expiration'));

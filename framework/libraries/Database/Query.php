@@ -42,9 +42,9 @@ class QuickPHP_Database_Query
 
     // Quoted query parameters
     protected $_parameters = array();
-    
+
     // Return results as associative arrays or objects
-    protected $_as_object  = FALSE;
+    protected $_as_object  = false;
 
     /**
      * Creates a new SQL query of the specified type.
@@ -92,7 +92,7 @@ class QuickPHP_Database_Query
      * @param   integer  number of seconds to cache or null for default
      * @return  $this
      */
-    public function cached($lifetime = NULL)
+    public function cached($lifetime = null)
     {
         $this->_lifetime = $lifetime;
         return $this;
@@ -105,17 +105,17 @@ class QuickPHP_Database_Query
      */
     public function as_assoc()
     {
-        $this->_as_object = FALSE;
+        $this->_as_object = false;
         return $this;
     }
 
     /**
      * Returns results as objects
      *
-     * @param   string  classname or TRUE for stdClass
+     * @param   string  classname or true for stdClass
      * @return  $this
      */
-    public function as_object($class = TRUE)
+    public function as_object($class = true)
     {
         $this->_as_object = $class;
         return $this;
@@ -187,7 +187,7 @@ class QuickPHP_Database_Query
      * @return  mixed    the insert id for INSERT queries
      * @return  integer  number of affected rows for all other queries
      */
-    public function execute($db = NULL)
+    public function execute($db = null)
     {
         if( ! is_object($db))
         {
@@ -199,7 +199,7 @@ class QuickPHP_Database_Query
         if( ! empty($this->_lifetime) and $this->_type === Database::SELECT)
         {
             $cache_key = 'Database::query("' . $db . '", "' . $sql . '")';
-            $result    = QuickPHP::cache($cache_key, NULL, $this->_lifetime);
+            $result    = QuickPHP::cache($cache_key, null, $this->_lifetime);
 
             if( ! empty($result))
             {

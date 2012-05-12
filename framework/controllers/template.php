@@ -23,7 +23,7 @@
  *
  * @category    QuickPHP
  * @package     Controller
- * @subpackage  Template_Controller 
+ * @subpackage  Template_Controller
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
@@ -34,17 +34,17 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
     /**
      * @const string 允许所有控制装置都运行在生产模式下
      */
-    const ALLOW_PRODUCTION = TRUE;
+    const ALLOW_PRODUCTION = true;
 
     /**
      * @var  boolean  自动渲染模板
      */
-    public $auto_render    = TRUE;
+    public $auto_render    = true;
 
     /**
      * @var  string  模板名称
      */
-    public $template       = NULL;
+    public $template       = null;
 
     /**
      * @var  string  输出MIME类型
@@ -55,7 +55,7 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
      * @var  string  模板的子路径
      */
     public $directory      = '';
-    public $view           = NULL;
+    public $view           = null;
 
     /**
      * 构造函数，加载模板引擎
@@ -64,8 +64,8 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
      */
     public function __construct()
     {
-        // 判断如果自动渲染开关为TRUE，并初始化模板引擎
-        if($this->auto_render === TRUE)
+        // 判断如果自动渲染开关为true，并初始化模板引擎
+        if($this->auto_render === true)
         {
             $this->view = Template::instance();
         }
@@ -91,7 +91,7 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
             header('Content-Type: ' . $mime[0]);
         }
 
-        if($this->auto_render === TRUE )
+        if($this->auto_render === true )
         {
             if(empty($this->template))
             {

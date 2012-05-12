@@ -705,7 +705,7 @@ class QuickPHP
         $ext  = ($ext === null) ? EXT : '.' . $ext;
         $path = $dir . '/' . $file . $ext;
 
-        if(QuickPHP::$caching === true AND isset(QuickPHP::$_files[$path]))
+        if(QuickPHP::$caching === true and isset(QuickPHP::$_files[$path]))
         {
             return QuickPHP::$_files[$path];
         }
@@ -802,8 +802,8 @@ class QuickPHP
     public static function config($group)
     {
         $cache_key = "QuickPHP::cache()";
-     
-        if (QuickPHP::$_config == null) 
+
+        if (QuickPHP::$_config == null)
         {
             QuickPHP::$config = QuickPHP::cache($cache_key);
         }
@@ -853,7 +853,7 @@ class QuickPHP
     public static function cache($name, $data = null, $lifetime = 60)
     {
         QuickPHP::$cache_dir = empty(QuickPHP::$cache_dir) ? RUNTIME . '_caching' : QuickPHP::$cache_dir;
-     
+
         $file = sha1("QuickPHP::cache({$name})") . '.txt';
         $dir  = rtrim(QuickPHP::$cache_dir, '/') . '/' . strtoupper(substr($file,0,2)) . '/';
 
@@ -923,7 +923,7 @@ class QuickPHP
      */
     public static function message($file, $path = null, $default = null)
     {
-        if( isset(QuickPHP::$_messages[$file]) AND (QuickPHP::$caching === true))
+        if( isset(QuickPHP::$_messages[$file]) and (QuickPHP::$caching === true))
         {
             // 设置缓存
         }

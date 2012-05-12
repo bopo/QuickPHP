@@ -36,7 +36,7 @@ function _str_split($str, $split_length = 1)
     }
     if($split_length < 1)
     {
-        return FALSE;
+        return false;
     }
     if(Unicode::strlen($str) <= $split_length)
     {

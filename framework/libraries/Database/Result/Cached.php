@@ -31,7 +31,7 @@
 class QuickPHP_Database_Result_Cached extends QuickPHP_Database_Result
 {
 
-    public function __construct(array $result, $sql, $as_object = NULL)
+    public function __construct(array $result, $sql, $as_object = null)
     {
         parent::__construct($result, $sql, $as_object);
         $this->_total_rows = count($result);

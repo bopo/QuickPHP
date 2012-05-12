@@ -60,23 +60,23 @@ class QuickPHP_Database
      * @param   array    配置参数
      * @return  Database
      */
-    public static function instance($name = NULL, array $config = NULL)
+    public static function instance($name = null, array $config = null)
     {
-        if($name === NULL)
+        if($name === null)
         {
             $name = Database::$default;
         }
 
         if( ! isset(Database::$_instances[$name]))
         {
-            if($config === NULL)
+            if($config === null)
             {
                 $config = QuickPHP::config('database')->get($name, array());
             }
 
             if( ! isset($config['type']))
             {
-                throw new QuickPHP_Database_Exception("Database type not defined in {$name} configuration");
+                throw new Database_Exception("undefined_group");
             }
 
             $driver = 'Database_Driver_' . ucfirst($config['type']);
@@ -123,7 +123,7 @@ class QuickPHP_Database
      * @param   ...
      * @return  Database_Query_Builder_Select
      */
-    public static function select($columns = NULL)
+    public static function select($columns = null)
     {
         return new Database_Query_Builder_Select(func_get_args());
     }
@@ -138,7 +138,7 @@ class QuickPHP_Database
      * @param   array   columns to select
      * @return  Database_Query_Builder_Select
      */
-    public static function select_array(array $columns = NULL)
+    public static function select_array(array $columns = null)
     {
         return new Database_Query_Builder_Select($columns);
     }
@@ -154,7 +154,7 @@ class QuickPHP_Database
      * @param   array   list of column names or array($column, $alias) or object
      * @return  Database_Query_Builder_Insert
      */
-    public static function insert($table, array $columns = NULL)
+    public static function insert($table, array $columns = null)
     {
         return new Database_Query_Builder_Insert($table, $columns);
     }

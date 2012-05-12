@@ -42,7 +42,7 @@ abstract class QuickPHP_Model
      * @param   mixed    Database instance object or string
      * @return  Model
      */
-    public static function factory($name, $db = NULL)
+    public static function factory($name, $db = null)
     {
         $class = "{$name}_Model";
         return new $class($db);
@@ -56,9 +56,9 @@ abstract class QuickPHP_Model
      * @param   mixed  数据库实例或者数据库配置组
      * @return  void
      */
-    public function __construct($db = NULL)
+    public function __construct($db = null)
     {
-        if($db !== NULL)
+        if($db !== null)
         {
             $this->_db = $db;
         }

@@ -43,16 +43,16 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
     public function connect()
     {
         if($this->_connection)
-            return TRUE;
+            return true;
 
         extract($this->_config['connection'] + array(
             'database'   => '',
             'hostname'   => '',
-            'port'       => NULL,
-            'socket'     => NULL,
+            'port'       => null,
+            'socket'     => null,
             'username'   => '',
             'password'   => '',
-            'persistent' => FALSE));
+            'persistent' => false));
 
         unset($this->_config['connection']['username'], $this->_config['connection']['password']);
 
@@ -70,7 +70,7 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
         catch(SQLiteException $e)
         {
 
-            $this->_connection = NULL;
+            $this->_connection = null;
             throw $e;
         }
 
@@ -85,14 +85,14 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
      */
     protected function _select_db($database)
     {
-        return TRUE;
+        return true;
     }
 
     public function disconnect()
     {
         try
         {
-            $status = TRUE;
+            $status = true;
 
             if(is_resource($this->_connection))
             {
@@ -100,7 +100,7 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
 
                 if( ! empty($status))
                 {
-                    $this->_connection = NULL;
+                    $this->_connection = null;
                 }
             }
         }
@@ -115,7 +115,7 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
     public function set_charset($charset)
     {
         $this->_connection or $this->connect();
-        return TRUE;
+        return true;
     }
 
     public function query($type, $sql, $as_object)
@@ -127,12 +127,12 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
             $benchmark = Profiler::start("Database ({$this->_instance})", $sql);
         }
 
-        if( ! empty($this->_config['connection']['persistent']) AND $this->_config['connection']['database'] !== self::$_current_databases[$this->_connection_id])
+        if( ! empty($this->_config['connection']['persistent']) and $this->_config['connection']['database'] !== self::$_current_databases[$this->_connection_id])
         {
             $this->_select_db($this->_config['connection']['database']);
         }
 
-        $error_message = NULL;
+        $error_message = null;
 
         $result = sqlite_query($this->_connection, $sql, SQLITE_ASSOC);
 
@@ -143,7 +143,7 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
                 Profiler::delete($benchmark);
             }
 
-            throw new QuickPHP_Database_Exception('error', array($this->_connection->lastError(), $sql));
+            throw new Database_Exception('error', array($this->_connection->lastError(), $sql));
         }
 
         if(isset($benchmark))
@@ -172,15 +172,15 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
         return parent::datatype($type);
     }
 
-    public function list_tables($like = NULL)
+    public function list_tables($like = null)
     {
         if(is_string($like))
         {
-            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE [type]='table'", FALSE);
+            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE [type]='table'", false);
         }
         else
         {
-            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE [type]='table'", FALSE);
+            $result = $this->query(Database::SELECT, "SELECT name from [sqlite_master] WHERE [type]='table'", false);
         }
 
         $tables = array();
@@ -193,15 +193,15 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
         return $tables;
     }
 
-    public function list_columns($table, $like = NULL)
+    public function list_columns($table, $like = null)
     {
         if(is_string($like))
         {
-            $result = $this->query(Database::SELECT, 'SELECT * FROM ' . $this->quote_table($table) . ' LIKE ' . $this->quote($like) . ' LIMIT 1', FALSE);
+            $result = $this->query(Database::SELECT, 'SELECT * FROM ' . $this->quote_table($table) . ' LIKE ' . $this->quote($like) . ' LIMIT 1', false);
         }
         else
         {
-            $result = $this->query(Database::SELECT, 'SELECT * FROM ' . $this->quote_table($table) . ' LIMIT 1', FALSE);
+            $result = $this->query(Database::SELECT, 'SELECT * FROM ' . $this->quote_table($table) . ' LIMIT 1', false);
         }
 
         $columns = sqlite_fetch_column_types($table, $this->_connection ,SQLITE_ASSOC);//->fetchColumnTypes($table, SQLITE_ASSOC);
@@ -268,9 +268,9 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
         $this->_connection or $this->connect();
         $value = (sqlite_escape_string($value));
 
-        if( (bool) ($value = sqlite_escape_string($value)) === FALSE)
+        if( (bool) ($value = sqlite_escape_string($value)) === false)
         {
-            throw new QuickPHP_Database_Exception('error', array(sqlite_last_error($this->_connection)), $sql);
+            throw new Database_Exception('error', array(sqlite_last_error($this->_connection)), $sql);
         }
 
         return "'$value'";

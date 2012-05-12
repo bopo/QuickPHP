@@ -140,7 +140,7 @@ class QuickPHP_Router
      */
     public function __toString()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -198,7 +198,7 @@ class QuickPHP_Router
         {
             if( ! isset($this->_routes['_default']))
             {
-                throw new QuickPHP_Exception('route.not_default', array($this->segments));
+                throw new QuickPHP_Exception('no_default_route', array($this->segments));
             }
 
             $this->current_uri = $this->_routes['_default'];
@@ -264,7 +264,7 @@ class QuickPHP_Router
 
         if($this->controller === null)
         {
-            throw new QuickPHP_Exception('route.not_controller', $this->segments, 404);
+            throw new QuickPHP_Exception('no_controller', $this->segments, 404);
         }
     }
 
@@ -318,17 +318,17 @@ class QuickPHP_Router
             $query_string      = explode("?", $_SERVER['QUERY_STRING']);
             $this->current_uri = ltrim(current($query_string), '/');
 
-            if (is_array($query_string)) 
+            if (is_array($query_string))
             {
                 array_shift($query_string);
                 $query_string = implode("&", $query_string);
             }
 
             $_SERVER['QUERY_STRING'] = $query_string;
-            
+
             // reset $_GET
             parse_str($query_string, $_GET);
-        } 
+        }
 
         if(($strpos_fc = strpos($this->current_uri, EXT)) !== false)
         {

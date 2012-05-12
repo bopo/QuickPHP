@@ -239,7 +239,7 @@ class QuickPHP_dir extends Directory
      * @param bool $top_level_only  是否只遍历顶层结构开关
      * @param $hidden               是否隐藏“.”和“..”
      */
-    public static function map($source_dir, $top_level_only = FALSE, $hidden = FALSE)
+    public static function map($source_dir, $top_level_only = false, $hidden = false)
     {
         if((bool) ($fp = opendir($source_dir)))
         {
@@ -249,12 +249,12 @@ class QuickPHP_dir extends Directory
 
             foreach($files as $file)
             {
-                if(($hidden == FALSE && strncmp($file, '.', 1) == 0) or ($file == '.' or $file == '..'))
+                if(($hidden == false && strncmp($file, '.', 1) == 0) or ($file == '.' or $file == '..'))
                 {
                     continue;
                 }
 
-                if($top_level_only == FALSE && @is_dir($source_dir . $file))
+                if($top_level_only == false && @is_dir($source_dir . $file))
                 {
                     $temp_array = array();
                     $temp_array = dir::map(dir::fix($source_dir . $file), $top_level_only, $hidden);
@@ -269,7 +269,7 @@ class QuickPHP_dir extends Directory
             return $filedata;
         }
 
-        return FALSE;
+        return false;
     }
 
 }

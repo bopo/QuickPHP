@@ -44,17 +44,17 @@
  * @copyright  (c) 2007 Quick Team
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
-if( ! preg_match('/^.$/u', 'ñ')) 
+if( ! preg_match('/^.$/u', 'ñ'))
 {
     trigger_error('<a href="http://php.net/pcre">PCRE</a> has not been compiled with UTF-8 support. ' . 'See <a href="http://php.net/manual/reference.pcre.pattern.modifiers.php">PCRE Pattern Modifiers</a> ' . 'for more information. This application cannot be run without UTF-8 support.', E_USER_ERROR);
 }
 
-if( ! extension_loaded('iconv')) 
+if( ! extension_loaded('iconv'))
 {
     trigger_error('The <a href="http://php.net/iconv">iconv</a> extension is not loaded. ' . 'Without iconv, strings cannot be properly translated to UTF-8 from user input. ' . 'This application cannot be run without UTF-8 support.', E_USER_ERROR);
 }
 
-if(extension_loaded('mbstring') and (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING)) 
+if(extension_loaded('mbstring') and (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING))
 {
     trigger_error('The <a href="http://php.net/mbstring">mbstring</a> extension is overloading PHP\'s native string functions. ' . 'Disable this by setting mbstring.func_overload to 0, 1, 4 or 5 in php.ini or a .htaccess file.' . 'This application cannot be run without UTF-8 support.', E_USER_ERROR);
 }
@@ -66,11 +66,11 @@ error_reporting($ER);
 if(extension_loaded('mbstring'))
 {
     mb_internal_encoding('UTF-8');
-    define('SERVER_UTF8', TRUE);
+    define('SERVER_UTF8', true);
 }
 else
 {
-    define('SERVER_UTF8', FALSE);
+    define('SERVER_UTF8', false);
 }
 
 if(PHP_SAPI == 'cli')
@@ -164,7 +164,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _transliterate_to_ascii($str, $case);
@@ -182,7 +182,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strlen($str);
@@ -198,14 +198,14 @@ class QuickPHP_Unicode
      * @param   string   needle
      * @param   integer  offset from which character in haystack to start searching
      * @return  integer  position of needle
-     * @return  boolean  FALSE if the needle is not found
+     * @return  boolean  false if the needle is not found
      */
     public static function strpos($str, $search, $offset = 0)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strpos($str, $search, $offset);
@@ -221,14 +221,14 @@ class QuickPHP_Unicode
      * @param   string   needle
      * @param   integer  offset from which character in haystack to start searching
      * @return  integer  position of needle
-     * @return  boolean  FALSE if the needle is not found
+     * @return  boolean  false if the needle is not found
      */
     public static function strrpos($str, $search, $offset = 0)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strrpos($str, $search, $offset);
@@ -245,12 +245,12 @@ class QuickPHP_Unicode
      * @param   integer  length limit
      * @return  string
      */
-    public static function substr($str, $offset, $length = NULL)
+    public static function substr($str, $offset, $length = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _substr($str, $offset, $length);
@@ -267,12 +267,12 @@ class QuickPHP_Unicode
      * @param   integer  offset
      * @return  string
      */
-    public static function substr_replace($str, $replacement, $offset, $length = NULL)
+    public static function substr_replace($str, $replacement, $offset, $length = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _substr_replace($str, $replacement, $offset, $length);
@@ -292,7 +292,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strtolower($str);
@@ -312,7 +312,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strtoupper($str);
@@ -332,7 +332,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _ucfirst($str);
@@ -352,7 +352,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _ucwords($str);
@@ -375,7 +375,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strcasecmp($str1, $str2);
@@ -396,12 +396,12 @@ class QuickPHP_Unicode
      * @return  string        if the input was a string
      * @return  array         if the input was an array
      */
-    public static function str_ireplace($search, $replace, $str, & $count = NULL)
+    public static function str_ireplace($search, $replace, $str, & $count = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _str_ireplace($search, $replace, $str, $count);
@@ -417,14 +417,14 @@ class QuickPHP_Unicode
      * @param   string   input string
      * @param   string   needle
      * @return  string   matched substring if found
-     * @return  boolean  FALSE if the substring was not found
+     * @return  boolean  false if the substring was not found
      */
     public static function stristr($str, $search)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _stristr($str, $search);
@@ -442,12 +442,12 @@ class QuickPHP_Unicode
      * @param   integer  length of the string to examine
      * @return  integer  length of the initial segment that contains characters in the mask
      */
-    public static function strspn($str, $mask, $offset = NULL, $length = NULL)
+    public static function strspn($str, $mask, $offset = null, $length = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strspn($str, $mask, $offset, $length);
@@ -465,12 +465,12 @@ class QuickPHP_Unicode
      * @param   integer  length of the string to examine
      * @return  integer  length of the initial segment that contains characters not in the mask
      */
-    public static function strcspn($str, $mask, $offset = NULL, $length = NULL)
+    public static function strcspn($str, $mask, $offset = null, $length = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strcspn($str, $mask, $offset, $length);
@@ -493,7 +493,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _str_pad($str, $final_str_length, $pad_str, $pad_type);
@@ -514,7 +514,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _str_split($str, $split_length);
@@ -534,7 +534,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _strrev($str);
@@ -551,12 +551,12 @@ class QuickPHP_Unicode
      * @param   string   string of characters to remove
      * @return  string
      */
-    public static function trim($str, $charlist = NULL)
+    public static function trim($str, $charlist = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _trim($str, $charlist);
@@ -572,12 +572,12 @@ class QuickPHP_Unicode
      * @param   string   string of characters to remove
      * @return  string
      */
-    public static function ltrim($str, $charlist = NULL)
+    public static function ltrim($str, $charlist = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _ltrim($str, $charlist);
@@ -593,12 +593,12 @@ class QuickPHP_Unicode
      * @param   string   string of characters to remove
      * @return  string
      */
-    public static function rtrim($str, $charlist = NULL)
+    public static function rtrim($str, $charlist = null)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _rtrim($str, $charlist);
@@ -618,7 +618,7 @@ class QuickPHP_Unicode
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _ord($chr);
@@ -637,14 +637,14 @@ class QuickPHP_Unicode
      *
      * @param   string   UTF-8 encoded string
      * @return  array    unicode code points
-     * @return  boolean  FALSE if the string is invalid
+     * @return  boolean  false if the string is invalid
      */
     public static function to_unicode($str)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _to_unicode($str);
@@ -663,14 +663,14 @@ class QuickPHP_Unicode
      *
      * @param   array    unicode code points representing a string
      * @return  string   utf8 string of characters
-     * @return  boolean  FALSE if a code point cannot be found
+     * @return  boolean  false if a code point cannot be found
      */
     public static function from_unicode($arr)
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
             require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
-            self::$called[__FUNCTION__] = TRUE;
+            self::$called[__FUNCTION__] = true;
         }
 
         return _from_unicode($arr);

@@ -44,14 +44,14 @@ class QuickPHP_cli
      * @param   ...
      * @return  array
      */
-    public static function options($options = NULL)
+    public static function options($options = null)
     {
         $options = func_get_args();
         $values  = array();
 
         if(empty($options))
         {
-            return NULL;
+            return null;
         }
 
         for ($i = 1; $i < $_SERVER['argc']; $i++)
@@ -76,7 +76,7 @@ class QuickPHP_cli
             }
             else
             {
-                $value = NULL;
+                $value = null;
             }
 
             if(in_array($opt, $options))

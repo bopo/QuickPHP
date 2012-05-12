@@ -50,37 +50,39 @@ class QuickPHP_security
      */
     public static function xss_clean($str)
     {
-        // http://svn.bitflux.ch/repos/public/popoon/trunk/classes/externalinput.php
-        // +----------------------------------------------------------------------+
-        // | Copyright (c) 2001-2006 Bitflux GmbH                                 |
-        // +----------------------------------------------------------------------+
-        // | Licensed under the Apache License, Version 2.0 (the "License");      |
-        // | you may not use this file except in compliance with the License.     |
-        // | You may obtain a copy of the License at                              |
-        // | http://www.apache.org/licenses/LICENSE-2.0                           |
-        // | Unless required by applicable law or agreed to in writing, software  |
-        // | distributed under the License is distributed on an "AS IS" BASIS,    |
-        // | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
-        // | implied. See the License for the specific language governing         |
-        // | permissions and limitations under the License.                       |
-        // +----------------------------------------------------------------------+
-        // | Author: Christian Stocker <chregu@bitflux.ch>                        |
-        // +----------------------------------------------------------------------+
-        //
-        // QuickPHP Modifications:
-        // * Changed double quotes to single quotes, changed indenting and spacing
-        // * Removed magic_quotes stuff
-        // * Increased regex readability:
-        //   * Used delimeters that aren't found in the pattern
-        //   * Removed all unneeded escapes
-        //   * Deleted U modifiers and swapped greediness where needed
-        // * Increased regex speed:
-        //   * Made capturing parentheses non-capturing where possible
-        //   * Removed parentheses where possible
-        //   * Split up alternation alternatives
-        //   * Made some quantifiers possessive
-        // * Handle arrays recursively
-
+        /*
+         +----------------------------------------------------------------------+
+         | QuickPHP Framework Version 0.10                                      |
+         +----------------------------------------------------------------------+
+         | Copyright (c) 2010 QuickPHP.net All rights reserved.                 |
+         +----------------------------------------------------------------------+
+         | Licensed under the Apache License, Version 2.0 (the 'License');      |
+         | you may not use this file except in compliance with the License.     |
+         | You may obtain a copy of the License at                              |
+         | http://www.apache.org/licenses/LICENSE-2.0                           |
+         | Unless required by applicable law or agreed to in writing, software  |
+         | distributed under the License is distributed on an 'AS IS' BASIS,    |
+         | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
+         | implied. See the License for the specific language governing         |
+         | permissions and limitations under the License.                       |
+         +----------------------------------------------------------------------+
+         | Author: BoPo <ibopo@126.com>                                         |
+         +----------------------------------------------------------------------+
+        */
+        /** QuickPHP Modifications:
+         * Changed double quotes to single quotes, changed indenting and spacing
+         * Removed magic_quotes stuff
+         * Increased regex readability:
+         * Used delimeters that aren't found in the pattern
+         * Removed all unneeded escapes
+         * Deleted U modifiers and swapped greediness where needed
+         * Increased regex speed:
+         * Made capturing parentheses non-capturing where possible
+         * Removed parentheses where possible
+         * Split up alternation alternatives
+         * Made some quantifiers possessive
+         * Handle arrays recursively
+         */
         if (is_array($str) OR is_object($str))
         {
             foreach ($str as $k => $s)
@@ -91,7 +93,7 @@ class QuickPHP_security
             return $str;
         }
 
-        // Remove all NULL bytes
+        // Remove all null bytes
         $str = str_replace("\0", '', $str);
 
         // Fix &entity\n;
@@ -132,18 +134,18 @@ class QuickPHP_security
      * Generate and store a unique token which can be used to help prevent
      * [CSRF](http://wikipedia.org/wiki/Cross_Site_Request_Forgery) attacks.
      *
-     *     $token = security::token();
+     * $token = security::token();
      *
      * You can insert this token into your forms as a hidden field:
      *
-     *     echo form::hidden('csrf', security::token());
+     * echo form::hidden('csrf', security::token());
      *
-     * And then check it when using [Validate]:
+     * and then check it when using [Validate]:
      *
-     *     $array->rules('csrf', array(
-     *         'not_empty'       => NULL,
-     *         'security::check' => NULL,
-     *     ));
+     * $array->rules('csrf', array(
+     *     'not_empty'       => null,
+     *     'security::check' => null,
+     * ));
      *
      * This provides a basic, but effective, method of preventing CSRF attacks.
      *
@@ -168,10 +170,10 @@ class QuickPHP_security
     /**
      * Check that the given token matches the currently stored security token.
      *
-     *     if (self::check($token))
-     *     {
-     *         // Pass
-     *     }
+     * if (self::check($token))
+     * {
+     *     // Pass
+     * }
      *
      * @param   string   token to check
      * @return  boolean
@@ -185,7 +187,7 @@ class QuickPHP_security
     /**
      * Remove image tags from a string.
      *
-     *     $str = self::strip_image_tags($str);
+     * $str = self::strip_image_tags($str);
      *
      * @param   string  string to sanitize
      * @return  string
@@ -198,7 +200,7 @@ class QuickPHP_security
     /**
      * Encodes PHP tags in a string.
      *
-     *     $str = self::encode_php_tags($str);
+     * $str = self::encode_php_tags($str);
      *
      * @param   string  string to sanitize
      * @return  string

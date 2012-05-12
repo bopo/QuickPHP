@@ -27,11 +27,12 @@
  * @copyright  (c) 2007 Quick
  * @license    http://www.quickphp.net/licenses/
  */
-function _trim($str, $charlist = NULL)
+function _trim($str, $charlist = null)
 {
-    if($charlist === NULL)
+    if($charlist === null)
     {
         return trim($str);
     }
+
     return Unicode::ltrim(Unicode::rtrim($str, $charlist), $charlist);
 }

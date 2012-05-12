@@ -45,7 +45,7 @@ class QuickPHP_Captcha
         'background' => '',
         'fontpath'   => 'fonts',
         'fonts'      => array('DejaVuSerif.ttf'),
-        'promote'    => FALSE,
+        'promote'    => false,
     );
 
     /**
@@ -62,7 +62,7 @@ class QuickPHP_Captcha
     /**
      * Constructs a new Captcha object.
      *
-     * @throws  QuickPHP_Captcha_Exception
+     * @throws  Captcha_Exception
      * @param   string  config group name
      * @return  void
      */
@@ -80,14 +80,14 @@ class QuickPHP_Captcha
 
         if ( ! is_array($config = QuickPHP::config('captcha')->$group))
         {
-            throw new QuickPHP_Captcha_Exception('undefined_group', array($group));
+            throw new Captcha_Exception('undefined_group', array($group));
         }
 
         if ($group !== 'default')
         {
             if ( ! is_array($default = QuickPHP::config('captcha.default')))
             {
-                throw new QuickPHP_Captcha_Exception('undefined_group', array('default'));
+                throw new Captcha_Exception('undefined_group', array('default'));
             }
 
             $config += $default;
@@ -109,7 +109,7 @@ class QuickPHP_Captcha
 
             if ( ! is_file(self::$config['background']))
             {
-                throw new QuickPHP_Captcha_Exception('file_not_found', array(self::$config['background']));
+                throw new Captcha_Exception('file_not_found', array(self::$config['background']));
             }
         }
 
@@ -121,7 +121,7 @@ class QuickPHP_Captcha
             {
                 if ( ! is_file(self::$config['fontpath'].$font))
                 {
-                    throw new QuickPHP_Captcha_Exception( 'file_not_found', (self::$config['fontpath'].$font));
+                    throw new Captcha_Exception('file_not_found', array(self::$config['fontpath'].$font));
                 }
             }
         }
@@ -130,9 +130,10 @@ class QuickPHP_Captcha
 
         $this->driver = new $driver;
 
-        if ( ! ($this->driver instanceof Captcha_Abstract))
+        if ( ! ($this->driver instanceof Captcha_Interface))
         {
-            throw new QuickPHP_Captcha_Exception('driver_implements', array($config['style'], get_class($this), 'Captcha_Interface'));
+            throw new Captcha_Exception('driver_implements',
+                array($config['style'], get_class($this), 'Captcha_Interface'));
         }
     }
 
@@ -175,7 +176,7 @@ class QuickPHP_Captcha
      * @param   boolean  trigger invalid counter (for internal use only)
      * @return  integer  counter value
      */
-    public function valid_count($new_count = null, $invalid = FALSE)
+    public function valid_count($new_count = null, $invalid = false)
     {
         $session = ($invalid === true) ? 'captcha_invalid_count' : 'captcha_valid_count';
 
@@ -229,9 +230,9 @@ class QuickPHP_Captcha
      */
     public function promoted($threshold = null)
     {
-        if (self::$config['promote'] === FALSE)
+        if (self::$config['promote'] === false)
         {
-            return FALSE;
+            return false;
         }
 
         if ($threshold === null)

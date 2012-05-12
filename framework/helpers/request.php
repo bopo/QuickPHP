@@ -57,7 +57,7 @@ class QuickPHP_request
 
     /**
      * Returns the current request protocol, based on $_SERVER['https']. In CLI
-     * mode, NULL will be returned.
+     * mode, null will be returned.
      *
      * @return  string
      */
@@ -101,7 +101,7 @@ class QuickPHP_request
 
         if( ! in_array($method, request::$http_methods))
         {
-            throw new QuickPHP_Exception('request.unknown_method', $method);
+            throw new QuickPHP_Exception('request_unknown_method', array($method));
         }
 
         return $method;
@@ -111,14 +111,14 @@ class QuickPHP_request
      * Returns boolean of whether client accepts content type.
      *
      * @param   string   content type
-     * @param   boolean  set to TRUE to disable wildcard checking
+     * @param   boolean  set to true to disable wildcard checking
      * @return  boolean
      */
-    public static function accepts($type = NULL, $explicit_check = FALSE)
+    public static function accepts($type = null, $explicit_check = false)
     {
         request::parse_accept_header();
 
-        if($type === NULL)
+        if($type === null)
         {
             return request::$accept_types;
         }
@@ -129,16 +129,16 @@ class QuickPHP_request
     /**
      * Compare the q values for given array of content types and return the one with the highest value.
      * If items are found to have the same q value, the first one encountered in the given array wins.
-     * If all items in the given array have a q value of 0, FALSE is returned.
+     * If all items in the given array have a q value of 0, false is returned.
      *
      * @param   array    content types
-     * @param   boolean  set to TRUE to disable wildcard checking
-     * @return  mixed    string mime type with highest q value, FALSE if none of the given types are accepted
+     * @param   boolean  set to true to disable wildcard checking
+     * @return  mixed    string mime type with highest q value, false if none of the given types are accepted
      */
-    public static function preferred_accept($types, $explicit_check = FALSE)
+    public static function preferred_accept($types, $explicit_check = false)
     {
         $mime_types = array();
-        $preferred  = FALSE;
+        $preferred  = false;
         $max_q      = 0;
 
         foreach (array_unique($types) as $type)
@@ -162,15 +162,15 @@ class QuickPHP_request
      * Returns quality factor at which the client accepts content type.
      *
      * @param   string   content type (e.g. "image/jpg", "jpg")
-     * @param   boolean  set to TRUE to disable wildcard checking
+     * @param   boolean  set to true to disable wildcard checking
      * @return  integer|float
      */
-    public static function accepts_at_quality($type = NULL, $explicit_check = FALSE)
+    public static function accepts_at_quality($type = null, $explicit_check = false)
     {
         request::parse_accept_header();
         $type = strtolower((string) $type);
 
-        if(strpos($type, '/') === FALSE)
+        if(strpos($type, '/') === false)
         {
             $q      = 0;
             $mimes  = QuickPHP::config('mimes')->get($type, array());
@@ -191,12 +191,12 @@ class QuickPHP_request
             return request::$accept_types[$type[0]][$type[1]];
         }
 
-        if($explicit_check === FALSE and isset(request::$accept_types[$type[0]]['*']))
+        if($explicit_check === false and isset(request::$accept_types[$type[0]]['*']))
         {
             return request::$accept_types[$type[0]]['*'];
         }
 
-        if($explicit_check === FALSE and isset(request::$accept_types['*']['*']))
+        if($explicit_check === false and isset(request::$accept_types['*']['*']))
         {
             return request::$accept_types['*']['*'];
         }
@@ -211,9 +211,9 @@ class QuickPHP_request
      */
     protected static function parse_accept_header()
     {
-        if(request::$accept_types !== NULL)
+        if(request::$accept_types !== null)
         {
-            return NULL;
+            return null;
         }
 
         request::$accept_types = array();
@@ -258,9 +258,9 @@ class QuickPHP_request
      */
     public function generate_etag()
     {
-        if ($this->response === NULL)
+        if ($this->response === null)
         {
-            throw new QuickPHP_Exception('No response yet associated with request - cannot auto generate resource ETag');
+            throw new QuickPHP_Exception('cannot_generate_etag');
         }
 
         return '"'.sha1($this->response).'"';
@@ -270,7 +270,7 @@ class QuickPHP_request
     /**
      * Checks the browser cache to see the response needs to be returned.
      *
-     *     $request->check_cache($etag);
+     * $request->check_cache($etag);
      *
      * [!!] If the cache check succeeds, no further processing can be done!
      *
@@ -289,7 +289,7 @@ class QuickPHP_request
         $this->headers['ETag']          = $etag;
         $this->headers['Cache-Control'] = 'must-revalidate';
 
-        if (isset($_SERVER['HTTP_IF_NONE_MATCH']) AND $_SERVER['HTTP_IF_NONE_MATCH'] === $etag)
+        if (isset($_SERVER['HTTP_IF_NONE_MATCH']) and $_SERVER['HTTP_IF_NONE_MATCH'] === $etag)
         {
             $this->status = 304;
             $this->send_headers();
@@ -322,7 +322,7 @@ class QuickPHP_request
 
         $comma = strrpos($ip_address, ',');
 
-        if($comma !== FALSE)
+        if($comma !== false)
         {
             $ip_address = substr($ip_address, $comma + 1);
         }
@@ -343,12 +343,12 @@ class QuickPHP_request
      * @param   boolean  XSS clean 开关
      * @return  mixed
      */
-    public static function server($key = array(), $default = NULL, $xss_clean = FALSE)
+    public static function server($key = array(), $default = null, $xss_clean = false)
     {
         return request::search_array($_SERVER, $key, $default, $xss_clean);
     }
 
-    protected static function search_array($array, $key, $default = NULL, $xss_clean = FALSE)
+    protected static function search_array($array, $key, $default = null, $xss_clean = false)
     {
         if($key === array())
         {
@@ -362,7 +362,7 @@ class QuickPHP_request
 
         $value = $array[$key];
 
-        if($xss_clean === TRUE)
+        if($xss_clean === true)
         {
             $value = security::xss_clean($value);
         }
@@ -378,7 +378,7 @@ class QuickPHP_request
      * @param   boolean  XSS clean 开关
      * @return  mixed
      */
-    public static function post($key = array(), $default = NULL, $xss_clean = FALSE)
+    public static function post($key = array(), $default = null, $xss_clean = false)
     {
         return request::search_array($_POST, $key, $default, $xss_clean);
     }
@@ -391,7 +391,7 @@ class QuickPHP_request
      * @param   boolean  XSS clean 开关
      * @return  mixed
      */
-    public static function cookie($key = array(), $default = NULL, $xss_clean = FALSE)
+    public static function cookie($key = array(), $default = null, $xss_clean = false)
     {
         return request::search_array($_COOKIE, $key, $default, $xss_clean);
     }
@@ -412,7 +412,7 @@ class QuickPHP_request
      * @param string $filename  浏览器输出文件名
      * @param mixed $data       浏览器输出文件流
      */
-    public static function download($filename, $data = NULL)
+    public static function download($filename, $data = null)
     {
         return download::force($filename, $data);
     }

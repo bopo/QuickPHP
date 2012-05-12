@@ -29,9 +29,9 @@
  */
 if( ! function_exists('_ltrim'))
 {
-    function _ltrim($str, $charlist = NULL)
+    function _ltrim($str, $charlist = null)
     {
-        if($charlist === NULL)
+        if($charlist === null)
         {
             return ltrim($str);
         }

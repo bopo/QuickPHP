@@ -34,18 +34,18 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
     /*
     CREATE TABLE sessions
     (
-        session_id VARCHAR(127) NOT NULL,
-        last_activity INT(10) UNSIGNED NOT NULL,
-        data TEXT NOT NULL,
+        session_id VARCHAR(127) NOT null,
+        last_activity INT(10) UNSIGNED NOT null,
+        data TEXT NOT null,
         PRIMARY KEY (session_id)
     );
     */
 
     protected $db         = 'default';
     protected $table      = 'sessions';
-    protected $encrypt    = NULL;
-    protected $session_id = NULL;
-    protected $written    = FALSE;
+    protected $encrypt    = null;
+    protected $session_id = null;
+    protected $written    = false;
 
     /**
      * 构造函数,初始化session数据库模型
@@ -94,13 +94,13 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
     {
         $session = ORM::factory('session', $id);
 
-        if($session->session_id === NULL)
+        if($session->session_id === null)
         {
-            return $this->session_id = NULL;
+            return $this->session_id = null;
         }
 
         $this->session_id = $id;
-        return ($this->encrypt === NULL) ? base64_decode($session->data) : $this->encrypt->decode($session->data);
+        return ($this->encrypt === null) ? base64_decode($session->data) : $this->encrypt->decode($session->data);
     }
 
     /**
@@ -112,7 +112,7 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
     {
         $session = ORM::factory('session', $id);
 
-        if($session->session_id !== NULL)
+        if($session->session_id !== null)
         {
             if($id !== $this->session_id)
             {
@@ -125,7 +125,7 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
         }
 
         $session->last_activity = time();
-        $session->data = ($this->encrypt === NULL) ? base64_encode($data) : $this->encrypt->encode($data);
+        $session->data = ($this->encrypt === null) ? base64_encode($data) : $this->encrypt->encode($data);
         $session->save();
 
         return (bool) $session;

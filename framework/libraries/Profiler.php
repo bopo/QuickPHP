@@ -122,7 +122,7 @@ class QuickPHP_Profiler
      */
     public static function stats(array $tokens)
     {
-        $min = $max = array('time' => null, 'memory' => NULL);
+        $min = $max = array('time' => null, 'memory' => null);
         $total = array('time' => 0, 'memory' => 0);
 
         foreach ($tokens as $token)
@@ -173,7 +173,7 @@ class QuickPHP_Profiler
     public static function group_stats($groups = null)
     {
         $stats  = array();
-        $groups = ($groups === NULL) ? Profiler::groups() : array_intersect_key(Profiler::groups(), array_flip((array) $groups));
+        $groups = ($groups === null) ? Profiler::groups() : array_intersect_key(Profiler::groups(), array_flip((array) $groups));
 
         foreach ($groups as $group => $names)
         {
@@ -188,7 +188,7 @@ class QuickPHP_Profiler
 
         foreach ($stats as $group => $names)
         {
-            $groups[$group]['min'] = $groups[$group]['max'] = array('time' => NULL, 'memory' => NULL);
+            $groups[$group]['min'] = $groups[$group]['max'] = array('time' => null, 'memory' => null);
             $groups[$group]['total'] = array('time' => 0, 'memory' => 0);
 
             foreach ($names as $total)

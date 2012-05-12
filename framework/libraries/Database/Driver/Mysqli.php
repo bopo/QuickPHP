@@ -37,7 +37,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
             return true;
         }
 
-        if(Database_Driver_Mysqli::$_set_names === NULL)
+        if(Database_Driver_Mysqli::$_set_names === null)
         {
             Database_Driver_Mysqli::$_set_names = ! function_exists('mysqli_set_charset');
         }
@@ -45,11 +45,11 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
         extract($this->_config['connection'] + array(
             'database'   => '',
             'hostname'   => '',
-            'port'       => NULL,
-            'socket'     => NULL,
+            'port'       => null,
+            'socket'     => null,
             'username'   => '',
             'password'   => '',
-            'persistent' => FALSE));
+            'persistent' => false));
 
         unset($this->_config['connection']['username'], $this->_config['connection']['password']);
 
@@ -59,7 +59,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
         }
         catch(ErrorException $e)
         {
-            $this->_connection = NULL;
+            $this->_connection = null;
             throw $e;
         }
 
@@ -82,7 +82,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
     {
         if( ! mysqli_select_db($this->_connection, $database))
         {
-            throw new QuickPHP_Database_Exception('error', array(mysqli_error($this->_connection)));
+            throw new Database_Exception('error', array(mysqli_error($this->_connection)));
         }
 
         self::$_current_databases[$this->_connection_id] = $database;
@@ -100,7 +100,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
 
                 if( ! empty($status))
                 {
-                    $this->_connection = NULL;
+                    $this->_connection = null;
                 }
             }
         }
@@ -116,7 +116,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
     {
         $this->_connection or $this->connect();
 
-        if(Database_Driver_Mysqli::$_set_names === TRUE)
+        if(Database_Driver_Mysqli::$_set_names === true)
         {
             $status = (bool) mysqli_query($this->_connection, 'SET NAMES ' . $this->quote($charset));
         }
@@ -127,7 +127,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
 
         if($status === false)
         {
-            throw new QuickPHP_Database_Exception('error', array(mysqli_error($this->_connection)));
+            throw new Database_Exception('error', array(mysqli_error($this->_connection)));
         }
     }
 
@@ -141,7 +141,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
         }
 
         if( ! empty($this->_config['connection']['persistent'])
-            AND $this->_config['connection']['database'] !== Database_Driver_Mysqli::$_current_databases[$this->_connection_id])
+            and $this->_config['connection']['database'] !== Database_Driver_Mysqli::$_current_databases[$this->_connection_id])
         {
             $this->_select_db($this->_config['connection']['database']);
         }
@@ -153,7 +153,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
                 Profiler::delete($benchmark);
             }
 
-            throw new QuickPHP_Database_Exception('error', array(mysqli_error($this->_connection), $sql));
+            throw new Database_Exception('error', array(mysqli_error($this->_connection), $sql));
         }
 
         if(isset($benchmark))
@@ -183,7 +183,7 @@ class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
 
         if(($value = mysqli_real_escape_string($this->_connection, (string) $value)) === false)
         {
-            throw new QuickPHP_Database_Exception('error', array(mysqli_error($this->_connection)));
+            throw new Database_Exception('error', array(mysqli_error($this->_connection)));
         }
 
         return "'$value'";

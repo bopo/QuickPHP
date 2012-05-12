@@ -33,7 +33,7 @@
 class QuickPHP_Exception extends Exception
 {
     /**
-     * 
+     *
      * @var  array  PHP error code => human readable name
      */
     public static $php_errors = array(
@@ -62,7 +62,7 @@ class QuickPHP_Exception extends Exception
      * @param   integer|string  the exception code
      * @return  void
      */
-    public function __construct($message, array $variables = NULL, $code = 0)
+    public function __construct($message, array $variables = null, $code = 0)
     {
         $messages = array('message' => $message,'variables' => $variables);
         $messages = serialize($messages);
@@ -113,10 +113,10 @@ class QuickPHP_Exception extends Exception
 
             if($msgs = unserialize($message))
             {
-                $directory = strtolower(str_replace("_Exception", "", $type));
+                $directory = rtrim(strtolower(str_replace("Exception", "", $type)), '_');
                 $variables = $msgs['variables'];
                 $messages  = QuickPHP::message($directory, $msgs['message']);
-                
+
                 if(is_array($variables))
                 {
                     foreach($variables as $key => $val)
@@ -180,7 +180,7 @@ class QuickPHP_Exception extends Exception
             {
                 // Make sure the proper http header is sent
                 $http_header_status = ($e instanceof HTTP_Exception) ? $code : 500;
-                header('Content-Type: text/html; charset='.QuickPHP::$charset, TRUE, $http_header_status);
+                header('Content-Type: text/html; charset='.QuickPHP::$charset, true, $http_header_status);
             }
 
             if (request::is_ajax()) // 后续增加 firephp

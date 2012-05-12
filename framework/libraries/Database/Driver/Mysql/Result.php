@@ -101,7 +101,7 @@ class QuickPHP_Database_Driver_MySQL_Result extends QuickPHP_Database_Result
 
         $this->_internal_row++;
 
-        if($this->_as_object === TRUE)
+        if($this->_as_object === true)
         {
             return mysql_fetch_object($this->_result);
         }

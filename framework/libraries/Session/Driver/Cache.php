@@ -67,7 +67,7 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
      */
     public function open($path, $name)
     {
-        $config = $this->config->get('storage', NULL);
+        $config = $this->config->get('storage', null);
 
         if(empty($config))
         {
@@ -77,7 +77,7 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
         {
             $name = $config;
 
-            if(($config = QuickPHP::config('cache')->get($config)) === NULL)
+            if(($config = QuickPHP::config('cache')->get($config)) === null)
             {
                 throw new QuickPHP_Cache_Exception('cache.undefined_group', $name);
             }
@@ -96,7 +96,7 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
      */
     public function close()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -153,7 +153,7 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
      */
     public function regenerate()
     {
-        session_regenerate_id(TRUE);
+        session_regenerate_id(true);
 
         return session_id();
     }
@@ -166,7 +166,7 @@ class QuickPHP_Session_Driver_Cache implements QuickPHP_Session_Interface
      */
     public function gc($maxlifetime)
     {
-        return TRUE;
+        return true;
     }
 
 }

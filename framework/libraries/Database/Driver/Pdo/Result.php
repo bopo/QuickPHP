@@ -58,7 +58,7 @@ class QuickPHP_Database_Driver_Pdo_Result extends QuickPHP_Database_Result
      */
     public function __destruct()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -83,7 +83,7 @@ class QuickPHP_Database_Driver_Pdo_Result extends QuickPHP_Database_Result
             return $this->_current_row = $this->_internal_row = $offset;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -99,13 +99,13 @@ class QuickPHP_Database_Driver_Pdo_Result extends QuickPHP_Database_Result
     {
         if($this->_current_row !== $this->_internal_row and ! $this->seek($this->_current_row))
         {
-            return FALSE;
+            return false;
         }
 
         // Increment internal row for optimization assuming rows are fetched in order
         $this->_internal_row++;
 
-        if($this->_as_object === TRUE)
+        if($this->_as_object === true)
         {
             return $this->_array2object(Pdo_fetch_array($this->_result));
         }
@@ -143,6 +143,6 @@ class QuickPHP_Database_Driver_Pdo_Result extends QuickPHP_Database_Result
             return $object;
         }
 
-        return FALSE;
+        return false;
     }
 }

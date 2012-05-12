@@ -44,7 +44,7 @@ class QuickPHP_xml
         {
             return null;
         }
-        
+
         return self::parse($xml);
     }
 
@@ -54,7 +54,7 @@ class QuickPHP_xml
         {
             return null;
         }
-          
+
         if(strpos($xml, 'xml'))
         {
             $dom   = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -63,7 +63,7 @@ class QuickPHP_xml
             return $array;
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -104,7 +104,7 @@ class QuickPHP_xml
         $str  = str_replace(array("&", "<", ">", "\"", "'", "-"), array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"), $xml);
         $str  = preg_replace("/$temp(\d+);/", "&#\\1;", $xml);
         $str  = preg_replace("/$temp(\w+);/", "&\\1;", $xml);
-        
+
         return $xml;
     }
 }

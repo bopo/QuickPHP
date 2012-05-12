@@ -44,7 +44,7 @@ class QuickPHP_inflector
      */
     public static function uncountable($str)
     {
-        if(inflector::$uncountable === NULL)
+        if(inflector::$uncountable === null)
         {
             inflector::$uncountable = QuickPHP::config('inflector')->get('uncountable', null);
         }
@@ -56,10 +56,10 @@ class QuickPHP_inflector
      * 把一个单词的复数形式更改为单数形式并返回转换后的字符串。如果字符串是不可数的将会无修改返回
      *
      * @param   string  待转换的单词（一般是单复数）
-     * @param   integer 单词实质的数量 - 默认 NULL
+     * @param   integer 单词实质的数量 - 默认 null
      * @return  string
      */
-    public static function singular($str, $count = NULL)
+    public static function singular($str, $count = null)
     {
         $str = strtolower(trim($str));
 
@@ -118,7 +118,7 @@ class QuickPHP_inflector
      * @param   string  待转换的字符串
      * @return  string
      */
-    public static function plural($str, $count = NULL)
+    public static function plural($str, $count = null)
     {
         $str = strtolower(trim($str));
 

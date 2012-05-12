@@ -37,11 +37,11 @@ class QuickPHP_download
      * @param string $filename  浏览器输出文件名
      * @param mixed $data       浏览器输出文件流
      */
-    public static function force($filename, $data = NULL)
+    public static function force($filename, $data = null)
     {
         if(empty($filename))
         {
-            return FALSE;
+            return false;
         }
 
         if(is_file($filename))

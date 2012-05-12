@@ -107,8 +107,8 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
             $conditions[] = $db->quote_identifier($c1) . $op . ' ' . $db->quote_identifier($c2);
         }
 
-        // Concat the conditions "... AND ..."
-        $sql .= '(' . implode(' AND ', $conditions) . ')';
+        // Concat the conditions "... and ..."
+        $sql .= '(' . implode(' and ', $conditions) . ')';
 
         return $sql;
     }

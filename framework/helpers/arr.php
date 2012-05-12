@@ -31,14 +31,14 @@
  */
 class QuickPHP_arr
 {
-    
+
     /**
      * 测试是否是数组组合
      *
-     * // 返回 TRUE
+     * // 返回 true
      * arr::is_assoc(array('username' => 'john.doe'));
      *
-     * // 返回 FALSE
+     * // 返回 false
      * arr::is_assoc('foo', 'bar');
      *
      * @param   array   $array
@@ -67,7 +67,7 @@ class QuickPHP_arr
      * @param string $path
      * @param mixed $default
      */
-    public static function path($array, $path, $default = NULL)
+    public static function path($array, $path, $default = null)
     {
         $path = trim($path, '.* ');
         $keys = explode('.', $path);
@@ -178,7 +178,7 @@ class QuickPHP_arr
      * @param   mixed   默认值
      * @return  mixed
      */
-    public static function get($array, $key, $default = NULL)
+    public static function get($array, $key, $default = null)
     {
         return isset($array[$key]) ? $array[$key] : $default;
     }
@@ -194,7 +194,7 @@ class QuickPHP_arr
      * @param   mixed   默认值
      * @return  array
      */
-    public static function extract($array, array $keys, $default = NULL)
+    public static function extract($array, array $keys, $default = null)
     {
         $found = array();
 
@@ -219,9 +219,9 @@ class QuickPHP_arr
      */
     public static function unshift(array & $array, $key, $val)
     {
-        $array       = array_reverse($array, TRUE);
+        $array       = array_reverse($array, true);
         $array[$key] = $val;
-        $array       = array_reverse($array, TRUE);
+        $array       = array_reverse($array, true);
 
         return $array;
     }
@@ -306,7 +306,7 @@ class QuickPHP_arr
                         {
                             $result[$key] = $val;
                         }
-                        elseif( ! in_array($val, $result, TRUE))
+                        elseif( ! in_array($val, $result, true))
                         {
                             $result[] = $val;
                         }
@@ -375,7 +375,7 @@ class QuickPHP_arr
      */
     public static function callback($str)
     {
-        $command = $params = NULL;
+        $command = $params = null;
 
         if(preg_match('/^([^\(]*+)\((.*)\)$/', $str, $match))
         {
@@ -392,7 +392,7 @@ class QuickPHP_arr
             $command = $str;
         }
 
-        if(strpos($command, '::') !== FALSE)
+        if(strpos($command, '::') !== false)
         {
             $command = explode('::', $command, 2);
         }
@@ -446,7 +446,7 @@ class QuickPHP_arr
     {
         if ( ! array_key_exists($key, $array))
         {
-            return NULL;
+            return null;
         }
 
         $val = $array[$key];

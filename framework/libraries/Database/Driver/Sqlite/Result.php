@@ -58,7 +58,7 @@ class QuickPHP_Database_Driver_SQLite_Result extends QuickPHP_Database_Result
      */
     public function __destruct()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class QuickPHP_Database_Driver_SQLite_Result extends QuickPHP_Database_Result
             return $this->_current_row = $this->_internal_row = $offset;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -137,6 +137,6 @@ class QuickPHP_Database_Driver_SQLite_Result extends QuickPHP_Database_Result
             return $object;
         }
 
-        return FALSE;
+        return false;
     }
 }

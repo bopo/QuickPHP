@@ -41,10 +41,10 @@ class QuickPHP_text
      * @param   string   end character or entity
      * @return  string
      */
-    public static function limit_words($str, $limit = 100, $end_char = NULL)
+    public static function limit_words($str, $limit = 100, $end_char = null)
     {
         $limit    = (int) $limit;
-        $end_char = ($end_char === NULL) ? '&#8230;' : $end_char;
+        $end_char = ($end_char === null) ? '&#8230;' : $end_char;
 
         if(trim($str) === '')
         {
@@ -81,9 +81,9 @@ class QuickPHP_text
      * @param   boolean  enable or disable the preservation of words while limiting
      * @return  string
      */
-    public static function limit_chars($str, $limit = 100, $end_char = NULL, $preserve_words = FALSE)
+    public static function limit_chars($str, $limit = 100, $end_char = null, $preserve_words = false)
     {
-        $end_char = ($end_char === NULL) ? '&#8230;' : $end_char;
+        $end_char = ($end_char === null) ? '&#8230;' : $end_char;
         $limit    = (int) $limit;
 
         if(trim($str) === '' or Unicode::strlen($str) <= $limit)
@@ -96,7 +96,7 @@ class QuickPHP_text
             return $end_char;
         }
 
-        if($preserve_words == FALSE)
+        if($preserve_words == false)
         {
             return rtrim(Unicode::substr($str, 0, $limit)) . $end_char;
         }
@@ -139,7 +139,7 @@ class QuickPHP_text
      */
     public static function random($type = 'alnum', $length = 8)
     {
-        $utf8 = FALSE;
+        $utf8 = false;
 
         switch ($type)
         {
@@ -211,7 +211,7 @@ class QuickPHP_text
      * @param   boolean  replace words across word boundries (space, period, etc)
      * @return  string
      */
-    public static function censor($str, $badwords, $replacement = '#', $replace_partial_words = FALSE)
+    public static function censor($str, $badwords, $replacement = '#', $replace_partial_words = false)
     {
         foreach ((array) $badwords as $key => $badword)
         {
@@ -220,7 +220,7 @@ class QuickPHP_text
 
         $regex = '(' . implode('|', $badwords) . ')';
 
-        if($replace_partial_words == TRUE)
+        if($replace_partial_words == true)
         {
             $regex = '(?<=\b|\s|^)' . $regex . '(?=\b|\s|$)';
         }
@@ -339,7 +339,7 @@ class QuickPHP_text
         $str = preg_replace('~^[ \t]+~m', '', $str);
         $str = preg_replace('~[ \t]+$~m', '', $str);
 
-        if((bool) ($html_found = (strpos($str, '<') !== FALSE)))
+        if((bool) ($html_found = (strpos($str, '<') !== false)))
         {
             $no_p = '(?:p|div|h[1-6r]|ul|ol|li|blockquote|d[dlt]|pre|t[dhr]|t(?:able|body|foot|head)|c(?:aption|olgroup)|form|s(?:elect|tyle)|a(?:ddress|rea)|ma(?:p|th))';
             $str  = preg_replace('~^<' . $no_p . '[^>]*+>~im', "\n$0", $str);
@@ -349,7 +349,7 @@ class QuickPHP_text
         $str = '<p>' . trim($str) . '</p>';
         $str = preg_replace('~\n{2,}~', "</p>\n\n<p>", $str);
 
-        if($html_found !== FALSE)
+        if($html_found !== false)
         {
             $str = preg_replace('~<p>(?=</?' . $no_p . '[^>]*+>)~i', '', $str);
             $str = preg_replace('~(</?' . $no_p . '[^>]*+>)</p>~i', '$1', $str);
@@ -373,11 +373,11 @@ class QuickPHP_text
      * @param   boolean  $si
      * @return  string
      */
-    public static function bytes($bytes, $force_unit = NULL, $format = NULL, $si = TRUE)
+    public static function bytes($bytes, $force_unit = null, $format = null, $si = true)
     {
-        $format = ($format === NULL) ? '%01.2f %s' : (string) $format;
+        $format = ($format === null) ? '%01.2f %s' : (string) $format;
 
-        if($si == FALSE or strpos($force_unit, 'i') !== FALSE)
+        if($si == false or strpos($force_unit, 'i') !== false)
         {
             $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB');
             $mod   = 1024;
@@ -388,7 +388,7 @@ class QuickPHP_text
             $mod   = 1000;
         }
 
-        if(($power = array_search((string) $force_unit, $units)) === FALSE)
+        if(($power = array_search((string) $force_unit, $units)) === false)
         {
             $power = ($bytes > 0) ? floor(log($bytes, $mod)) : 0;
         }

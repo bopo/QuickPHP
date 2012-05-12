@@ -27,7 +27,7 @@
  * @copyright  (c) 2007 Quick
  * @license    http://www.quickphp.net/licenses/
  */
-function _str_ireplace($search, $replace, $str, & $count = NULL)
+function _str_ireplace($search, $replace, $str, & $count = null)
 {
     if(Unicode::is_ascii($search) and Unicode::is_ascii($replace) and Unicode::is_ascii($str))
     {

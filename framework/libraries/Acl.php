@@ -87,19 +87,19 @@ class QuickPHP_Acl
      * @var $_instance
      */
     protected static $_instance;
-    
+
     /**
      * 设置Acl规则。 定义在acl.php
      * @var array
      */
     public $rules;
-    
+
     /**
      * 默认的控制规则,如果没有自定义失败控制规则是定义的某些规则。
      * @var string|array
      */
     public $defaultFailedRoute = array('/error-default/failed-route/please-set-in-route', 404);
-    
+
     /**
      * 返回一个单身Acl的实例。
      *
@@ -112,25 +112,25 @@ class QuickPHP_Acl
         {
             Acl::$_instance = new Acl($rules);
         }
-        
+
         return Acl::$_instance;
     }
-    
-    final public function __construct($rules = NULL)
+
+    final public function __construct($rules = null)
     {
         $this->rules = $rules;
     }
-    
-    final public function rule($rule = NULL, $params = array())
+
+    final public function rule($rule = null, $params = array())
     {
         $this->rules += array($rule, $params);
     }
-    
-    final public function rules($rules = NULL)
+
+    final public function rules($rules = null)
     {
         $this->rules += $rules;
     }
-    
+
     /**
      * 检查用户角色是否可以访问资源、行为列表以及两者均可访问。
      *
@@ -158,7 +158,7 @@ class QuickPHP_Acl
             if(isset($this->rules[$role]['allow'][$resource]))
             {
                 $actionlist = $this->rules[$role]['allow'][$resource];
-                
+
                 if($actionlist === '*')
                 {
                     return true;
@@ -174,7 +174,7 @@ class QuickPHP_Acl
             }
         }
     }
-    
+
     /**
      * 检查用户角色是否已经被屏蔽访问资源、行为列表以及两者均可访问。
      *
@@ -202,10 +202,10 @@ class QuickPHP_Acl
             if(isset($this->rules[$role]['deny'][$resource]))
             {
                 $actionlist = $this->rules[$role]['deny'][$resource];
-                
+
                 if($actionlist === '*')
                 {
-                    return TRUE;
+                    return true;
                 }
                 else
                 {
@@ -214,11 +214,11 @@ class QuickPHP_Acl
             }
             else
             {
-                return FALSE;
+                return false;
             }
         }
     }
-    
+
     /**
      * 检查用户的角色,是能访问资源/行动。
      *
@@ -234,7 +234,7 @@ class QuickPHP_Acl
             if(isset($this->rules[$role]['failRoute']))
             {
                 $route = $this->rules[$role]['failRoute'];
-                
+
                 if(is_string($route))
                 {
                     return array($route, 'internal');
@@ -265,7 +265,7 @@ class QuickPHP_Acl
             if(isset($this->rules[$role]['failRoute']))
             {
                 $route = $this->rules[$role]['failRoute'];
-                
+
                 if(is_string($route))
                 {
                     return array($route, 'internal');

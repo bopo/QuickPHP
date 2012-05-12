@@ -125,14 +125,14 @@ abstract class QuickPHP_Database_Abstract
      * Perform an SQL query of the given type.
      *
      * // Make a SELECT query and use objects for results
-     * $db->query(Database::SELECT, 'SELECT * FROM groups', TRUE);
+     * $db->query(Database::SELECT, 'SELECT * FROM groups', true);
      *
      * // Make a SELECT query and use "Model_User" for the results
      * $db->query(Database::SELECT, 'SELECT * FROM users LIMIT 1', 'Model_User');
      *
      * @param   integer  Database::SELECT, Database::INSERT, etc
      * @param   string   SQL query
-     * @param   mixed    result object class, TRUE for stdClass, FALSE for assoc array
+     * @param   mixed    result object class, true for stdClass, false for assoc array
      * @return  object   Database_Result for SELECT queries
      * @return  array    list (insert id, row count) for INSERT queries
      * @return  integer  number of affected rows for all other queries
@@ -157,25 +157,25 @@ abstract class QuickPHP_Database_Abstract
 
             if(stripos($sql, 'SELECT') !== 0)
             {
-                return FALSE;
+                return false;
             }
 
-            if(stripos($sql, 'LIMIT') !== FALSE)
+            if(stripos($sql, 'LIMIT') !== false)
             {
                 $sql = preg_replace('/\sLIMIT\s+[^a-z]+/i', ' ', $sql);
             }
 
-            if(stripos($sql, 'OFFSET') !== FALSE)
+            if(stripos($sql, 'OFFSET') !== false)
             {
                 $sql = preg_replace('/\sOFFSET\s+\d+/i', '', $sql);
             }
 
-            $result = $this->query(Database::SELECT, 'SELECT COUNT(*) AS ' . $this->quote_identifier('total_rows') . ' ' . 'FROM (' . $sql . ') AS ' . $this-quote_table('counted_results'), TRUE);
+            $result = $this->query(Database::SELECT, 'SELECT COUNT(*) AS ' . $this->quote_identifier('total_rows') . ' ' . 'FROM (' . $sql . ') AS ' . $this-quote_table('counted_results'), true);
 
             return (int) $result->current()->total_rows;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -190,7 +190,7 @@ abstract class QuickPHP_Database_Abstract
     public function count_records($table)
     {
         $table = $this->quote_identifier($table);
-        return $this->query(Database::SELECT, 'SELECT COUNT(*) AS total_row_count FROM ' . $table, FALSE)->get('total_row_count');
+        return $this->query(Database::SELECT, 'SELECT COUNT(*) AS total_row_count FROM ' . $table, false)->get('total_row_count');
     }
 
     /**
@@ -205,27 +205,27 @@ abstract class QuickPHP_Database_Abstract
     {
         static $types = array(
             // SQL-92
-            'bit'                             => array('type' => 'string', 'exact' => TRUE),
+            'bit'                             => array('type' => 'string', 'exact' => true),
             'bit varying'                     => array('type' => 'string'),
-            'char'                            => array('type' => 'string', 'exact' => TRUE),
+            'char'                            => array('type' => 'string', 'exact' => true),
             'char varying'                    => array('type' => 'string'),
-            'character'                       => array('type' => 'string', 'exact' => TRUE),
+            'character'                       => array('type' => 'string', 'exact' => true),
             'character varying'               => array('type' => 'string'),
             'date'                            => array('type' => 'string'),
-            'dec'                             => array('type' => 'float', 'exact' => TRUE),
-            'decimal'                         => array('type' => 'float', 'exact' => TRUE),
+            'dec'                             => array('type' => 'float', 'exact' => true),
+            'decimal'                         => array('type' => 'float', 'exact' => true),
             'double precision'                => array('type' => 'float'),
             'float'                           => array('type' => 'float'),
             'int'                             => array('type' => 'int', 'min' => '-2147483648', 'max' => '2147483647'),
             'integer'                         => array('type' => 'int', 'min' => '-2147483648', 'max' => '2147483647'),
             'interval'                        => array('type' => 'string'),
-            'national char'                   => array('type' => 'string', 'exact' => TRUE),
+            'national char'                   => array('type' => 'string', 'exact' => true),
             'national char varying'           => array('type' => 'string'),
-            'national character'              => array('type' => 'string', 'exact' => TRUE),
+            'national character'              => array('type' => 'string', 'exact' => true),
             'national character varying'      => array('type' => 'string'),
-            'nchar'                           => array('type' => 'string', 'exact' => TRUE),
+            'nchar'                           => array('type' => 'string', 'exact' => true),
             'nchar varying'                   => array('type' => 'string'),
-            'numeric'                         => array('type' => 'float', 'exact' => TRUE),
+            'numeric'                         => array('type' => 'float', 'exact' => true),
             'real'                            => array('type' => 'float'),
             'smallint'                        => array('type' => 'int', 'min' => '-32768', 'max' => '32767'),
             'time'                            => array('type' => 'string'),
@@ -233,10 +233,10 @@ abstract class QuickPHP_Database_Abstract
             'timestamp'                       => array('type' => 'string'),
             'timestamp with time zone'        => array('type' => 'string'),
             'varchar'                         => array('type' => 'string'),
-            
+
             // SQL:1999
-            'binary large object'             => array('type' => 'string', 'binary' => TRUE),
-            'blob'                            => array('type' => 'string', 'binary' => TRUE),
+            'binary large object'             => array('type' => 'string', 'binary' => true),
+            'blob'                            => array('type' => 'string', 'binary' => true),
             'boolean'                         => array('type' => 'bool'),
             'char large object'               => array('type' => 'string'),
             'character large object'          => array('type' => 'string'),
@@ -253,9 +253,9 @@ abstract class QuickPHP_Database_Abstract
             'max'                             => '9223372036854775807'),
 
             // SQL:2008
-            'binary'                          => array('type' => 'string', 'binary' => TRUE, 'exact' => TRUE),
-            'binary varying'                  => array('type' => 'string', 'binary' => TRUE),
-            'varbinary'                       => array('type' => 'string', 'binary' => TRUE),
+            'binary'                          => array('type' => 'string', 'binary' => true, 'exact' => true),
+            'binary varying'                  => array('type' => 'string', 'binary' => true),
+            'varbinary'                       => array('type' => 'string', 'binary' => true),
         );
 
         if (isset($types[$type]))
@@ -279,7 +279,7 @@ abstract class QuickPHP_Database_Abstract
      * @param   string   table to search for
      * @return  array
      */
-    abstract public function list_tables($like = NULL);
+    abstract public function list_tables($like = null);
 
     /**
      * Lists all of the columns in a table. Optionally, a LIKE string can be
@@ -295,7 +295,7 @@ abstract class QuickPHP_Database_Abstract
      * @param   string  column to search for
      * @return  array
      */
-    abstract public function list_columns($table, $like = NULL);
+    abstract public function list_columns($table, $like = null);
 
     /**
      * Extracts the text between parentheses, if any.
@@ -308,9 +308,9 @@ abstract class QuickPHP_Database_Abstract
      */
     protected function _parse_type($type)
     {
-        if(($open = strpos($type, '(')) === FALSE)
+        if(($open = strpos($type, '(')) === false)
         {
-            return array($type, NULL);
+            return array($type, null);
         }
 
         $close  = strpos($type, ')', $open);
@@ -332,7 +332,7 @@ abstract class QuickPHP_Database_Abstract
         return $this->_config['table_prefix'];
     }
 
-    public function table_exists($table = NULL, $like = NULL)
+    public function table_exists($table = null, $like = null)
     {
         return in_array($table, $this->list_tables($like));
     }
@@ -340,7 +340,7 @@ abstract class QuickPHP_Database_Abstract
     /**
      * Quote a value for an SQL query.
      *
-     * $db->quote(NULL);   // 'NULL'
+     * $db->quote(null);   // 'null'
      * $db->quote(10);     // 10
      * $db->quote('fred'); // 'fred'
      *
@@ -355,15 +355,15 @@ abstract class QuickPHP_Database_Abstract
      */
     public function quote($value)
     {
-        if($value === NULL)
+        if($value === null)
         {
-            return 'NULL';
+            return 'null';
         }
-        elseif($value === TRUE)
+        elseif($value === true)
         {
             return "'1'";
         }
-        elseif($value === FALSE)
+        elseif($value === false)
         {
             return "'0'";
         }
@@ -419,7 +419,7 @@ abstract class QuickPHP_Database_Abstract
             $table = & $value;
         }
 
-        if(is_string($table) and strpos($table, '.') === FALSE)
+        if(is_string($table) and strpos($table, '.') === false)
         {
             $table = $this->table_prefix() . $table;
         }
@@ -474,11 +474,11 @@ abstract class QuickPHP_Database_Abstract
             return $this->quote_identifier($value) . ' AS ' . $this->quote_identifier($alias);
         }
 
-        if(strpos($value, '"') !== FALSE)
+        if(strpos($value, '"') !== false)
         {
             return preg_replace('/"(.+?)"/e', '$this->quote_identifier("$1")', $value);
         }
-        elseif(strpos($value, '.') !== FALSE)
+        elseif(strpos($value, '.') !== false)
         {
             $parts  = explode('.', $value);
             $prefix = $this->table_prefix();

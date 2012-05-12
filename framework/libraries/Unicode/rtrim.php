@@ -27,9 +27,9 @@
  * @copyright  (c) 2007 Quick
  * @license    http://www.quickphp.net/licenses/
  */
-function _rtrim($str, $charlist = NULL)
+function _rtrim($str, $charlist = null)
 {
-    if($charlist === NULL)
+    if($charlist === null)
     {
         return rtrim($str);
     }

@@ -59,7 +59,7 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
      */
     protected function _compile_conditions($db, array $conditions)
     {
-        $last_condition = NULL;
+        $last_condition = null;
         $sql            = '';
 
         foreach ($conditions as $group)
@@ -90,16 +90,16 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
                     // Split the condition
                     list ($column, $op, $value) = $condition;
 
-                    if($value === NULL)
+                    if($value === null)
                     {
                         if($op === '=')
                         {
-                            // Convert "val = NULL" to "val IS NULL"
+                            // Convert "val = null" to "val IS null"
                             $op = 'IS';
                         }
                         elseif($op === '!=')
                         {
-                            // Convert "val != NULL" to "valu IS NOT NULL"
+                            // Convert "val != null" to "valu IS NOT null"
                             $op = 'IS NOT';
                         }
                      }
@@ -125,7 +125,7 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
                         }
 
                         // Quote the min and max value
-                        $value = $db->quote($min) . ' AND ' . $db->quote($max);
+                        $value = $db->quote($min) . ' and ' . $db->quote($max);
                     }
                     else
                     {

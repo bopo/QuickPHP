@@ -106,16 +106,16 @@ class QuickPHP_valid
      * @param   boolean  allow private IP networks
      * @return  boolean
      */
-    public static function IP($ip, $ipv6 = FALSE, $allow_private = TRUE)
+    public static function IP($ip, $ipv6 = false, $allow_private = true)
     {
         $flags = FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
 
-        if($allow_private === TRUE)
+        if($allow_private === true)
         {
             $flags = FILTER_FLAG_NO_RES_RANGE;
         }
 
-        if($ipv6 === TRUE)
+        if($ipv6 === true)
         {
             return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flags);
         }
@@ -129,7 +129,7 @@ class QuickPHP_valid
      * @param   string   phone number to check
      * @return  boolean
      */
-    public static function phone($number, $lengths = NULL)
+    public static function phone($number, $lengths = null)
     {
         if( ! is_array($lengths))
         {
@@ -148,7 +148,7 @@ class QuickPHP_valid
      */
     public static function date($str)
     {
-        return (strtotime($str) !== FALSE);
+        return (strtotime($str) !== false);
     }
 
     /**
@@ -158,9 +158,9 @@ class QuickPHP_valid
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alpha($str, $utf8 = FALSE)
+    public static function alpha($str, $utf8 = false)
     {
-        return ($utf8 === TRUE) ? (bool) preg_match('/^\pL++$/uD', (string) $str) : ctype_alpha((string) $str);
+        return ($utf8 === true) ? (bool) preg_match('/^\pL++$/uD', (string) $str) : ctype_alpha((string) $str);
     }
 
     /**
@@ -170,9 +170,9 @@ class QuickPHP_valid
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alpha_numeric($str, $utf8 = FALSE)
+    public static function alpha_numeric($str, $utf8 = false)
     {
-        return ($utf8 === TRUE) ? (bool) preg_match('/^[\pL\pN]++$/uD', (string) $str) : ctype_alnum((string) $str);
+        return ($utf8 === true) ? (bool) preg_match('/^[\pL\pN]++$/uD', (string) $str) : ctype_alnum((string) $str);
     }
 
     /**
@@ -182,9 +182,9 @@ class QuickPHP_valid
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function alpha_dash($str, $utf8 = FALSE)
+    public static function alpha_dash($str, $utf8 = false)
     {
-        return ($utf8 === TRUE) ? (bool) preg_match('/^[-\pL\pN_]++$/uD', (string) $str) : (bool) preg_match('/^[-a-z0-9_]++$/iD', (string) $str);
+        return ($utf8 === true) ? (bool) preg_match('/^[-\pL\pN_]++$/uD', (string) $str) : (bool) preg_match('/^[-a-z0-9_]++$/iD', (string) $str);
     }
 
     /**
@@ -194,9 +194,9 @@ class QuickPHP_valid
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
-    public static function digit($str, $utf8 = FALSE)
+    public static function digit($str, $utf8 = false)
     {
-        return ($utf8 === TRUE) ? (bool) preg_match('/^\pN++$/uD', (string) $str) : ctype_digit((string) $str);
+        return ($utf8 === true) ? (bool) preg_match('/^\pN++$/uD', (string) $str) : ctype_digit((string) $str);
     }
 
     /**
@@ -243,7 +243,7 @@ class QuickPHP_valid
      * @param   array    decimal format: y or x,y
      * @return  boolean
      */
-    public static function decimal($str, $format = NULL)
+    public static function decimal($str, $format = null)
     {
         $pattern = '/^[0-9]%s\.[0-9]%s$/';
 

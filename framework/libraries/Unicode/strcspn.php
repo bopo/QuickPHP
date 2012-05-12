@@ -27,7 +27,7 @@
  * @copyright  (c) 2007 Quick
  * @license    http://www.quickphp.net/licenses/
  */
-function _strcspn($str, $mask, $offset = NULL, $length = NULL)
+function _strcspn($str, $mask, $offset = null, $length = null)
 {
     if($str == '' or $mask == '')
     {
@@ -35,9 +35,9 @@ function _strcspn($str, $mask, $offset = NULL, $length = NULL)
     }
     if(Unicode::is_ascii($str) and Unicode::is_ascii($mask))
     {
-        return ($offset === NULL) ? strcspn($str, $mask) : (($length === NULL) ? strcspn($str, $mask, $offset) : strcspn($str, $mask, $offset, $length));
+        return ($offset === null) ? strcspn($str, $mask) : (($length === null) ? strcspn($str, $mask, $offset) : strcspn($str, $mask, $offset, $length));
     }
-    if($str !== NULL or $length !== NULL)
+    if($str !== null or $length !== null)
     {
         $str = Unicode::substr($str, $offset, $length);
     }

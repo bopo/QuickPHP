@@ -41,9 +41,9 @@ function _strrpos($str, $search, $offset = 0)
     if($offset == 0)
     {
         $array = explode($search, $str, - 1);
-        return isset($array[0]) ? Unicode::strlen(implode($search, $array)) : FALSE;
+        return isset($array[0]) ? Unicode::strlen(implode($search, $array)) : false;
     }
     $str = Unicode::substr($str, $offset);
     $pos = Unicode::strrpos($str, $search);
-    return ($pos === FALSE) ? FALSE : $pos + $offset;
+    return ($pos === false) ? false : $pos + $offset;
 }

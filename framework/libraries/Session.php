@@ -130,9 +130,10 @@ class QuickPHP_Session
             Session::$driver = new $driver();
 
             // 验证驱动是否继承指定接口
-            if( ! (Session::$driver instanceof QuickPHP_Session_Interface))
+            if( ! (Session::$driver instanceof Session_Interface))
             {
-                throw new QuickPHP_Exception('driver_implements', array(Session::$config['driver'], get_class($this), 'QuickPHP_Session_Interface'));
+                throw new QuickPHP_Exception('driver_implements',
+                    array(Session::$config['driver'], get_class($this), 'Session_Interface'));
             }
 
             // 注册非native驱动到会话变量处理器
@@ -142,7 +143,7 @@ class QuickPHP_Session
         // 验证Session名称
         if( ! preg_match('~^(?=.*[a-z])[a-z0-9_]++$~iD', Session::$config['name']))
         {
-            throw new QuickPHP_Session_Exception('invalid_session_name', Session::$config['name']);
+            throw new Session_Exception('invalid_session_name', Session::$config['name']);
         }
 
         // 会话变量名称,这也将是会话变量的cookie的名称

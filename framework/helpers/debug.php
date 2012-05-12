@@ -68,13 +68,13 @@ class QuickPHP_debug
      */
     protected static function _dump($var, $length = 128, $level = 0)
     {
-        if($var === NULL)
+        if($var === null)
         {
-            return '<small>Null</small>';
+            return '<small>null</small>';
         }
         elseif(is_bool($var))
         {
-            return '<small>Boolean</small> ' . ($var ? 'TRUE' : 'FALSE');
+            return '<small>Boolean</small> ' . ($var ? 'true' : 'false');
         }
         elseif(is_float($var))
         {
@@ -124,7 +124,7 @@ class QuickPHP_debug
             $output = array();
             $space  = str_repeat($s = '    ', $level);
 
-            if( ! isset($_marker) or $_marker === NULL)
+            if( ! isset($_marker) or $_marker === null)
             {
                 $_marker = uniqid("\x00");
             }
@@ -140,7 +140,7 @@ class QuickPHP_debug
             elseif($level < 5)
             {
                 $output[] = "<span>(";
-                $var[$_marker] = TRUE;
+                $var[$_marker] = true;
 
                 foreach ($var as $key => & $val)
                 {
@@ -150,7 +150,7 @@ class QuickPHP_debug
                     }
 
                     if( ! is_int($key))
-                    {   
+                    {
                         $key = '"' . htmlspecialchars($key, ENT_NOQUOTES, QuickPHP::$charset) . '"';
                     }
 
@@ -187,7 +187,7 @@ class QuickPHP_debug
             elseif($level < 10)
             {
                 $output[]       = "<code>{";
-                $objects[$hash] = TRUE;
+                $objects[$hash] = true;
 
                 foreach ($array as $key => & $val)
                 {
@@ -216,7 +216,7 @@ class QuickPHP_debug
         }
         else
         {
-            return '<small>' . gettype($var) . '</small> ' . htmlspecialchars(print_r($var, TRUE), ENT_NOQUOTES, QuickPHP::$charset);
+            return '<small>' . gettype($var) . '</small> ' . htmlspecialchars(print_r($var, true), ENT_NOQUOTES, QuickPHP::$charset);
         }
     }
 
@@ -264,12 +264,12 @@ class QuickPHP_debug
      * @param   integer  line number to highlight
      * @param   integer  number of padding lines
      * @return  string   source of file
-     * @return  FALSE    file is unreadable
+     * @return  false    file is unreadable
      */
     public static function source($file, $line_number, $padding = 5)
     {
         if( ! $file or ! is_readable($file))
-            return FALSE;
+            return false;
 
         $file   = fopen($file, 'r');
         $line   = 0;
@@ -277,7 +277,7 @@ class QuickPHP_debug
         $format = '% ' . strlen($range['end']) . 'd';
         $source = '';
 
-        while(($row = fgets($file)) !== FALSE)
+        while(($row = fgets($file)) !== false)
         {
             if(++$line > $range['end'])
             {
@@ -315,9 +315,9 @@ class QuickPHP_debug
      * @param   string  path to debug
      * @return  string
      */
-    public static function trace(array $trace = NULL)
+    public static function trace(array $trace = null)
     {
-        if($trace === NULL)
+        if($trace === null)
         {
             $trace = debug_backtrace();
         }
@@ -362,9 +362,9 @@ class QuickPHP_debug
             }
             elseif(isset($step['args']))
             {
-                if( ! function_exists($step['function']) or strpos($step['function'], '{closure}') !== FALSE)
+                if( ! function_exists($step['function']) or strpos($step['function'], '{closure}') !== false)
                 {
-                    $params = NULL;
+                    $params = null;
                 }
                 else
                 {

@@ -27,28 +27,28 @@
  * @copyright  (c) 2007 Quick
  * @license    http://www.quickphp.net/licenses/
  */
-function _substr($str, $offset, $length = NULL)
+function _substr($str, $offset, $length = null)
 {
     if(SERVER_UTF8)
     {
-        return ($length === NULL) ? mb_substr($str, $offset) : mb_substr($str, $offset, $length);
+        return ($length === null) ? mb_substr($str, $offset) : mb_substr($str, $offset, $length);
     }
     if(Unicode::is_ascii($str))
     {
-        return ($length === NULL) ? substr($str, $offset) : substr($str, $offset, $length);
+        return ($length === null) ? substr($str, $offset) : substr($str, $offset, $length);
     }
     // Normalize params
     $str = (string) $str;
     $strlen = Unicode::strlen($str);
     $offset = (int) ($offset < 0) ? max(0, $strlen + $offset) : $offset; // Normalize to positive offset
-    $length = ($length === NULL) ? NULL : (int) $length;
+    $length = ($length === null) ? null : (int) $length;
     // Impossible
     if($length === 0 or $offset >= $strlen or ($length < 0 and $length <= $offset - $strlen))
     {
         return '';
     }
     // Whole string
-    if($offset == 0 and ($length === NULL or $length >= $strlen))
+    if($offset == 0 and ($length === null or $length >= $strlen))
     {
         return $str;
     }
@@ -64,7 +64,7 @@ function _substr($str, $offset, $length = NULL)
         $regex .= ($y == 0) ? '' : '.{' . $y . '}';
     }
     // Create a length expression
-    if($length === NULL)
+    if($length === null)
     {
         $regex .= '(.*)'; // No length set, grab it all
     } // Find length from the left (positive length)

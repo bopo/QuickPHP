@@ -40,9 +40,9 @@ class QuickPHP_date
      * @param   integer  UNIX 时间戳
      * @return  integer
      */
-    public static function unix2dos($timestamp = FALSE)
+    public static function unix2dos($timestamp = false)
     {
-        $timestamp = ($timestamp === FALSE) ? getdate() : getdate($timestamp);
+        $timestamp = ($timestamp === false) ? getdate() : getdate($timestamp);
 
         if($timestamp['year'] < 1980)
         {
@@ -60,7 +60,7 @@ class QuickPHP_date
      * @param   integer  DOS 时间戳
      * @return  integer
      */
-    public static function dos2unix($timestamp = FALSE)
+    public static function dos2unix($timestamp = false)
     {
         $sec  = 2 * ($timestamp & 0x1f);
         $min  = ($timestamp >> 5) & 0x3f;
@@ -80,10 +80,10 @@ class QuickPHP_date
      * @param   string|boolean  作为基准的时区
      * @return  integer
      */
-    public static function offset($remote, $local = TRUE)
+    public static function offset($remote, $local = true)
     {
         $remote = (string) $remote;
-        $local  = ($local === TRUE) ? date_default_timezone_get() : (string) $local;
+        $local  = ($local === true) ? date_default_timezone_get() : (string) $local;
         $cache  = $remote . $local;
 
         if(empty(self::$offsets[$cache]))
@@ -144,19 +144,19 @@ class QuickPHP_date
      * @param   integer  the hour to start at
      * @return  array    A mirrored (foo => foo) array from start-12 or start-23.
      */
-    public static function hours($step = 1, $long = FALSE, $start = NULL)
+    public static function hours($step = 1, $long = false, $start = null)
     {
         $step  = (int) $step;
         $long  = (bool) $long;
         $hours = array();
 
-        if($start === NULL)
+        if($start === null)
         {
-            $start = ($long === FALSE) ? 1 : 0;
+            $start = ($long === false) ? 1 : 0;
         }
 
         $hours = array();
-        $size  = ($long === TRUE) ? 23 : 12;
+        $size  = ($long === true) ? 23 : 12;
 
         for ($i = $start; $i <= $size; $i += $step)
         {
@@ -194,16 +194,16 @@ class QuickPHP_date
         {
             case 'am' :
 
-                if($hour == 12) 
+                if($hour == 12)
                 {
                     $hour = 0;
                 }
-                
+
                 break;
 
             case 'pm' :
 
-                if($hour < 12) 
+                if($hour < 12)
                 {
                     $hour += 12;
                 }
@@ -221,13 +221,13 @@ class QuickPHP_date
      * @param   integer  要检索月份的年份，默认为本年度
      * @return  array    以数组形式返回该月的天的集合.
      */
-    public static function days($month, $year = FALSE)
+    public static function days($month, $year = false)
     {
         $month = (int) $month;
         $year  = (int) $year;
 
         // 使用本年作为要检索月份的年份
-        $year = ($year == FALSE) ? date('Y') : $year;
+        $year = ($year == false) ? date('Y') : $year;
 
         // 判断缓存中已经检索过的月份信息,缓存的目的提高效率
         if(empty(self::$months[$year][$month]))
@@ -264,10 +264,10 @@ class QuickPHP_date
      * @param   integer  结束年份
      * @return  array
      */
-    public static function years($start = FALSE, $end = FALSE)
+    public static function years($start = false, $end = false)
     {
-        $start = ($start === FALSE) ? date('Y') - 5 : (int) $start;
-        $end   = ($end === FALSE) ? date('Y') + 5 : (int) $end;
+        $start = ($start === false) ? date('Y') - 5 : (int) $start;
+        $end   = ($end === false) ? date('Y') + 5 : (int) $end;
         $years = array();
         $end   += 1;
 
@@ -287,14 +287,14 @@ class QuickPHP_date
      * @param string $output 时间格式
      * @return array
      */
-    public static function timespan($time1, $time2 = NULL, $output = 'years,months,weeks,days,hours,minutes,seconds')
+    public static function timespan($time1, $time2 = null, $output = 'years,months,weeks,days,hours,minutes,seconds')
     {
-        $years  = $months = $weeks = $days = $hours = $minutes = $seconds = FALSE;
+        $years  = $months = $weeks = $days = $hours = $minutes = $seconds = false;
         $output = preg_split('/[^a-z]+/', strtolower((string) $output));
 
         if(empty($output))
         {
-            return FALSE;
+            return false;
         }
 
         // 设置输出变量
@@ -345,7 +345,7 @@ class QuickPHP_date
 
         if(empty($difference))
         {
-            return FALSE;
+            return false;
         }
 
         return $difference;
@@ -359,7 +359,7 @@ class QuickPHP_date
      * @param   string        输出格式
      * @return  string
      */
-    public static function timespan_string($time1, $time2 = NULL, $output = 'years,months,weeks,days,hours,minutes,seconds')
+    public static function timespan_string($time1, $time2 = null, $output = 'years,months,weeks,days,hours,minutes,seconds')
     {
         if($difference = date::timespan($time1, $time2, $output) and is_array($difference))
         {
@@ -392,7 +392,7 @@ class QuickPHP_date
         return $difference;
     }
 
-    public static function solarterms($date = NULL)
+    public static function solarterms($date = null)
     {
         return $solarterms;
     }

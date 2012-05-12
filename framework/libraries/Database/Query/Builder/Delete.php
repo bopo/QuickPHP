@@ -76,7 +76,7 @@ class QuickPHP_Database_Query_Builder_Delete extends QuickPHP_Database_Query_Bui
             $query .= ' ' . $this->_compile_order_by($db, $this->_order_by);
         }
 
-        if($this->_limit !== NULL)
+        if($this->_limit !== null)
         {
             $query .= ' LIMIT ' . $this->_limit;
         }
@@ -86,7 +86,7 @@ class QuickPHP_Database_Query_Builder_Delete extends QuickPHP_Database_Query_Bui
 
     public function reset()
     {
-        $this->_table = NULL;
+        $this->_table = null;
         $this->_where = $this->_parameters = array();
 
         return $this;

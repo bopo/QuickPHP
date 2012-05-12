@@ -51,7 +51,7 @@ class QuickPHP_expires
             return $expires;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -80,7 +80,7 @@ class QuickPHP_expires
                 header('Last-Modified: ' . gmdate('D, d M Y H:i:s T', $mod_time));
                 header('Expires: ' . gmdate('D, d M Y H:i:s T', time() + $mod_time_diff));
                 header('Cache-Control: max-age=' . $mod_time_diff);
-                header('Status: 304 Not Modified', TRUE, 304);
+                header('Status: 304 Not Modified', true, 304);
 
                 exit(0);
             }

@@ -44,11 +44,11 @@ function _strpos($str, $search, $offset = 0)
     if($offset == 0)
     {
         $array = explode($search, $str, 2);
-        return isset($array[1]) ? Unicode::strlen($array[0]) : FALSE;
+        return isset($array[1]) ? Unicode::strlen($array[0]) : false;
     }
 
     $str = Unicode::substr($str, $offset);
     $pos = Unicode::strpos($str, $search);
 
-    return ($pos === FALSE) ? FALSE : $pos + $offset;
+    return ($pos === false) ? false : $pos + $offset;
 }

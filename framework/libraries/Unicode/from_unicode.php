@@ -51,7 +51,7 @@ function _from_unicode($arr)
         {
             // Found a surrogate
             trigger_error('Unicode::from_unicode: Illegal surrogate at index: ' . $k . ', value: ' . $arr[$k], E_USER_WARNING);
-            return FALSE;
+            return false;
         } // 3 byte sequence
         elseif($arr[$k] <= 0xffff)
         {
@@ -69,7 +69,7 @@ function _from_unicode($arr)
         else
         {
             trigger_error('Unicode::from_unicode: Codepoint out of Unicode range at index: ' . $k . ', value: ' . $arr[$k], E_USER_WARNING);
-            return FALSE;
+            return false;
         }
     }
     $result = ob_get_contents();

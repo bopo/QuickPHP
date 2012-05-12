@@ -96,17 +96,17 @@ abstract class QuickPHP_Captcha_Abstract
     {
         switch (strtolower(substr(strrchr($filename, '.'), 1)))
         {
-            case 'png'  : 
+            case 'png'  :
                 return 'png';
                 break;
-            case 'gif'  : 
+            case 'gif'  :
                 return 'gif';
                 break;
             case 'jpg'  :
-            case 'jpeg' : 
+            case 'jpeg' :
                 return 'jpeg';
                 break;
-            default     : 
+            default     :
                 return false;
                 break;
         }
@@ -119,7 +119,7 @@ abstract class QuickPHP_Captcha_Abstract
      * @param   string  背景图像文件路径
      * @return  void
      */
-    public function image_create($background = NULL)
+    public function image_create($background = null)
     {
         if( ! function_exists('imagegd2'))
         {
@@ -150,7 +150,7 @@ abstract class QuickPHP_Captcha_Abstract
      * @param   string    direction: 'horizontal' or 'vertical', 'random' by default|方向:“水平”或“垂直的”、“随机的默认
      * @return  void
      */
-    public function image_gradient($color1, $color2, $direction = NULL)
+    public function image_gradient($color1, $color2, $direction = null)
     {
         $directions = array('horizontal', 'vertical');
 
@@ -169,7 +169,7 @@ abstract class QuickPHP_Captcha_Abstract
         $color1 = imagecolorsforindex($this->image, $color1);
         $color2 = imagecolorsforindex($this->image, $color2);
         $steps  = ($direction === 'horizontal') ? Captcha::$config['width'] : Captcha::$config['height'];
-        
+
         $r1     = ($color1['red'] - $color2['red']) / $steps;
         $g1     = ($color1['green'] - $color2['green']) / $steps;
         $b1     = ($color1['blue'] - $color2['blue']) / $steps;
@@ -237,7 +237,7 @@ abstract class QuickPHP_Captcha_Abstract
      */
     public static function random($type = 'alnum', $length = 8)
     {
-        $utf8 = FALSE;
+        $utf8 = false;
 
         switch ($type)
         {
@@ -265,7 +265,7 @@ abstract class QuickPHP_Captcha_Abstract
                 break;
         }
 
-        $pool = ($utf8 === TRUE) ? Unicode::str_split($pool, 1) : str_split($pool, 1);
+        $pool = ($utf8 === true) ? Unicode::str_split($pool, 1) : str_split($pool, 1);
         $max  = count($pool) - 1;
         $str  = '';
 

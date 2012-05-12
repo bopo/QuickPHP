@@ -44,34 +44,34 @@ class QuickPHP_ORM
 
     // 数据对象关系
     protected $_has_one    = array();
-    
+
     protected $_belongs_to = array();
-    
+
     protected $_has_many   = array();
-    
+
     // 载入的对象关系
     protected $_load_with  = array();
-    
+
     // 验证成员
-    protected $_validate   = NULL;
-    
+    protected $_validate   = null;
+
     protected $_rules      = array();
-    
+
     protected $_callbacks  = array();
-    
+
     protected $_filters    = array();
-    
+
     protected $_labels     = array();
-    
+
     // 当前对象
     protected $_object     = array();
-    
+
     protected $_changed    = array();
-    
+
     protected $_related    = array();
-    
+
     protected $_loaded     = false;
-    
+
     protected $_saved      = false;
 
     protected $_sorting;
@@ -91,9 +91,9 @@ class QuickPHP_ORM
     protected $_ignored_columns = array();
 
     // 自动更新列增加和更新
-    protected $_updated_column = NULL;
+    protected $_updated_column = null;
 
-    protected $_created_column = NULL;
+    protected $_created_column = null;
 
     // 表的主键和值
     protected $_primary_key = 'id';
@@ -107,7 +107,7 @@ class QuickPHP_ORM
     protected $_reload_on_wakeup = true;
 
     // 数据库配置
-    protected $_db = NULL;
+    protected $_db = null;
 
     // 数据库已经应用的数据
     protected $_db_applied = array();
@@ -193,7 +193,7 @@ class QuickPHP_ORM
      * @param   mixed   parameter for find()
      * @return  ORM
      */
-    public static function factory($model, $id = NULL)
+    public static function factory($model, $id = null)
     {
         $model = explode("_", $model);
 
@@ -214,7 +214,7 @@ class QuickPHP_ORM
      * @param   mixed  parameter for find or object to load
      * @return  void
      */
-    public function __construct($id = NULL)
+    public function __construct($id = null)
     {
         $this->_object_name   = strtolower(substr(get_class($this), 0, - 6));
         $this->_object_plural = inflector::plural($this->_object_name);
@@ -232,7 +232,7 @@ class QuickPHP_ORM
         $this->_initialize();
         $this->clear();
 
-        if($id !== NULL)
+        if($id !== null)
         {
             if(is_array($id))
             {
@@ -354,7 +354,7 @@ class QuickPHP_ORM
         }
         else
         {
-            throw new QuickPHP_ORM_Exception('Invalid method {0} called in {1}', array($method, get_class($this)));
+            throw new ORM_Exception('Invalid_method_call', array($method, get_class($this)));
         }
     }
 
@@ -422,7 +422,7 @@ class QuickPHP_ORM
         }
         else
         {
-            throw new QuickPHP_ORM_Exception('invalid_property', array($column, get_class($this)));
+            throw new ORM_Exception('invalid_property', array($column, get_class($this)));
         }
     }
 
@@ -463,7 +463,7 @@ class QuickPHP_ORM
         }
         else
         {
-            throw new QuickPHP_ORM_Exception("The {$column} property does not exist in the ".get_class($this)." class");
+            throw new ORM_Exception("invalid_property", array($column, get_class($this)));
         }
     }
 
@@ -530,7 +530,7 @@ class QuickPHP_ORM
         {
             $defaults['model']       = inflector::singular($alias);
             $defaults['foreign_key'] = $this->_object_name . $this->_foreign_key_suffix;
-            $defaults['through']     = NULL;
+            $defaults['through']     = null;
             $defaults['far_key']     = inflector::singular($alias) . $this->_foreign_key_suffix;
             $this->_has_many[$alias] = array_merge($defaults, $details);
         }
@@ -744,7 +744,7 @@ class QuickPHP_ORM
      * @param   mixed  primary key
      * @return  ORM
      */
-    public function find($id = NULL)
+    public function find($id = null)
     {
         if( ! empty($this->_load_with))
         {
@@ -756,12 +756,12 @@ class QuickPHP_ORM
 
         $this->_build(Database::SELECT);
 
-        if($id !== NULL)
+        if($id !== null)
         {
             $this->_db_builder->where($this->_table_name . '.' . $this->_primary_key, '=', $id);
         }
 
-        return $this->_load_result(FALSE);
+        return $this->_load_result(false);
     }
 
     /**
@@ -782,7 +782,7 @@ class QuickPHP_ORM
 
         $this->_build(Database::SELECT);
 
-        return $this->_load_result(TRUE);
+        return $this->_load_result(true);
     }
 
     /**
@@ -921,9 +921,9 @@ class QuickPHP_ORM
      * @param   mixed  id to delete
      * @return  ORM
      */
-    public function delete($id = NULL)
+    public function delete($id = null)
     {
-        if($id === NULL)
+        if($id === null)
         {
             $id = $this->pk();
         }
@@ -960,7 +960,7 @@ class QuickPHP_ORM
      */
     public function clear()
     {
-        $values = array_combine(array_keys($this->_table_columns), array_fill(0, count($this->_table_columns), NULL));
+        $values = array_combine(array_keys($this->_table_columns), array_fill(0, count($this->_table_columns), null));
 
         $this->_object  = array();
         $this->_changed = array();
@@ -1004,7 +1004,7 @@ class QuickPHP_ORM
             }
             else
             {
-                $this->_table_columns = $this->list_columns(TRUE);
+                $this->_table_columns = $this->list_columns(true);
                 ORM::$_column_cache[$this->_object_name] = $this->_table_columns;
             }
         }
@@ -1038,12 +1038,12 @@ class QuickPHP_ORM
      * @param   array    additional data to store in "through"/pivot table
      * @return  ORM
      */
-    public function add($alias, ORM $model, $data = NULL)
+    public function add($alias, ORM $model, $data = null)
     {
         $columns = array($this->_has_many[$alias]['foreign_key'], $this->_has_many[$alias]['far_key']);
         $values  = array($this->pk(), $model->pk());
 
-        if($data !== NULL)
+        if($data !== null)
         {
             $data    = array_merge(array_combine($columns, $values), $data);
             $columns = array_keys($data);
@@ -1126,7 +1126,7 @@ class QuickPHP_ORM
      * @param   string  SQL query to clear
      * @return  ORM
      */
-    public function clear_cache($sql = NULL)
+    public function clear_cache($sql = null)
     {
         $this->_db->clear_cache($sql);
         ORM::$_column_cache = array();
@@ -1171,7 +1171,7 @@ class QuickPHP_ORM
     {
         if(array_key_exists($this->_primary_key, $values))
         {
-            $this->_loaded = $this->_saved = ($values[$this->_primary_key] !== NULL);
+            $this->_loaded = $this->_saved = ($values[$this->_primary_key] !== null);
         }
 
         $related = array();
@@ -1305,7 +1305,7 @@ class QuickPHP_ORM
         }
 
         $this->_db_reset = $next;
-        
+
         return $this;
     }
 }
