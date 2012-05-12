@@ -44,11 +44,20 @@
  * @copyright  (c) 2007 Quick Team
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
-if( ! preg_match('/^.$/u', 'ñ')) trigger_error('<a href="http://php.net/pcre">PCRE</a> has not been compiled with UTF-8 support. ' . 'See <a href="http://php.net/manual/reference.pcre.pattern.modifiers.php">PCRE Pattern Modifiers</a> ' . 'for more information. This application cannot be run without UTF-8 support.', E_USER_ERROR);
+if( ! preg_match('/^.$/u', 'ñ')) 
+{
+    trigger_error('<a href="http://php.net/pcre">PCRE</a> has not been compiled with UTF-8 support. ' . 'See <a href="http://php.net/manual/reference.pcre.pattern.modifiers.php">PCRE Pattern Modifiers</a> ' . 'for more information. This application cannot be run without UTF-8 support.', E_USER_ERROR);
+}
 
-if( ! extension_loaded('iconv')) trigger_error('The <a href="http://php.net/iconv">iconv</a> extension is not loaded. ' . 'Without iconv, strings cannot be properly translated to UTF-8 from user input. ' . 'This application cannot be run without UTF-8 support.', E_USER_ERROR);
+if( ! extension_loaded('iconv')) 
+{
+    trigger_error('The <a href="http://php.net/iconv">iconv</a> extension is not loaded. ' . 'Without iconv, strings cannot be properly translated to UTF-8 from user input. ' . 'This application cannot be run without UTF-8 support.', E_USER_ERROR);
+}
 
-if(extension_loaded('mbstring') and (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING)) trigger_error('The <a href="http://php.net/mbstring">mbstring</a> extension is overloading PHP\'s native string functions. ' . 'Disable this by setting mbstring.func_overload to 0, 1, 4 or 5 in php.ini or a .htaccess file.' . 'This application cannot be run without UTF-8 support.', E_USER_ERROR);
+if(extension_loaded('mbstring') and (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING)) 
+{
+    trigger_error('The <a href="http://php.net/mbstring">mbstring</a> extension is overloading PHP\'s native string functions. ' . 'Disable this by setting mbstring.func_overload to 0, 1, 4 or 5 in php.ini or a .htaccess file.' . 'This application cannot be run without UTF-8 support.', E_USER_ERROR);
+}
 
 $ER = error_reporting(0);
 define('PCRE_UNICODE_PROPERTIES', (bool) preg_match('/^\pL$/u', 'ñ'));
@@ -65,7 +74,9 @@ else
 }
 
 if(PHP_SAPI == 'cli')
+{
     $_SERVER['argv'] = Unicode::clean($_SERVER['argv']);
+}
 
 class QuickPHP_Unicode
 {
@@ -86,7 +97,9 @@ class QuickPHP_Unicode
         if(is_array($str) or is_object($str))
         {
             foreach ($str as $key => $val)
+            {
                 $str[self::clean($key)] = self::clean($val);
+            }
         }
         elseif(is_string($str) and $str !== '')
         {
@@ -94,7 +107,7 @@ class QuickPHP_Unicode
 
             if( ! self::is_ascii($str))
             {
-                $ER = error_reporting(~ E_NOTICE);
+                $ER  = error_reporting(~ E_NOTICE);
                 $str = iconv('UTF-8', 'UTF-8//IGNORE', $str);
                 error_reporting($ER);
             }

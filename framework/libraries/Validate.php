@@ -43,13 +43,14 @@ class QuickPHP_Validate extends ArrayObject
     // 字段标签
     protected $_labels      = array();
 
-    // Rules that are executed even when the value is empty
-    // 即使执行规则的价值是空的
-    protected $_empty_rules = array('not_empty', 'matches');
 
     // 错误列表，格式: field       => rule
     protected $_errors      = array();
 
+    // Rules that are executed even when the value is empty
+    // 即使执行规则的价值是空的
+    protected $_empty_rules = array('not_empty', 'matches');
+    
     /**
      * 创建一个验证实例.
      *

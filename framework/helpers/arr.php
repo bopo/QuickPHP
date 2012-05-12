@@ -31,7 +31,7 @@
  */
 class QuickPHP_arr
 {
-
+    
     /**
      * 测试是否是数组组合
      *
