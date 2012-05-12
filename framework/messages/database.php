@@ -30,5 +30,5 @@ return array(
     'table_not_found'       => '数据库不存在表 {0}。',
     'not_implemented'       => '驱动不支持你调用的方法，{0}。',
     'result_read_only'      => '查询结果仅为只读。',
-    'invalid_query'         => '数据库错误：{0}; '.PHP_EOL.' SQL: {1}',
+    'invalid_query'         => '数据库错误：{0};<br /> '.PHP_EOL.' SQL: {1}',
 );
