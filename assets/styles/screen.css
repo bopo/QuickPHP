@@ -1,0 +1,51 @@
+body {
+	font-size: 12px;
+}
+
+form {
+	margin: 0px;
+	padding: 0px;
+}
+
+.album {
+	float: left;
+	width: 224px;
+	height: 280px;
+	margin: 10px 30px 20px 0px;
+	border: 1px dotted #666;
+	padding: 10px;
+}
+
+.album h3 {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0px 0px 10px 0px;
+	padding: 0px;
+	color: #000;
+	width: 220px;
+	overflow: hidden;
+}
+
+.album a {
+	display: block;
+	text-decoration: none;
+	border: 1px solid #ccc;
+}
+
+.album a:hover {
+	border: 1px solid #333;
+}
+
+.thumb {
+	padding: 1px;
+	border: none;
+}
+
+.album p {
+	margin: 8px 0px 0px 0px;
+}
+
+.nofloat {
+	float: none;
+	clear: both;
+}
