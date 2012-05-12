@@ -1,0 +1,155 @@
+<!-- #layout name='frontend.html' block='container' -->
+<div id="g_cont_main">
+  <div class="gcm_wrap">
+    <div class="gcm_mvfldwrap">
+      <div class="gcm_key_image" style="display:block;">
+        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="100%" height="100%" id="20642523" style="outline:none;">
+          <param name="allowScriptAccess" value="always"></param>
+          <param name="allowFullScreen" value="false"></param>
+          <param name="movie" value="img/common/gmain_680x415.swf"></param>
+          <param name="wmode" value="transparent"></param>
+          <param name="FlashVars" value="lang=en-us&amp;home_url=http://global.cyworld.com/docs/serviceIntro01&amp;diary_url=http://global.cyworld.com/docs/serviceIntro03&amp;clup_url=http://club.global.cyworld.com/&amp;shop_url=http://shop.global.cyworld.com/mall/mall5_index.asp">
+          </param>
+          <!--[if !IE]>-->
+          <object type="application/x-shockwave-flash" data="img/common/gmain_680x415.swf" width="100%" height="100%">
+            <!--<![endif]-->
+            <param name="wmode" value="transparent"></param>
+            <param name="FlashVars" value="lang=en-us&amp;home_url=http://global.cyworld.com/docs/serviceIntro01&amp;diary_url=http://global.cyworld.com/docs/serviceIntro03&amp;clup_url=http://club.global.cyworld.com/&amp;shop_url=http://shop.global.cyworld.com/mall/mall5_index.asp">
+            </param>
+            <!--[if !IE]>-->
+          </object>
+          <!--<![endif]-->
+        </object>
+      </div>
+      <div class="gcm_movie s_minihp"><!-- 마커클래스 s_minihp/s_diary/s_mall/s_club -->
+        <div id="l_building" data-deg="0"></div>
+        <div class="l_banggri"></div>
+        <button id="l_bt_minihp" data-deg="0">
+        <div class="l_minihp_bird"></div>
+        </button>
+        <button id="l_bt_club" data-deg="270">
+        <div class="l_club_sun"></div>
+        </button>
+        <button id="l_bt_diary" data-deg="180">
+        <div class="l_diary_speech"></div>
+        </button>
+        <button id="l_bt_mall" data-deg="90">
+        <div class="l_mall_happy"></div>
+        </button>
+        <div class="l_balloon">
+          <div class="l_minihp">
+            <p class="l_bd">Express yourself…</p>
+            <p>Through your one and only miniHome</p>
+          </div>
+          <div class="l_diary">
+            <p class="l_bd">Connect with your friends uniquely with Cyworld.</p>
+            <p>Go beyond comments with Stickers and use Our Diary to <br>
+              share thoughts, pictures, and videos with only selected friends.</p>
+          </div>
+          <div class="l_mall">
+            <p class="l_bd">On days when friends need a lift...</p>
+            <p>Give them gifts of music, skins, menu effects, etc. to liven up both their miniHome and their day!</p>
+          </div>
+          <div class="l_club">
+            <p><em>Plug into Cyworld Clubs!</em><br>
+              Join a Cyworld Club that fits your interests! Meet friends, make new ones, and share things you like within your Cyworld Clubs!</p>
+          </div>
+        </div>
+      </div>
+      <div class="gcm_signup">
+        <h2>注册到本网站</h2>
+        <form name="f" id="f">
+          <fieldset>
+            <legend>Sign up</legend>
+            <dl class="gcmr_input">
+
+              <dt>您的尊姓</dt>
+              <dd>
+                <input type="text" size="30" class="gcs_input" id="LastName" name="LastName" title="您的尊姓" value="您的尊姓" maxlength="35" />
+              </dd>
+
+              <dt>大名</dt>
+              <dd>
+                <input type="text" size="30" class="gcs_input" id="FirstName" name="FirstName" title="您的大名" value="您的大名" maxlength="35" />
+              </dd>
+
+              <dt>电子邮件</dt>
+              <!-- <dd class="email"> -->
+              <dd>
+                <input type="text" size="30" class="gcs_input" id="email" name="email" title="电子邮件" value="电子邮件" maxlength="35" />
+                <!-- <button type="button" class="gbtn email_check" title="Email duplicate check"><span>检查</span></button> -->
+              </dd>
+              <dt>用户密码</dt>
+              <dd>
+                <input type="text" size="30" class="gcs_input" id="fgmr_password" name="fgmr_password" title="Password" value="用户密码" />
+                <input style="display: none" type="password" size="30" class="gcs_input" id="gmr_password" name="gmr_password" title="Password" value="" />
+                <em class="iptmsg passwdmsg"></em></dd>
+              <dt>Password</dt>
+              <dd>
+                <input type="text" size="30" class="gcs_input" id="fgmr_password2" name="fgmr_password2" title="Password2" value="确认密码" />
+                <input style="display: none" type="password" size="30" class="gcs_input" id="gmr_password2" name="gmr_password2" title="Password2" value="确认密码" />
+                <em class="iptmsg passwdmsg2">Please re-enter your password.</em></dd>
+<!--               <dt>性别</dt>
+              <dd class="gender">
+                <input type="radio" name="gmr_gender" id="gmr_female" class="gcs_chkradio" title="Famale" value="2" />
+                <label for="gmr_female">女性</label>
+                <input type="radio" name="gmr_gender" id="gmr_male" class="gcs_chkradio" title="Male" value="1" />
+                <label for="gmr_male">男性</label>
+              </dd> -->
+<!--               <dt class="birth">生日</dt>
+              <dd class="birth">
+                <span class="birfc" style="display:none">
+                  <input type="checkbox" class="scs2cal" value="0" />Lunar Calendar
+                </span>
+                <select class="gcs_select scs2month" title="Month">
+                  <option value="">月</option>
+                </select>
+                <select class="gcs_select scs2day" title="Day">
+                  <option value="">日</option>
+                </select>
+                <select class="gcs_select scs2year" title="Year">
+                  <option value="">年</option>
+                </select>
+              </dd> -->
+              <dt>Request for consent</dt>
+              <dd>
+                <input type="checkbox" id="gmr_consent" name="gmr_consent" class="gcs_chkradio" title="consent" />
+                <label for="gmr_consent"></label>
+              </dd>
+            </dl>
+            <div class="gmr_signup">
+              <button type="button" class="gbtn gbtn btd-ml btd-l2 btv-co " title="Sign up"><span>免费注册</span></button>
+            </div>
+          </fieldset>
+          <input type="hidden" id="passwd_rsa" name="passwd_rsa" value="" />
+          <input type="hidden" id="cntry_cd" name="cntry_cd" value="" />
+          <input type="hidden" id="culture" value="US" />
+        </form>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="gcm_explain f_clear">
+      <div class="gcm_exp gcme_minihome">
+        <h2><a href="docs/serviceIntro01">miniHome</a></h2>
+        <div class="gcme_img"><a href="docs/serviceIntro01"><img src="http://global.cyworld.com/img/temp/img_gcme_minihome.gif" width="204" height="124" border="0" alt="miniHome" /></a></div>
+        <p>Express yourself… Through your one and only miniHome.</p>
+        <p class="gcm_gtkm"><a href="docs/serviceIntro01" title="Read more">more</a></p>
+      </div>
+      <div class="gcm_exp gcme_club">
+        <h2><a href="docs/serviceIntro04">Club</a></h2>
+        <div class="gcme_img"><a href="docs/serviceIntro04"><img src="http://global.cyworld.com/img/temp/img_gcme_club.gif" width="204" height="124" border="0" alt="miniHome" /></a></div>
+        <p>Meet friends, make new ones, and share things you like within your Cyworld Clubs!</p>
+        <p class="gcm_gtkm"><a href="docs/serviceIntro04" title="Read more">more</a></p>
+      </div>
+      <div class="gcm_exp gcme_mobile">
+        <h2><a href="http://cystar.global.cyworld.com/">Hot Issue! Cystar!</a></h2>
+        <div class="gcme_img"><a href="http://cystar.global.cyworld.com/"><img src="http://global.cyworld.com/img/temp/img_gcme_mobile.gif" width="204" height="124" border="0" alt="miniHome" /></a></div>
+        <p>Enjoy celebrities' personal pics, be the fan of them!</p>
+        <p class="gcm_gtkm"><a href="http://cystar.global.cyworld.com/" title="Read more">more</a></p>
+      </div>
+      <div class="gcm_exp gcme_banner">
+        <script language="javascript" src="http://cyad.nate.com/js.kti/globalcy/log@out_Middle1"></script>
+      </div>
+    </div>
+  </div>
+</div>

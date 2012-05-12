@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /console/*
+Disallow: /runtime/*
+Disallow: /assets/*
+Allow: /

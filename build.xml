@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QuickPHP 1.0.1 build file - Copyright (C) 2011 QuickphpSoft
+
+  Requirements
+  ============
+  xdebug >= 2.0.0beta4
+-->
+<project name="divine" basedir="." default="help">
+  <taskdef name="quickphp-version-check" classname="QuickphpVersionTask" classpath="buildscripts/phing/tasks" />
+  <taskdef name="quickphp-doc" classname="QuickphpDocTask" classpath="buildscripts/phing/tasks" />
+  <!-- <taskdef name="quickphp-test" classname="QuickphpTestTask" classpath="buildscripts/phing/tasks"/> -->
+  <quickphp-version-check />
+
+  <property name="php" value="php" />
+  <!-- PHP parser -->
+  <property name="hhc" value="hhc" />
+  <!-- compile phpdoc into CHM -->
+  <property name="pdflatex" value="pdflatex" />
+  <!-- generates PDF from LaTex -->
+  <property name="zip" value="zip" />
+  <!-- zip compression -->
+  <property name="pkgname" value="${phing.project.name}-${quickphp.version}.r${quickphp.revision}" />
+  <property name="build.base.dir" value="build" />
+  <property name="build.dist.dir" value="${build.base.dir}/dist" />
+  <property name="build.src.dir" value="${build.base.dir}/${pkgname}" />
+  <property name="build.doc.dir" value="${build.base.dir}/docs" />
+  <property name="build.pear.dir" value="${build.base.dir}/pear" />
+  <property name="build.web.dir" value="${build.base.dir}/web" />
+  <property name="build.test.dir" value="${build.base.dir}/test-reports" />
+  <property name="build.coverage.dir" value="${build.base.dir}/code-coverage" />
+  <property name="build.snapshot.dir" value="${build.base.dir}/snapshot" />
+  <property name="build.compact.dir" value="${build.base.dir}/${pkgname}/compact" />
+  <property file="buildscripts/build.properties" />
+  <tstamp />
+  <!--
+      All Source Files in framework
+  -->
+  <fileset dir="." id="framework">
+    <exclude name="**/.svn" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="framework/**/*" />
+  </fileset>
+  <!--
+      Surrounding files
+  -->
+  <fileset dir="." id="misc">
+    <exclude name="**/.svn" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="index.php" />
+    <include name=".htaccess" />
+    <include name="robots.txt" />
+  </fileset>
+  <!--
+      Documentation
+  -->
+  <fileset dir="." id="docs">
+    <exclude name="**/.svn" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <exclude name="**/latex" />
+    <exclude name="**/sqlmap_tut.pdf" />
+    <include name="docs/db/**" />
+  </fileset>
+  <!--
+      Demos
+  -->
+  <fileset dir="." id="protected">
+    <exclude name="**/.svn" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="protected/**/*" />
+  </fileset>
+
+  <fileset dir="." id="assets">
+    <exclude name="**/.svn" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="assets/**/*" />
+  </fileset>
+
+  <fileset dir="." id="runtime">
+    <exclude name="**/.svn" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="runtime/*" />
+  </fileset>
+
+  <fileset dir="." id="writables">
+    <include name="${build.src.dir}/runtime" />
+    <include name="${build.src.dir}/assets" />
+    <include name="${build.src.dir}/protected" />
+  </fileset>
+
+  <target name="help">
+    <echo>
+
+    Welcome to use QuickPHP build script!
+    ----------------------------------
+    You may use the following command format to build a target:
+
+              phing   &lt;target name&gt;
+
+    where &lt;target name&gt; can be one of the following:
+
+    For all QuickPHP developers:
+    - test       : run unit tests (results are under /build/test-reports);
+
+    For QuickPHP release manager:
+    - dist       : create release files;
+    - build      : prepare a directory for distribution;
+    - clean      : clean up the build directory;
+    - tmpclean   : clean up the runtime directory;
+    - rebuild    : clean first and then build;
+    - db:create  : generate databae create;
+    - db:migrate : generate databae migrate;
+    - docs       : generate documentation;
+    - pear       : generate PEAR packages;
+    - snapshot   : generate nightly snapshot;
+    </echo>
+  </target>
+
+  <target name="build" description="Building standard QuickPHP package v${quickphp.version}.${quickphp.revision}">
+    <echo>Copying files to build directory...</echo>
+    <copy todir="${build.src.dir}">
+      <fileset refid="framework" />
+      <fileset refid="protected" />
+      <fileset refid="runtime" />
+      <fileset refid="assets" />
+      <fileset refid="docs" />
+      <fileset refid="misc" />
+    </copy>
+    <echo>Changing file permissions...</echo>
+    <chmod mode="0755">
+      <fileset refid="writables" />
+    </chmod>
+  </target>
+
+  <target name="tmpclean">
+    <echo>Cleaning up the runtime directory.</echo>
+    <delete>
+      <fileset dir=".">
+        <exclude name=".htaccess" />
+        <include name="runtime/_cache/**/**" />
+        <include name="runtime/_caching/**/**" />
+        <include name="runtime/_sessions/**/**" />
+        <include name="runtime/_tmp/**/**" />
+        <include name="runtime/_views/**/**" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="clean">
+    <echo>Cleaning up the mess</echo>
+    <delete dir="${build.base.dir}" />
+  </target>
+
+  <target name="rebuild" depends="clean,build" />
+  <target name="docs" depends="build">
+    <echo>Build PDF + CHM + HTML Docs, it may take about 30 mins</echo>
+  </target>
+
+  <target name="dist" depends="rebuild,docs">
+    <echo>Moving doc files to build...</echo>
+    <mkdir dir="${build.dist.dir}" />
+  </target>
+
+  <target name="test" description="Running unit tests">
+    <delete dir="${build.test.dir}" />
+    <mkdir dir="${build.test.dir}" />
+    <quickphp-test codecoverage="false" haltonfailure="false" haltonerror="false" printsummary="true">
+      <batchtest>
+        <fileset dir="tests/unit">
+          <include name="**/*Test.php" />
+        </fileset>
+      </batchtest>
+      <formatter type="xml" todir="${build.test.dir}" outfile="unit-tests.xml" />
+    </quickphp-test>
+    <phpunit2report infile="${build.test.dir}/unit-tests.xml" format="frames" styledir="buildscripts/phing/style" todir="${build.test.dir}" />
+  </target>
+
+  <target name="snapshot" depends="rebuild">
+    <echo>Generating compressed distribution files...</echo>
+    <if>
+      <equals arg1="${quickphp.winbuild}" arg2="false" />
+      <then>
+        <exec command="tar czvf ${pkgname}.tar.gz ${pkgname}" dir="${build.base.dir}" />
+        <move file="${build.base.dir}/${pkgname}.tar.gz" todir="${build.dist.dir}" />
+      </then>
+    </if>
+    <exec command="zip ${pkgname}.zip -r ${pkgname}" dir="${build.base.dir}" />
+    <move file="${build.base.dir}/${pkgname}.zip" tofile="${build.snapshot.dir}/quickphp-latest.zip" />
+  </target>
+
+  <target name="db:create">
+    <echo>database creating...</echo>
+    <pdosqlexec url="mysql:host=${db.host};dbname=${db.name}" userid="${db.user}" password="${db.pass}">
+      <transaction src="docs/db/setup.sql"/>
+      <formatter type="plain" outfile="docs/db/output.log"/>
+    </pdosqlexec>
+  </target>
+
+  <target name="db:migrate" description="Database Migrations" depends="">
+    <taskdef name="dbdeploy" classname="phing.tasks.ext.dbdeploy.DbDeployTask"/>
+    <property name="build.dbdeploy.deployfile" value="deploy-${DSTAMP}${TSTAMP}.sql" />
+    <property name="build.dbdeploy.undofile" value="undo-${DSTAMP}${TSTAMP}.sql" />
+    <dbdeploy
+        url="mysql:host=${db.host};dbname=${db.name}"
+        userid="${db.user}"
+        password="${db.pass}"
+        dir="docs/db/migrate"
+        outputfile="docs/db/deltas/${build.dbdeploy.deployfile}"
+        undooutputfile="docs/db/deltas/${build.dbdeploy.undofile}" />
+    <pdosqlexec url="mysql:host=${db.host};dbname=${db.name}" userid="${db.user}" password="${db.pass}">
+      <fileset dir="docs/db/deltas">
+        <include name="${build.dbdeploy.deployfile}"/>
+      </fileset>
+    </pdosqlexec>
+
+  </target>
+
+</project>
