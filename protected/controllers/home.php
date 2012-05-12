@@ -29,7 +29,7 @@
  * @license    http://www.quickphp.net/license.html
  */
 
-class Home_Controller extends Abstract_Frontend_Controller
+class Home_Controller extends Template_Controller
 {
     public function __call($method, $args)
     {
