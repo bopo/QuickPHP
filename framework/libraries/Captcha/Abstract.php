@@ -64,9 +64,7 @@ abstract class QuickPHP_Captcha_Abstract
     abstract public function render($html);
 
     /**
-     * 目前储存响应验证码挑战在一节课上,所以它可在下一页负荷,为Captcha:正确的。()。
-     * 这种方法被称作后在system.post_controller控制器执行(事件)为了不覆盖本身得太快了。
-     * 更新问题到session中
+     * 更新验证码问题到session中
      *
      * @return  void
      */
@@ -113,8 +111,7 @@ abstract class QuickPHP_Captcha_Abstract
     }
 
     /**
-     * 创建一个图像资源的维度中指定配置。
-     * 如果一个背景图像,图像尺寸提供使用。
+     * 创建一个图像对象
      *
      * @param   string  背景图像文件路径
      * @return  void
@@ -143,16 +140,16 @@ abstract class QuickPHP_Captcha_Abstract
     }
 
     /**
-     * 充满具有渐变色填充。
+     * 图像填充色
      *
-     * @param   resource  gd image color identifier for start color|GD图像颜色标识符为起动的颜色
-     * @param   resource  gd image color identifier for end color|GD图像颜色标识符为最终的颜色
-     * @param   string    direction: 'horizontal' or 'vertical', 'random' by default|方向:“水平”或“垂直的”、“随机的默认
+     * @param   resource  前景色
+     * @param   resource  背景色
+     * @param   string    方向:VERTICAL,HORIZONTAL 默认 VERTICAL
      * @return  void
      */
     public function image_gradient($color1, $color2, $direction = null)
     {
-        $directions = array('horizontal', 'vertical');
+        $directions = array('HORIZONTAL', 'VERTICAL');
 
         if( ! in_array($direction, $directions))
         {
@@ -175,7 +172,7 @@ abstract class QuickPHP_Captcha_Abstract
         $b1     = ($color1['blue'] - $color2['blue']) / $steps;
         $i      = null;
 
-        if($direction === 'horizontal')
+        if($direction === 'HORIZONTAL')
         {
             $x1 = & $i;
             $y1 = 0;
@@ -201,7 +198,7 @@ abstract class QuickPHP_Captcha_Abstract
     }
 
     /**
-     * 返回HTML元素和输出的形象浏览器。
+     * 返回HTML内容或者输出图像
      *
      * @param   boolean  是否输出HTML元素
      * @return  mixed    HTML或者无返回
@@ -224,16 +221,16 @@ abstract class QuickPHP_Captcha_Abstract
     /**
      * 按指定的类型及长度产生一个随机字符串。
      *
-     * @param   string   a type of pool, or a string of characters to use as the pool|一种池、或一个字符串作为游泳池
-     * @param   integer  length of string to return 字符串长度回来了
+     * @param   string   生成随机数的规则
+     * @param   integer  字符串长度
      * @return  string
      *
-     * @tutorial  alnum     alpha-numeric characters|alpha-numeric人物
-     * @tutorial  alpha     alphabetical characters|字母字符
-     * @tutorial  hexdec    hexadecimal characters, 0-9 plus a-f|十六进制特点、0 - 9 + a-f
-     * @tutorial  numeric   digit characters, 0-9|0 - 9数字字符,
-     * @tutorial  nozero    digit characters, 1-9|1 - 9数字字符,
-     * @tutorial  distinct  clearly distinct alpha-numeric characters|alpha-numeric角色分明
+     * @tutorial  alnum     希腊数字字符
+     * @tutorial  alpha     字母字符
+     * @tutorial  hexdec    十六进制字符
+     * @tutorial  numeric   0 - 9数字字符,
+     * @tutorial  nozero    1 - 9数字字符,
+     * @tutorial  distinct  同时使用希腊字母和数字的字符
      */
     public static function random($type = 'alnum', $length = 8)
     {

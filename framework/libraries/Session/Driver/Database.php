@@ -43,14 +43,10 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
 
     protected $db         = 'default';
     protected $table      = 'sessions';
+    protected $written    = false;
     protected $encrypt    = null;
     protected $session_id = null;
-    protected $written    = false;
 
-    /**
-     * 构造函数,初始化session数据库模型
-     *
-     */
     public function __construct()
     {
         $config = QuickPHP::config('session');
@@ -63,33 +59,16 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
         $this->session = ORM::factory('session');
     }
 
-    /**
-     * 打开方法
-     *
-     * @param string $path
-     * @param string $name
-     * @return bool
-     */
     public function open($path, $name)
     {
         return true;
     }
 
-    /**
-     * 关闭方法
-     *
-     * @return bool
-     */
     public function close()
     {
         return true;
     }
 
-    /**
-     * 读取方法
-     *
-     * @return bool
-     */
     public function read($id)
     {
         $session = ORM::factory('session', $id);
@@ -103,11 +82,6 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
         return ($this->encrypt === null) ? base64_decode($session->data) : $this->encrypt->decode($session->data);
     }
 
-    /**
-     * 写入方法
-     *
-     * @return bool
-     */
     public function write($id, $data)
     {
         $session = ORM::factory('session', $id);
@@ -131,11 +105,6 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
         return (bool) $session;
     }
 
-    /**
-     * 销毁方法
-     *
-     * @return bool
-     */
     public function destroy($id)
     {
         $session = ORM::factory('session')->delete($id);
@@ -143,22 +112,12 @@ class QuickPHP_Session_Driver_Database implements QuickPHP_Session_Interface
         return (bool)$session;
     }
 
-    /**
-     * 重构方法
-     *
-     * @return bool
-     */
     public function regenerate()
     {
         session_regenerate_id();
         return session_id();
     }
 
-    /**
-     * 垃圾回收方法
-     *
-     * @return bool
-     */
     public function gc($maxlifetime)
     {
         $session = ORM::factory('session')

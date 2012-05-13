@@ -19,9 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Provides a driver-based interface for finding, creating, and deleting Cached
- * resources. Caches are identified by a unique string. Tagging of Caches is
- * also supported, and Caches can be found and deleted by id or tag.
+ * 验证码类
  *
  * @category    QuickPHP
  * @package     Libraries
@@ -49,9 +47,9 @@ class QuickPHP_Captcha
     );
 
     /**
-     * Constructs and returns a new Captcha object.
+     * 工厂方法，构建一个验证码对象.
      *
-     * @param   string  config group name
+     * @param   string  配置组名
      * @return  object
      */
     public static function factory($group = null)
@@ -60,17 +58,17 @@ class QuickPHP_Captcha
     }
 
     /**
-     * Constructs a new Captcha object.
+     * 构建一个Captcha对象.
      *
      * @throws  Captcha_Exception
-     * @param   string  config group name
+     * @param   string  配置组名
      * @return  void
      */
     public function __construct($group = null)
     {
-        if(empty(self::$_instance))
+        if(empty(Captcha::$_instance))
         {
-            self::$_instance = $this;
+            Captcha::$_instance = $this;
         }
 
         if ( ! is_string($group))
@@ -95,33 +93,33 @@ class QuickPHP_Captcha
 
         foreach ($config as $key => $value)
         {
-            if (array_key_exists($key, self::$config))
+            if (array_key_exists($key, Captcha::$config))
             {
-                self::$config[$key] = $value;
+                Captcha::$config[$key] = $value;
             }
         }
 
-        self::$config['group'] = $group;
+        Captcha::$config['group'] = $group;
 
         if ( ! empty($config['background']))
         {
-            self::$config['background'] = str_replace('\\', '/', realpath($config['background']));
+            Captcha::$config['background'] = str_replace('\\', '/', realpath($config['background']));
 
-            if ( ! is_file(self::$config['background']))
+            if ( ! is_file(Captcha::$config['background']))
             {
-                throw new Captcha_Exception('file_not_found', array(self::$config['background']));
+                throw new Captcha_Exception('file_not_found', array(Captcha::$config['background']));
             }
         }
 
         if ( ! empty($config['fonts']))
         {
-            self::$config['fontpath'] = str_replace('\\', '/', realpath($config['fontpath'])).'/';
+            Captcha::$config['fontpath'] = str_replace('\\', '/', realpath($config['fontpath'])).'/';
 
             foreach ($config['fonts'] as $font)
             {
-                if ( ! is_file(self::$config['fontpath'].$font))
+                if ( ! is_file(Captcha::$config['fontpath'].$font))
                 {
-                    throw new Captcha_Exception('file_not_found', array(self::$config['fontpath'].$font));
+                    throw new Captcha_Exception('file_not_found', array(Captcha::$config['fontpath'].$font));
                 }
             }
         }
@@ -138,31 +136,31 @@ class QuickPHP_Captcha
     }
 
     /**
-     * Validates a Captcha response and updates response counter.
+     * 验证验证码输入数据,并且更新验证正确次数和错误数量
      *
-     * @param   string   captcha response
+     * @param   string   验证验证码输入数据
      * @return  boolean
      */
     public static function valid($response)
     {
-        if (self::factory()->promoted())
+        if (Captcha::factory()->promoted())
         {
             return true;
         }
 
-        $result = (bool) self::factory()->driver->valid($response);
+        $result = (bool) Captcha::factory()->driver->valid($response);
 
-        if (self::$counted !== true)
+        if (Captcha::$counted !== true)
         {
-            self::$counted = true;
+            Captcha::$counted = true;
 
             if ($result === true)
             {
-                self::factory()->valid_count(Session::instance()->get('captcha_valid_count') + 1);
+                Captcha::factory()->valid_count(Session::instance()->get('captcha_valid_count') + 1);
             }
             else
             {
-                self::factory()->invalid_count(Session::instance()->get('captcha_invalid_count') + 1);
+                Captcha::factory()->invalid_count(Session::instance()->get('captcha_invalid_count') + 1);
             }
         }
 
@@ -170,11 +168,11 @@ class QuickPHP_Captcha
     }
 
     /**
-     * Gets or sets the number of valid Captcha responses for this session.
+     * 获得验证次数,如果参数不为空则更新验证次数.
      *
-     * @param   integer  new counter value
-     * @param   boolean  trigger invalid counter (for internal use only)
-     * @return  integer  counter value
+     * @param   integer  新验证次数
+     * @param   boolean  是否是错误次数还是正确次数
+     * @return  integer  新验证次数
      */
     public function valid_count($new_count = null, $invalid = false)
     {
@@ -200,10 +198,10 @@ class QuickPHP_Captcha
     }
 
     /**
-     * Gets or sets the number of invalid Captcha responses for this session.
+     * 获得验证错误次数,如果参数不为空则更新验证错误次数.
      *
-     * @param   integer  new counter value
-     * @return  integer  counter value
+     * @param   integer  新验证次数
+     * @return  integer  新验证次数
      */
     public function invalid_count($new_count = null)
     {
@@ -222,32 +220,31 @@ class QuickPHP_Captcha
     }
 
     /**
-     * Checks whether user has been promoted after having given enough valid responses.
+     * 检查用户是否超出验证限制次数
      *
-     *
-     * @param   integer  valid response count threshold
+     * @param   integer  验证次数
      * @return  boolean
      */
     public function promoted($threshold = null)
     {
-        if (self::$config['promote'] === false)
+        if (Captcha::$config['promote'] === false)
         {
             return false;
         }
 
         if ($threshold === null)
         {
-            $threshold = self::$config['promote'];
+            $threshold = Captcha::$config['promote'];
         }
 
         return ($this->valid_count() >= $threshold);
     }
 
     /**
-     * 渲染出验证码
+     * 显示出验证码(含HTML格式)
      *
-     * @param   boolean  true to output html, e.g. <img src="#" />
-     * @return  mixed    html string or void
+     * @param   boolean  是否HTML格式, 输出类似 <img src="#" />
+     * @return  mixed    HTML字符串或者图片对象
      */
     public function render($html = true)
     {
@@ -255,7 +252,7 @@ class QuickPHP_Captcha
     }
 
     /**
-     * Magically outputs the Captcha challenge.
+     * 魔术方法,显示出验证码.
      *
      * @return  mixed
      */

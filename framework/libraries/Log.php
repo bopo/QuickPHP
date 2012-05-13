@@ -22,8 +22,8 @@
  * 日志消息类,用以将错误信息或者用户指定信息写入日志文件
  * [!!] 这个类没有需要支持的扩展，使用驱动方式,可以自写扩展驱动.
  *
- * @category   QuickPHP
- * @package    Log
+ * @category    QuickPHP
+ * @package     Log
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
@@ -58,7 +58,7 @@ class QuickPHP_Log
      *
      * $log = Log::instance();
      *
-     * @return  QuickPHP_Log
+     * @return  Log
      */
     public static function instance()
     {
@@ -83,7 +83,6 @@ class QuickPHP_Log
     public function attach(Log_Abstract $writer, array $types = null)
     {
         $this->_writers["{$writer}"] = array('object' => $writer, 'types' => $types);
-
         return $this;
     }
 
@@ -98,7 +97,6 @@ class QuickPHP_Log
     public function detach(Log_Abstract $writer)
     {
         unset($this->_writers["{$writer}"]);
-
         return $this;
     }
 
@@ -130,7 +128,6 @@ class QuickPHP_Log
         }
 
         $this->_messages[] = array('time' => $time, 'type' => $type, 'body' => $message);
-
         return $this;
     }
 

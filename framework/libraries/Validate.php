@@ -32,22 +32,20 @@ class QuickPHP_Validate extends ArrayObject
 {
 
     // 字段过滤器
-    protected $_filters     = array();
+    protected $_filters   = array();
 
     // 字段规则
-    protected $_rules       = array();
+    protected $_rules     = array();
 
     // 字段回调函数
-    protected $_callbacks   = array();
+    protected $_callbacks = array();
 
     // 字段标签
-    protected $_labels      = array();
+    protected $_labels    = array();
 
+    // 错误列表，格式: field     => rule
+    protected $_errors    = array();
 
-    // 错误列表，格式: field       => rule
-    protected $_errors      = array();
-
-    // Rules that are executed even when the value is empty
     // 即使执行规则的价值是空的
     protected $_empty_rules = array('not_empty', 'matches');
 
@@ -160,7 +158,7 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 验证了该领域的电子邮件地址,用检查领域就有一个有效的MX记录的域。
+     * 检查该域是否存在有效MX记录
      *
      * @link  http://php.net/checkdnsrr  not added to Windows until PHP 5.3.0
      *
@@ -234,8 +232,8 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 验证是否是一个IP格式
      *
-     * @param   string   IP 地址
-     * @param   boolean  是否允许私有IP
+     * @param   string   IP
+     * @param   boolean  是否允许验证私有 IP
      * @return  boolean
      */
     public static function ip($ip, $allow_private = true)
@@ -251,12 +249,12 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 验证一个信用卡号码格式(欧美格式)
+     * 验证一个信用卡号码格式(国际格式)
      *
      * @link http://en.wikipedia.org/wiki/Luhn_algorithm
      *
-     * @param   integer       credit card number
-     * @param   string|array  card type, or an array of card types
+     * @param   integer       信用卡号码
+     * @param   string|array  信用卡类型
      * @return  boolean
      */
     public static function credit_card($number, $type = null)
@@ -284,7 +282,7 @@ class QuickPHP_Validate extends ArrayObject
         }
 
         $cards = QuickPHP::config('credit_cards');
-        $type = strtolower($type);
+        $type  = strtolower($type);
 
         if( ! isset($cards[$type]))
         {
@@ -325,9 +323,9 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 检查判断是否是一个电话号码(欧美格式)
+     * 检查判断是否是一个电话号码(国际格式)
      *
-     * @param   string   phone number to check
+     * @param   string   电话号码
      * @return  boolean
      */
     public static function phone($number, $lengths = null)
@@ -344,7 +342,7 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 检查判断是否是一个手机号码(中国格式)
      *
-     * @param   string   phone number to check
+     * @param   string   需要验证的手机号码
      * @return  boolean
      */
     public static function mobile($number, $lengths = null)
@@ -372,7 +370,7 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 检查一个字符串是否由字母的人物而已。
      *
-     * @param   string   input string
+     * @param   string   输入字符串
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
@@ -391,7 +389,7 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 检查一个字符串是否由字母文字和数字而已。
      *
-     * @param   string   input string
+     * @param   string   输入字符串
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
@@ -408,7 +406,7 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 检查一个字符串是否由字母字符,数字,强调、划而已。
      *
-     * @param   string   input string
+     * @param   string   输入字符串
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
@@ -429,7 +427,7 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 检查一个字符串是否由数字组成的只有(没有点或破折号)。
      *
-     * @param   string   input string
+     * @param   string   输入字符串
      * @param   boolean  trigger UTF-8 compatibility
      * @return  boolean
      */
@@ -449,7 +447,7 @@ class QuickPHP_Validate extends ArrayObject
      * Uses {@link http://www.php.net/manual/en/function.localeconv.php locale conversion}
      * to allow decimal point to be locale specific.
      *
-     * @param   string   input string
+     * @param   string   输入字符串
      * @return  boolean
      */
     public static function numeric($str)
@@ -491,7 +489,6 @@ class QuickPHP_Validate extends ArrayObject
         }
 
         list($decimal) = array_values(localeconv());
-
         return (bool) preg_match('/^[0-9]' . $digits . preg_quote($decimal) . '[0-9]{' . (int) $places . '}$/D', $str);
     }
 
@@ -555,7 +552,6 @@ class QuickPHP_Validate extends ArrayObject
     public function label($field, $label)
     {
         $this->_labels[$field] = $label;
-
         return $this;
     }
 
@@ -568,7 +564,6 @@ class QuickPHP_Validate extends ArrayObject
     public function labels(array $labels)
     {
         $this->_labels = $labels + $this->_labels;
-
         return $this;
     }
 
@@ -592,7 +587,6 @@ class QuickPHP_Validate extends ArrayObject
         }
 
         $this->_filters[$field][$filter] = (array) $params;
-
         return $this;
     }
 
@@ -634,7 +628,6 @@ class QuickPHP_Validate extends ArrayObject
         }
 
         $this->_rules[$field][$rule] = (array) $params;
-
         return $this;
     }
 
@@ -726,10 +719,10 @@ class QuickPHP_Validate extends ArrayObject
         }
 
         $data       = $this->_errors = array();
-        $submitted  = false;
-        $expected   = array_keys($this->_labels);
-        $filters    = $this->_filters;
         $rules      = $this->_rules;
+        $filters    = $this->_filters;
+        $expected   = array_keys ($this->_labels);
+        $submitted  = false;
         $callbacks  = $this->_callbacks;
 
         foreach ($expected as $field)
@@ -905,16 +898,15 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 增加一个误差对一块田。
+     * 增加一个错误信息。
      *
      * @param   string  字段名称
-     * @param   string  错误消息
+     * @param   string  错误信息
      * @return  $this
      */
     public function error($field, $error, array $params = null)
     {
         $this->_errors[$field] = array($error, $params);
-
         return $this;
     }
 

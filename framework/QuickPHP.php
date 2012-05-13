@@ -142,6 +142,11 @@ class QuickPHP
     public static $errors = true;
 
     /**
+     * @var  boolean  是否安全模式
+     */
+    public static $safe_mode = null;
+
+    /**
      * @var  array  在shutdown显示错误类型
      */
     public static $shutdown_errors = array(E_PARSE, E_ERROR, E_USER_ERROR, E_COMPILE_ERROR);
@@ -357,7 +362,7 @@ class QuickPHP
         QuickPHP::$magic_quotes = (bool) get_magic_quotes_gpc();
 
         // 判断是否运行于安全模式下
-        // QuickPHP::$safe_mode = (bool) ini_get('safe_mode');
+        QuickPHP::$safe_mode = (bool) ini_get('safe_mode');
 
         // 过滤输入数据，防止不安全数据进入应用
         $_GET     = QuickPHP::sanitize($_GET);
@@ -392,8 +397,7 @@ class QuickPHP
         }
 
         $global_variables = array_keys($GLOBALS);
-        $global_variables = array_diff($global_variables,
-            array('_COOKIE', '_ENV', '_GET', '_FILES', '_POST', '_REQUEST', '_SERVER', '_SESSION', 'GLOBALS'));
+        $global_variables = array_diff($global_variables, array('_COOKIE', '_ENV', '_GET', '_FILES', '_POST', '_REQUEST', '_SERVER', '_SESSION', 'GLOBALS'));
 
         foreach ($global_variables as $name)
         {
@@ -421,13 +425,13 @@ class QuickPHP
                 restore_exception_handler();
             }
 
-            QuickPHP::$log              =
-            QuickPHP::$config           = null;
-            QuickPHP::$_modules         =
-            QuickPHP::$_files           = array();
-            QuickPHP::$_paths           = array(APPPATH, SYSPATH);
-            QuickPHP::$_init            = false;
-            QuickPHP::$_files_changed   = false;
+            QuickPHP::$log      = null;
+            QuickPHP::$_init    = false;
+            QuickPHP::$config   = null;
+            QuickPHP::$_files   = array();
+            QuickPHP::$_paths   = array(APPPATH, SYSPATH);
+            QuickPHP::$_modules = array();
+            QuickPHP::$_files_changed = false;
         }
     }
 

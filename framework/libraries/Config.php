@@ -35,7 +35,6 @@ class QuickPHP_Config
 
     protected static $_instance;
     protected $_readers = array();
-
     public static $loaded;
 
     /**
@@ -58,11 +57,11 @@ class QuickPHP_Config
     /**
      * 装载一个配置驱动类型
      *
-     * $config->attach($reader);        // Try first
-     * $config->attach($reader, false); // Try last
+     * $config->attach($reader);        // 尝试第一个驱动
+     * $config->attach($reader, false); // 尝试最后个驱动
      *
-     * @param   object   Config_Abstract instance
-     * @param   boolean  驱动对象
+     * @param   object   Config_Abstract 驱动对象
+     * @param   boolean  序列
      * @return  $this
      */
     public function attach(Config_Abstract $reader, $first = true)
@@ -80,11 +79,11 @@ class QuickPHP_Config
     }
 
     /**
-     * 消除指派
+     * 消除配置驱动
      *
      * $config->detach($reader);
      *
-     * @param   object  QuickPHP_Config_Reader instance
+     * @param   object  Config_Reader 驱动对象
      * @return  $this
      */
     public function detach(Config_Abstract $reader)
@@ -104,7 +103,7 @@ class QuickPHP_Config
      *
      * @param   string  配置组名
      * @return  object  配置数据
-     * @throws  QuickPHP_Config_Exception
+     * @throws  Config_Exception
      */
     public function load($group)
     {

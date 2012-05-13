@@ -19,8 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Abstract configuration reader. All configuration readers must extend
- * this class.
+ * Abstract configuration reader. 
  *
  * @category   QuickPHP
  * @package    Config
@@ -34,8 +33,7 @@ abstract class QuickPHP_Config_Abstract extends ArrayObject
     protected $_configuration_group;
 
     /**
-     * Loads an empty array as the initial configuration and enables array
-     * keys to be used as properties.
+     * 构建一个空的数组
      *
      * @return  void
      */
@@ -60,9 +58,6 @@ abstract class QuickPHP_Config_Abstract extends ArrayObject
      * 加载一个配置组
      *
      * QuickPHP::config()->load($name, $array);
-     *
-     * This method must be extended by all readers. After the group has been
-     * loaded, call `parent::load($group, QuickPHP::config())` for final preparation.
      *
      * @param   string  配置组名
      * @param   array   配置数组数据

@@ -32,6 +32,7 @@
  */
 class QuickPHP_Template
 {
+
     /**
      * @var Template 模板引擎单子实例容器
      */
@@ -66,15 +67,15 @@ class QuickPHP_Template
      * @var array 模板引擎缓存配置容器
      */
     public static $config   = array(
-            'layout_dir'       => null,
-            'template_dir'     => null,
-            'template_suffix'  => null,
-            'compile_dir'      => null,
             'cache_dir'        => null,
-            'compile_lifetime' => null,
+            'layout_dir'       => null,
+            'compile_dir'      => null,
+            'template_dir'     => null,
+            'compress_html'    => null,
             'left_delimiter'   => null,
             'right_delimiter'  => null,
-            'compress_html'    => null,
+            'template_suffix'  => null,
+            'compile_lifetime' => null,
         );
 
     /**
@@ -161,14 +162,13 @@ class QuickPHP_Template
     {
         if($this->cache_status == false)
         {
-            $this->cache_status   = true;
-            $this->cache_lifetime = $lifetime;
-            $this->cache_driver   = Cache::instance();
             $this->cache_key      = md5($_SERVER['REQUEST_URI']);
+            $this->cache_status   = true;
+            $this->cache_driver   = Cache::instance();
+            $this->cache_lifetime = $lifetime;
         }
 
         $output = $this->cache_driver->get($this->cache_key);
-
         !empty($output) and exit(($output));
     }
 
@@ -273,11 +273,10 @@ class QuickPHP_Template
         $this->driver->assign($key, $value);
     }
 
-
     /**
-     * 压缩html : 清除换行符,清除制表符,去掉注释标记
+     * 压缩HTML : 清除换行符,清除制表符,去掉注释标记
      * @param   $string
-     * @return  压缩后的$string
+     * @return  压缩后的HTML
      * */
     protected static function compress_html($string)
     {

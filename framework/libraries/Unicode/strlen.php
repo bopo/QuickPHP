@@ -34,9 +34,11 @@ function _strlen($str)
     {
         return mb_strlen($str);
     }
+
     if(Unicode::is_ascii($str))
     {
         return strlen($str);
     }
+    
     return strlen(utf8_decode($str));
 }

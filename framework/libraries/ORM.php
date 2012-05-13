@@ -19,13 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * @todo [Object Relational Mapping][ref-orm] (ORM) is a method of abstracting database
- *
- * access to standard PHP calls. All table rows are represented as model objects,
- * with object properties representing row data. ORM in QuickPHP generally follows
- * the [Active Record][ref-act] pattern.
- *
- * 对象关系映射 (ORM) 的数据库是一个抽象的方法获得标准的PHP调用。所有表行表示为模型对象，对于对象属性代表行数据。
+ * 对象关系映射 (ORM) 类
  *
  * [ref-orm]: http://wikipedia.org/wiki/Object-relational_mapping
  * [ref-act]: http://wikipedia.org/wiki/Active_record
@@ -44,34 +38,34 @@ class QuickPHP_ORM
 
     // 数据对象关系
     protected $_has_one    = array();
-
+    
     protected $_belongs_to = array();
-
+    
     protected $_has_many   = array();
-
+    
     // 载入的对象关系
     protected $_load_with  = array();
-
+    
     // 验证成员
     protected $_validate   = null;
-
+    
     protected $_rules      = array();
-
+    
     protected $_callbacks  = array();
-
+    
     protected $_filters    = array();
-
+    
     protected $_labels     = array();
-
+    
     // 当前对象
     protected $_object     = array();
-
+    
     protected $_changed    = array();
-
+    
     protected $_related    = array();
-
+    
     protected $_loaded     = false;
-
+    
     protected $_saved      = false;
 
     protected $_sorting;
@@ -124,8 +118,7 @@ class QuickPHP_ORM
     // 已经调用的数据
     protected $_with_applied = array();
 
-    // Data to be loaded into the model from a database call cast
-    // 数据模型装入调用从数据库中施法
+    // 已经加载的数据
     protected $_preload_data = array();
 
     // 存储字段信息
@@ -189,8 +182,8 @@ class QuickPHP_ORM
      * 创建一个新模型.
      *
      * @chainable
-     * @param   string  model name
-     * @param   mixed   parameter for find()
+     * @param   string  模型名称
+     * @param   mixed   查询条件 主键值，或者数组形式条件
      * @return  ORM
      */
     public static function factory($model, $id = null)
@@ -209,9 +202,9 @@ class QuickPHP_ORM
     }
 
     /**
-     * 准备模型数据库连接和载入对象。
+     * 初始化模型数
      *
-     * @param   mixed  parameter for find or object to load
+     * @param   mixed  查询条件 主键值，或者数组形式条件
      * @return  void
      */
     public function __construct($id = null)
@@ -257,7 +250,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 检查是否对象数据被设置(魔术方法)。
+     * 魔术方法 __isset
      *
      * @param   string  column name
      * @return  boolean
@@ -266,11 +259,15 @@ class QuickPHP_ORM
     {
         $this->_load();
 
-        return (isset($this->_object[$column]) or isset($this->_related[$column]) or isset($this->_has_one[$column]) or isset($this->_belongs_to[$column]) or isset($this->_has_many[$column]));
+        return (isset($this->_object[$column]) 
+            or isset($this->_related[$column]) 
+            or isset($this->_has_one[$column]) 
+            or isset($this->_belongs_to[$column]) 
+            or isset($this->_has_many[$column]));
     }
 
     /**
-     * 销毁对象字段(魔术方法)。
+     * 魔术方法 __unset
      *
      * @param   string  列名
      * @return  void
@@ -282,7 +279,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 显示了主键时模型转化为一个字符串(魔术方法)。
+     * 魔术方法 __toString
      *
      * @return  string
      */
@@ -292,7 +289,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 允许系列化的只有对象数据,我们的州,防止“场所unserialized物,也需要更少的内存(魔术方法)。
+     * 魔术方法 __sleep
      *
      * @return  array
      */
@@ -302,7 +299,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 准备数据库连接和重新载入的对象(魔术方法)。
+     * 魔术方法 __wakeup
      *
      * @return  void
      */
@@ -317,11 +314,10 @@ class QuickPHP_ORM
     }
 
     /**
-     * 数据库处理机制的方法。 要求查询方法(查询、获取数据,插入,更新)是不被允许的。 查询生成器方法是链回归。
-     * (魔术方法)
+     * 魔术方法 __call
      *
-     * @param   string  method name
-     * @param   array   method arguments
+     * @param   string  方法名
+     * @param   array   方法参数
      * @return  mixed
      */
     public function __call($method, array $args)
@@ -359,9 +355,9 @@ class QuickPHP_ORM
     }
 
     /**
-     * 处理所有的检索模型值、关系和元数据(魔术方法)。
+     * 魔术方法 __get
      *
-     * @param   string  column name
+     * @param   string  字段名
      * @return  mixed
      */
     public function __get($column)
@@ -384,7 +380,6 @@ class QuickPHP_ORM
             $val    = $this->_object[$this->_belongs_to[$column]['foreign_key']];
 
             $model->where($col, '=', $val)->find();
-
             return $this->_related[$column] = $model;
         }
         elseif(isset($this->_has_one[$column]))
@@ -394,7 +389,6 @@ class QuickPHP_ORM
             $val   = $this->pk();
 
             $model->where($col, '=', $val)->find();
-
             return $this->_related[$column] = $model;
         }
         elseif(isset($this->_has_many[$column]))
@@ -427,10 +421,10 @@ class QuickPHP_ORM
     }
 
     /**
-     * 处理所有的模特都设置的价值观,和轨道变化之间的价值(魔术方法)。
+     * 魔术方法 __set
      *
-     * @param   string  column name
-     * @param   mixed   column value
+     * @param   string  字段名
+     * @param   mixed   字段值
      * @return  void
      */
     public function __set($column, $value)
@@ -468,9 +462,9 @@ class QuickPHP_ORM
     }
 
     /**
-     * 定值从数组支持一对一的关系。 这种方法应该用于加载post数据等。
+     * 数组 key => val 形式输入数据
      *
-     * @param   array  array of key => val
+     * @param   array  数组形式：key => val
      * @return  ORM
      */
     public function values($values)
@@ -491,7 +485,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 准备模型,确定了数据库连接的表名,和外载荷柱的
+     * 初始化操作
      *
      * @return  void
      */
@@ -539,7 +533,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 初始化属性验证规则,回调,过滤器、和标签
+     * 初始化数据字段验证规则
      *
      * @return void
      */
@@ -582,7 +576,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 返回值的数组对象作为,包括任何相关一对一的模型,利用已载入()
+     * 返回值的数组形式的结果
      *
      * @return  array
      */
@@ -604,9 +598,9 @@ class QuickPHP_ORM
     }
 
     /**
-     * 把另一个一对一的反对此模型。 一对一的东西都可以嵌套的object2用“object1:语法
+     * 多表查询操作
      *
-     * @param   string  target model to bind to
+     * @param   string  要绑定的目标模型
      * @return  void
      */
     public function with($target_path)
@@ -671,7 +665,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 初始化资料库设计,给出查询类型
+     * 初始化数据库查询, 并设置查询类型
      *
      * @param   int  Type of Database query
      * @return  ORM
@@ -682,12 +676,15 @@ class QuickPHP_ORM
         {
             case Database::SELECT :
                 $this->_db_builder = Database::select();
-                break;
+            break;
+
             case Database::UPDATE :
                 $this->_db_builder = Database::update($this->_table_name);
-                break;
+            break;
+
             case Database::DELETE :
                 $this->_db_builder = Database::delete($this->_table_name);
+            break;
         }
 
         foreach ($this->_db_pending as $method)
@@ -701,23 +698,28 @@ class QuickPHP_ORM
             {
                 case 0 :
                     $this->_db_builder->$name();
-                    break;
+                break;
+                
                 case 1 :
                     $this->_db_builder->$name($args[0]);
-                    break;
+                break;
+                
                 case 2 :
                     $this->_db_builder
                         ->$name($args[0], $args[1]);
-                    break;
+                break;
+                
                 case 3 :
                     $this->_db_builder->$name($args[0], $args[1], $args[2]);
-                    break;
+                break;
+                
                 case 4 :
                     $this->_db_builder->$name($args[0], $args[1], $args[2], $args[3]);
-                    break;
+                break;
+                
                 default :
                     call_user_func_array(array($this->_db_builder, $name), $args);
-                    break;
+                break;
             }
         }
 
@@ -738,10 +740,10 @@ class QuickPHP_ORM
     }
 
     /**
-     * 发现并载入一个单一的数据库排目标。
+     * 查找数据库单行数据。
      *
      * @chainable
-     * @param   mixed  primary key
+     * @param   mixed  主键
      * @return  ORM
      */
     public function find($id = null)
@@ -765,7 +767,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 发现多个数据库行和返回一个迭代器所废弃的发现。
+     * 查找数据库多行数据。
      *
      * @chainable
      * @return  Database_Result
@@ -786,7 +788,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 验证当前模型数据
+     * 按当前模型所配置的验证规则验证数据
      *
      * @return  boolean
      */
@@ -812,7 +814,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 保存当前对象方法
+     * 保存数据到当前对象方法.主键为空为INSERT操作，否则UPDATE操作
      *
      * @chainable
      * @return  ORM
@@ -835,8 +837,8 @@ class QuickPHP_ORM
         {
             if(is_array($this->_updated_column))
             {
-                $column        = $this->_updated_column['column'];
-                $format        = $this->_updated_column['format'];
+                $column = $this->_updated_column['column'];
+                $format = $this->_updated_column['format'];
                 $data[$column] = $this->_object[$column] = ($format === true) ? time() : date($format);
             }
 
@@ -851,8 +853,8 @@ class QuickPHP_ORM
         {
             if(is_array($this->_created_column))
             {
-                $column        = $this->_created_column['column'];
-                $format        = $this->_created_column['format'];
+                $column = $this->_created_column['column'];
+                $format = $this->_created_column['format'];
                 $data[$column] = $this->_object[$column] = ($format === true) ? time() : date($format);
             }
 
@@ -904,8 +906,8 @@ class QuickPHP_ORM
 
         if(is_array($this->_updated_column))
         {
-            $column        = $this->_updated_column['column'];
-            $format        = $this->_updated_column['format'];
+            $column = $this->_updated_column['column'];
+            $format = $this->_updated_column['format'];
             $data[$column] = $this->_object[$column] = ($format === true) ? time() : date($format);
         }
 
@@ -972,7 +974,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 重新载入了当前对象的数据。
+     * 重载当前对象的数据。
      *
      * @chainable
      * @return  ORM
@@ -988,10 +990,10 @@ class QuickPHP_ORM
     }
 
     /**
-     * 重新读取字段定义信息
+     * 重载读取字段定义信息
      *
      * @chainable
-     * @param   boolean  force reloading
+     * @param   boolean  强行重载
      * @return  ORM
      */
     public function reload_columns($force = false)
@@ -1016,8 +1018,8 @@ class QuickPHP_ORM
      * 返回主表相关的附表是否关联
      * 考验,如果这个对象与不同的模式。
      *
-     * @param   string   alias of the has_many "through" relationship
-     * @param   ORM      related ORM model
+     * @param   string   一(多)对多关系的别名
+     * @param   ORM      相应 ORM 模型
      * @return  boolean
      */
     public function has($alias, $model)
@@ -1033,9 +1035,9 @@ class QuickPHP_ORM
     /**
      * 添加一个新的关系,在这个模型和另一个表。
      *
-     * @param   string   alias of the has_many "through" relationship
-     * @param   ORM      related ORM model
-     * @param   array    additional data to store in "through"/pivot table
+     * @param   string   一(多)对多关系的别名
+     * @param   ORM      相应 ORM 模型
+     * @param   array    要添加到中间关系表的数据
      * @return  ORM
      */
     public function add($alias, ORM $model, $data = null)
@@ -1059,12 +1061,12 @@ class QuickPHP_ORM
     }
 
     /**
-     * 删除一个关系模型的中间表。
+     * 删除一个关系模型的中间关系表。
      * [code]
      *      $user->remove('roles', ORM::factory('role',array('name'=>'login')));
      * [/code]
-     * @param   string   alias of the has_many "through" relationship
-     * @param   ORM      related ORM model
+     * @param   string   一(多)对多关系的别名
+     * @param   ORM      相应 ORM 模型
      * @return  ORM
      */
     public function remove($alias, ORM $model)
@@ -1123,7 +1125,7 @@ class QuickPHP_ORM
      * 清空缓存
      *
      * @chainable
-     * @param   string  SQL query to clear
+     * @param   string  要清理的SQL
      * @return  ORM
      */
     public function clear_cache($sql = null)
@@ -1135,9 +1137,9 @@ class QuickPHP_ORM
     }
 
     /**
-     * Returns an ORM model for the given one-one related alias
+     * 根据输入的关系结构别名返回ORM模型
      *
-     * @param   string  alias name
+     * @param   string  别名
      * @return  ORM
      */
     protected function _related($alias)
@@ -1174,7 +1176,7 @@ class QuickPHP_ORM
             $this->_loaded = $this->_saved = ($values[$this->_primary_key] !== null);
         }
 
-        $related = array();
+        $相关 = array();
 
         foreach ($values as $column => $value)
         {
@@ -1188,13 +1190,13 @@ class QuickPHP_ORM
             else
             {
                 list ($prefix, $column) = explode(':', $column, 2);
-                $related[$prefix][$column] = $value;
+                $相关[$prefix][$column] = $value;
             }
         }
 
-        if( ! empty($related))
+        if( ! empty($相关))
         {
-            foreach ($related as $object => $values)
+            foreach ($相关 as $object => $values)
             {
                 $this->_related($object)->_load_values($values);
             }
@@ -1204,12 +1206,12 @@ class QuickPHP_ORM
     }
 
     /**
-     * Loads a database result, either as a new object for this model, or as an iterator for multiple rows.
+     * 加载数据库结果，一个对象模式或者数组模式
      *
      * @chainable
-     * @param   boolean       return an iterator or load a single row
-     * @return  ORM           for single rows
-     * @return  ORM_Iterator  for multiple rows
+     * @param   boolean       返回迭代器结果或者单行结果
+     * @return  ORM           单行形式
+     * @return  ORM_Iterator  多行形式
      */
     protected function _load_result($multiple = false)
     {
@@ -1236,7 +1238,7 @@ class QuickPHP_ORM
         if($multiple === true)
         {
             $result = $this->_db_builder
-                ->as_assoc(get_class($this)) // as_aobject
+                ->as_assoc(get_class($this))
                 ->execute($this->_db);
 
             $this->reset();
@@ -1263,7 +1265,7 @@ class QuickPHP_ORM
     /**
      * 返回主键的值
      *
-     * @return  mixed  primary key
+     * @return  mixed  主键
      */
     public function pk()
     {
@@ -1271,7 +1273,7 @@ class QuickPHP_ORM
     }
 
     /**
-     * 判断主键是否为空
+     * 返回主键是否为空
      *
      * @return  bool
      */
@@ -1291,10 +1293,9 @@ class QuickPHP_ORM
     }
 
     /**
-     * Clears query builder.  Passing false is useful to keep the existing
-     * query conditions for another query.
+     * 复位请求构建器.
      *
-     * @param  bool  Pass false to avoid resetting on the next call
+     * @param  bool 
      */
     public function reset($next = true)
     {

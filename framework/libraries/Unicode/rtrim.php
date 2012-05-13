@@ -33,10 +33,12 @@ function _rtrim($str, $charlist = null)
     {
         return rtrim($str);
     }
+
     if(Unicode::is_ascii($charlist))
     {
         return rtrim($str, $charlist);
     }
+    
     $charlist = preg_replace('#[-\[\]:\\\\^/]#', '\\\\$0', $charlist);
     return preg_replace('/[' . $charlist . ']++$/uD', '', $str);
 }

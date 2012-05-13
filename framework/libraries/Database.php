@@ -31,10 +31,25 @@
  */
 class QuickPHP_Database
 {
-    // 请求类型
+
+    /**
+     * @var  string  数据库SElect操作类型
+     */    
     const SELECT = 1;
+
+    /**
+     * @var  string  数据库SElect操作类型
+     */   
     const INSERT = 2;
+
+    /**
+     * @var  string  数据库SElect操作类型
+     */
     const UPDATE = 3;
+    
+    /**
+     * @var  string  数据库SElect操作类型
+     */    
     const DELETE = 4;
 
     /**
@@ -95,12 +110,7 @@ class QuickPHP_Database
      * // 创建一个数据库DELETE请求
      * $query = Database::query(Database::DELETE, 'DELETE FROM users WHERE id = 5');
      *
-     * Specifying the type changes the returned result. When using
-     * `Database::SELECT`, a [Database_Query_Result] will be returned.
-     * `Database::INSERT` queries will return the insert id and number of rows.
-     * For all other queries, the number of affected rows is returned.
-     *
-     * @param   integer  type: Database::SELECT, Database::UPDATE, etc
+     * @param   integer  类型: Database::SELECT, Database::UPDATE, Database::INSERT 等...
      * @param   string   SQL statement
      * @return  Database_Query
      */
@@ -110,8 +120,7 @@ class QuickPHP_Database
     }
 
     /**
-     * Create a new [Database_Query_Builder_Select]. Each argument will be
-     * treated as a column. To generate a `foo AS bar` alias, use an array.
+     * 以数组为参数创建一个SELECT操作. 使用数组方式构建一个别名查询
      *
      * // SELECT id, username
      * $query = Database::select('id', 'username');
@@ -119,7 +128,7 @@ class QuickPHP_Database
      * // SELECT id AS user_id
      * $query = Database::select(array('id', 'user_id'));
      *
-     * @param   mixed   column name or array($column, $alias) or object
+     * @param   mixed   字段名，数组 array($column, $alias) 形式或者为对象
      * @param   ...
      * @return  Database_Query_Builder_Select
      */
@@ -129,8 +138,7 @@ class QuickPHP_Database
     }
 
     /**
-     * Create a new [Database_Query_Builder_Select] from an array of columns.
-     * 创建一个SELECT操作
+     * 以数组为参数创建一个SELECT操作
      *
      * // SELECT id, username
      * $query = Database::select_array(array('id', 'username'));
@@ -144,14 +152,13 @@ class QuickPHP_Database
     }
 
     /**
-     * Create a new [Database_Query_Builder_Insert].
      * 创建一个Insert操作
      *
      * // INSERT INTO users (id, username)
      * $query = Database::insert('users', array('id', 'username'));
      *
-     * @param   string  table to insert into
-     * @param   array   list of column names or array($column, $alias) or object
+     * @param   string  要插入的表
+     * @param   array   字段列表,可以说字段名，或者 array($column, $alias) 或者是对象形式
      * @return  Database_Query_Builder_Insert
      */
     public static function insert($table, array $columns = null)
@@ -160,13 +167,12 @@ class QuickPHP_Database
     }
 
     /**
-     * Create a new [Database_Query_Builder_Update].
      * 创建一个UPDATE操作
      *
      * // UPDATE users
      * $query = Database::update('users');
      *
-     * @param   string  table to update
+     * @param   string  要更新的表
      * @return  Database_Query_Builder_Update
      */
     public static function update($table)
@@ -175,13 +181,12 @@ class QuickPHP_Database
     }
 
     /**
-     * Create a new [Database_Query_Builder_Delete].
      * 创建删除操作
      *
      * // DELETE FROM users
      * $query = Database::delete('users');
      *
-     * @param   string  table to delete from
+     * @param   string  要删除的表
      * @return  Database_Query_Builder_Delete
      */
     public static function delete($table)
@@ -190,28 +195,15 @@ class QuickPHP_Database
     }
 
     /**
-     * 创建一个新的[Database_Expression]不是逃逸了。 一个表达式是唯一的办法,使用SQL查询职能部门建设者。
+     * 数据库表达式逃逸方法.
      *
      * $expression = Database::expr('COUNT(users.id)');
      *
-     * @param   string  expression
+     * @param   string  表达式字符串
      * @return  Database_Expression
      */
     public static function expr($string)
     {
         return new Database_Expression($string);
-    }
-
-    /**
-     * 创建一个新的[Database_Utility]不是逃逸了。 一个表达式是唯一的办法,使用SQL查询职能部门建设者。
-     *
-     * $expression = Database::utility();
-     *
-     * @param   string  expression
-     * @return  Database_Expression
-     */
-    public static function utility()
-    {
-        return new Database_Utility();
     }
 }

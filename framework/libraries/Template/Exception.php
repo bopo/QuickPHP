@@ -21,8 +21,6 @@
 /**
  * QuickPHP模板引擎异常处理
  *
- * QuickPHP_Template_Exception represents an exception caused by invalid template syntax.
- *
  * @category    QuickPHP
  * @package     Template
  * @author      BoPo <ibopo@126.com>
@@ -37,7 +35,8 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     protected $_fileName   = '';
 
     /**
-     * @return string the template source code that causes the exception. This is empty if {@link getTemplateFile TemplateFile} is not empty.
+     * 获取异常所在模板的所在行的上下文源代码内容
+     * @return string 
      */
     public function getSource()
     {
@@ -45,7 +44,8 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     }
 
     /**
-     * @param string the template source code that causes the exception
+     * 设置异常所在模板的所在行的上下文源代码内容
+     * @param string 
      */
     public function setSource(string $value = null)
     {
@@ -53,7 +53,8 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     }
 
     /**
-     * @return string the template file that causes the exception. This could be empty if the template is an embedded template. In this case, use {@link getTemplateSource TemplateSource} to obtain the actual template content.
+     * 获取异常所在模板的文件名称
+     * @return string 
      */
     public function getTemplateFile()
     {
@@ -61,7 +62,8 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     }
 
     /**
-     * @param string the template file that causes the exception
+     * 设置异常所在模板的文件名称
+     * @param string 
      */
     public function setTemplateFile($file = null)
     {
@@ -69,7 +71,8 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     }
 
     /**
-     * @return integer the line number at which the template has error
+     * 获取异常所在模板的行数
+     * @return integer 
      */
     public function getTemplateLine()
     {
@@ -77,7 +80,8 @@ class QuickPHP_Template_Exception extends QuickPHP_Exception
     }
 
     /**
-     * @param integer the line number at which the template has error
+     * 设置异常所在模板的行数
+     * @param integer 
      */
     public function setLineNumber($line = 0)
     {

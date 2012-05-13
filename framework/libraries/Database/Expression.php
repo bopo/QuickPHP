@@ -41,7 +41,7 @@ class QuickPHP_Database_Expression
     protected $_value;
 
     /**
-     * Sets the expression string.
+     * 设置表达式字符串
      *
      * $expression = new Database_Expression('COUNT(users.id)');
      * or
@@ -55,7 +55,7 @@ class QuickPHP_Database_Expression
     }
 
     /**
-     * Get the expression value as a string.
+     * 获得表单式的值
      *
      * $sql = $expression->value();
      *
@@ -67,7 +67,7 @@ class QuickPHP_Database_Expression
     }
 
     /**
-     * Return the value of the expression as a string.
+     * 魔术方法 __toString 获得表单式的值
      *
      * echo $expression;
      *

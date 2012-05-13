@@ -33,6 +33,8 @@ function _ucfirst($str)
     {
         return ucfirst($str);
     }
+
     preg_match('/^(.?)(.*)$/us', $str, $matches);
+    
     return Unicode::strtoupper($matches[1]) . $matches[2];
 }

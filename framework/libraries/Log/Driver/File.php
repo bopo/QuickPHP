@@ -19,7 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * File log writer. Writes out messages and stores them in a YYYY/MM directory.
+ * 日志存储类，文件写入类
  *
  * @category   QuickPHP
  * @package    Log
@@ -30,16 +30,15 @@
 class QuickPHP_Log_Driver_File extends Log_Abstract
 {
 
-    // Directory to place log files in
+    // 存储日志文件的路径
     protected $_directory;
 
     /**
-     * Creates a new file logger. Checks that the directory exists and
-     * is writable.
+     * 初始化相应参数
      *
      * $writer = new QuickPHP_Log_File($directory);
      *
-     * @param   string  log directory
+     * @param   string  存储日志文件的路径
      * @return  void
      */
     public function __construct($directory)
@@ -49,18 +48,15 @@ class QuickPHP_Log_Driver_File extends Log_Abstract
             throw new Log_Exception('Directory {0} must be writable', array(debug::path($directory)));
         }
 
-        // Determine the directory path
         $this->_directory = realpath($directory) . DIRECTORY_SEPARATOR;
     }
 
     /**
-     * Writes each of the messages into the log file. The log file will be
-     * appended to the `YYYY/MM/DD.log.php` file, where YYYY is the current
-     * year, MM is the current month, and DD is the current day.
+     * 写入日志内容
      *
      * $writer->write($messages);
      *
-     * @param   array   messages
+     * @param   array   日志内容
      * @return  void
      */
     public function write(array $messages)

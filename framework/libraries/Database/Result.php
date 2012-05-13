@@ -30,19 +30,19 @@
 abstract class QuickPHP_Database_Result implements Countable, Iterator, SeekableIterator, ArrayAccess
 {
 
-    // Executed SQL for this result
+    // 本结果集的查询sql
     protected $_query;
 
-    // Raw result resource
+    // 结果资源对象
     protected $_result;
 
-    // Total number of rows and current row
+    // 结果集总数
     protected $_total_rows  = 0;
 
-    // ++
+    // 当前列序号
     protected $_current_row = 0;
 
-    // Return rows as an object or associative array
+    // 是以对象形式返回结果还是以联合数组形式返回
     protected $_as_object;
 
     /**

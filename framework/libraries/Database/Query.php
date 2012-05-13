@@ -31,23 +31,23 @@
 class QuickPHP_Database_Query
 {
 
-    // Query type
+    // 请求类型
     protected $_type;
 
-    // Cache lifetime
+    // 缓存有效期
     protected $_lifetime;
 
-    // SQL statement
+    // SQL 声明容器
     protected $_sql;
 
-    // Quoted query parameters
+    // 引用请求的参数容器
     protected $_parameters = array();
 
-    // Return results as associative arrays or objects
+    // 返回结果为数组还是对象
     protected $_as_object  = false;
 
     /**
-     * Creates a new SQL query of the specified type.
+     * 创建数据库查询，并色设置查询类型
      *
      * @param   integer  query type: Database::SELECT, Database::INSERT, etc
      * @param   string   query string
@@ -60,7 +60,7 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Return the SQL query string.
+     * 魔术方法 __toString 返回查询字符串.
      *
      * @return  string
      */
@@ -77,7 +77,7 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Get the type of the query.
+     * 获取查询类型
      *
      * @return  integer
      */
@@ -87,9 +87,9 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Enables the query to be cached for a specified amount of time.
+     * 开启缓存并设置有效期
      *
-     * @param   integer  number of seconds to cache or null for default
+     * @param   integer  有效期,默认为空
      * @return  $this
      */
     public function cached($lifetime = null)
@@ -99,7 +99,7 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Returns results as associative arrays
+     * 联合数组形式返回结果
      *
      * @return  $this
      */
@@ -110,7 +110,7 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Returns results as objects
+     * 对象形式返回结果
      *
      * @param   string  classname or true for stdClass
      * @return  $this
@@ -122,7 +122,7 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Set the value of a parameter in the query.
+     * 向查询操作添加一条参数数据
      *
      * @param   string   parameter key to replace
      * @param   mixed    value to use
@@ -135,7 +135,7 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Bind a variable to a parameter in the query.
+     * param 的别名
      *
      * @param   string  parameter key to replace
      * @param   mixed   variable to use
@@ -148,9 +148,9 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Add multiple parameters to the query.
+     * 向查询操作添加多条参数数据.
      *
-     * @param   array  list of parameters
+     * @param   array  参数集合
      * @return  $this
      */
     public function parameters(array $params)
@@ -160,10 +160,9 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Compile the SQL query and return it. Replaces any parameters with their
-     * given values.
+     * 编译sql字符串,并返回
      *
-     * @param   object  Database instance
+     * @param   object  数据库实例
      * @return  string
      */
     public function compile($db)
@@ -180,12 +179,12 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * Execute the current query on the given database.
+     * 在指定数据库执行当前查询.
      *
-     * @param   mixed    Database instance or name of instance
-     * @return  object   Database_Result for SELECT queries
-     * @return  mixed    the insert id for INSERT queries
-     * @return  integer  number of affected rows for all other queries
+     * @param   mixed    数据库配置组名或者数据库实例
+     * @return  object   SELECT 操作会返回 Database_Result 对象
+     * @return  mixed    INSERT 操作会返回 insert id
+     * @return  integer  所有写操作都会返回受影响条数
      */
     public function execute($db = null)
     {

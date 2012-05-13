@@ -33,14 +33,17 @@ function _strspn($str, $mask, $offset = null, $length = null)
     {
         return 0;
     }
+
     if(Unicode::is_ascii($str) and Unicode::is_ascii($mask))
     {
         return ($offset === null) ? strspn($str, $mask) : (($length === null) ? strspn($str, $mask, $offset) : strspn($str, $mask, $offset, $length));
     }
+
     if($offset !== null or $length !== null)
     {
         $str = Unicode::substr($str, $offset, $length);
     }
+    
     // Escape these characters:  - [ ] . : \ ^ /
     // The . and : are escaped to prevent possible warnings about POSIX regex elements
     $mask = preg_replace('#[-[\].:\\\\^/]#', '\\\\$0', $mask);

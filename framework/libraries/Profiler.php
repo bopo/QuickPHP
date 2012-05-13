@@ -19,9 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Provides simple benchmarking and profiling. To display the statistics that
- * have been collected, load the `profiler/stats` [View]:
- * 提供简单基准和剖析。 统计显示,负荷收集到的数据的[观点/检验):
+ * 系统性能基准测试类
  *
  * @package     QuickPHP
  * @category    Profiler
@@ -35,12 +33,15 @@ class QuickPHP_Profiler
     /**
      * @var  integer   同时基准测试最大数量
      */
-    public static $rollover = 1000;
+    public static $rollover  = 1000;
 
+    /**
+     * @var  integer   标记名称集合
+     */
     protected static $_marks = array();
 
     /**
-     * 开始了一个新的标准并且返回一个独特的令牌。 返回的令牌_must_用于当停止基准。
+     * 开始已经新的统计，并返回该统计的令牌标记
      *
      * $token = Profiler::start('test', 'profiler');
      *
@@ -55,18 +56,18 @@ class QuickPHP_Profiler
         $token = 'qp/' . base_convert($counter++, 10, 32);
 
         Profiler::$_marks[$token] = array(
-            'group'        => ($group),
             'name'         => (string) $name, // Start the benchmark
-            'start_time'   => microtime(true),
-            'start_memory' => memory_get_usage(), // Set the stop keys without values
+            'group'        => ($group),
             'stop_time'    => false,
+            'start_time'   => microtime(true),
             'stop_memory'  => false);
+            'start_memory' => memory_get_usage(), // Set the stop keys without values
 
         return $token;
     }
 
     /**
-     * 按指定的标签停止基准测试。
+     * 停止一个令牌标记的统计
      *
      * Profiler::stop($token);
      *
@@ -80,7 +81,7 @@ class QuickPHP_Profiler
     }
 
     /**
-     * 删除基准一个基准测试。 如果过程中发生错误基准,建议删除基准,以防止统计被不良影响。
+     * 删除一个令牌标记的内容
      *
      * Profiler::delete($token);
      *
@@ -93,7 +94,7 @@ class QuickPHP_Profiler
     }
 
     /**
-     * 基准标记将由集团及名称作为一个数组中。
+     * 返回已经标记的所有组名
      *
      * $groups = Profiler::groups();
      *
@@ -112,11 +113,11 @@ class QuickPHP_Profiler
     }
 
     /**
-     * 得到最小,最大值,平均和总对一组的令牌作为一个数组。
+     * 以指定令牌标记过滤为结果，返回最小值,最大值,平均值和性能总计的一组数组集合。
      *
      * $stats = Profiler::stats($tokens);
      *
-     * @param   array  profiler tokens
+     * @param   array  要过滤的令牌值
      * @return  array  min, max, average, total
      * @uses    Profiler::total
      */
@@ -161,11 +162,11 @@ class QuickPHP_Profiler
     }
 
     /**
-     * 获得最小，最大，平均共有性能记录的群体,因为一个数组中。
+     * 获得最小值，最大值，平均值以及性能总计的数组集合
      *
      * $stats = Profiler::group_stats('test');
      *
-     * @param   mixed  single group name string, or array with group names; all groups by default
+     * @param   mixed  单一组名, 数组形式多个组名; 默认为全部
      * @return  array  min, max, average, total
      * @uses    Profiler::groups
      * @uses    Profiler::stats
@@ -251,7 +252,7 @@ class QuickPHP_Profiler
      *
      * list($time, $memory) = Profiler::application();
      *
-     * @return  array  execution time, memory
+     * @return  array  执行时间,内存使用量
      * @uses    QuickPHP::cache
      */
     public static function application()

@@ -49,7 +49,7 @@ class QuickPHP_Session
     protected static $run = null;
 
     /**
-     * 会话变量单子实例.
+     * 单例方法.
      */
     public static function instance($config = null)
     {
@@ -62,7 +62,7 @@ class QuickPHP_Session
     }
 
     /**
-     * 在一次创建会话变量实例,设置驱动创建会话变量实例。
+     * 初始化 Session
      */
     public function __construct($config = null)
     {
@@ -101,7 +101,7 @@ class QuickPHP_Session
     }
 
     /**
-     * 获得会话变量的id.
+     * 获得Session id.
      *
      * @return  string
      */
@@ -111,7 +111,7 @@ class QuickPHP_Session
     }
 
     /**
-     * 会话变量创建方法
+     * 创建一个 Session
      *
      * @param   array  variables to set after creation
      * @return  void
@@ -132,12 +132,14 @@ class QuickPHP_Session
             // 验证驱动是否继承指定接口
             if( ! (Session::$driver instanceof Session_Interface))
             {
-                throw new QuickPHP_Exception('driver_implements',
-                    array(Session::$config['driver'], get_class($this), 'Session_Interface'));
+                throw new QuickPHP_Exception('driver_implements', array(Session::$config['driver'], get_class($this), 'Session_Interface'));
             }
 
             // 注册非native驱动到会话变量处理器
-            session_set_save_handler(array(Session::$driver, 'open'), array(Session::$driver, 'close'), array(Session::$driver, 'read'), array(Session::$driver, 'write'), array(Session::$driver, 'destroy'), array(Session::$driver, 'gc'));
+            session_set_save_handler(
+                array(Session::$driver, 'open'), array(Session::$driver, 'close'), 
+                array(Session::$driver, 'read'), array(Session::$driver, 'write'), 
+                array(Session::$driver, 'destroy'), array(Session::$driver, 'gc'));
         }
 
         // 验证Session名称
@@ -195,21 +197,23 @@ class QuickPHP_Session
                             return $this->create();
                         }
 
-                        break;
+                    break;
+                    
                     case 'ip_address' :
                         if($_SESSION[$valid] !== request::$valid())
                         {
                             return $this->create();
                         }
 
-                        break;
+                    break;
+                    
                     case 'expiration' :
                         if(time() - $_SESSION['last_activity'] > ini_get('session.gc_maxlifetime'))
                         {
                             return $this->create();
                         }
 
-                        break;
+                    break;
                 }
             }
         }
@@ -267,8 +271,7 @@ class QuickPHP_Session
     }
 
     /**
-     * Runs the system.session_write event, then calls session_write_close.
-     * 运行的system.session_write session_write_close事件,然后要求。
+     * Session 写入操作之后事件
      *
      * @return  void
      */
@@ -285,8 +288,8 @@ class QuickPHP_Session
     /**
      * 会话变量设置方法。
      *
-     * @param   string|array  key, or array of values
-     * @param   mixed         value (if keys is not an array)
+     * @param   string|array  
+     * @param   mixed         
      * @return  void
      */
     public function set($keys, $val = false)
@@ -411,7 +414,6 @@ class QuickPHP_Session
         }
 
         $result = isset($_SESSION[$key]) ? $_SESSION[$key] : null;
-
         return ($result === null) ? $default : $result;
     }
 
@@ -426,7 +428,6 @@ class QuickPHP_Session
     {
         $return = Session::get($key, $default);
         Session::delete($key);
-
         return $return;
     }
 

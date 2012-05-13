@@ -31,7 +31,8 @@ abstract class QuickPHP_Logger_Abstract
 {
 
 	/**
-	 * Numeric log level to string lookup table.
+	 * 记录日志的等级
+     *
 	 * @var array
 	 */
 	protected $_log_levels = array(
@@ -55,8 +56,7 @@ abstract class QuickPHP_Logger_Abstract
     abstract public function write(array $messages);
 
     /**
-     * Allows the writer to have a unique key when stored.
-     * 允许作者都有各自独特的钥匙当储存。
+     * 魔术方法 __toString 返回该类hash
      *
      * echo $writer;
      *

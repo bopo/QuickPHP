@@ -30,19 +30,23 @@
 function _strrpos($str, $search, $offset = 0)
 {
     $offset = (int) $offset;
+
     if(SERVER_UTF8)
     {
         return mb_strrpos($str, $search, $offset);
     }
+
     if(Unicode::is_ascii($str) and Unicode::is_ascii($search))
     {
         return strrpos($str, $search, $offset);
     }
+
     if($offset == 0)
     {
         $array = explode($search, $str, - 1);
         return isset($array[0]) ? Unicode::strlen(implode($search, $array)) : false;
     }
+    
     $str = Unicode::substr($str, $offset);
     $pos = Unicode::strrpos($str, $search);
     return ($pos === false) ? false : $pos + $offset;

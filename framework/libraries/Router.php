@@ -19,7 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * QuickPHP 路由处理
+ * QuickPHP 路由处理(路由器)
  *
  * @category    QuickPHP
  * @package     Router
@@ -144,7 +144,7 @@ class QuickPHP_Router
     }
 
     /**
-     * 魔术函数 reset
+     * 魔术函数 __reset
      */
     public function __reset()
     {
@@ -165,7 +165,7 @@ class QuickPHP_Router
     }
 
     /**
-     * 路由器安装程序。自动称为在快速安装过程。
+     * 路由器初始化
      *
      * @return  void
      */
@@ -269,7 +269,7 @@ class QuickPHP_Router
     }
 
     /**
-     * 试图获取当前乌利使用或得到的,PATH_INFO, ORIG_PATH_INFO, PHP_ROUTER。
+     * 解析URI (PATH_INFO, ORIG_PATH_INFO, PHP_ROUTER, QUERY_STRING 等方式)
      *
      * @return  void
      */
@@ -325,8 +325,6 @@ class QuickPHP_Router
             }
 
             $_SERVER['QUERY_STRING'] = $query_string;
-
-            // reset $_GET
             parse_str($query_string, $_GET);
         }
 
@@ -353,10 +351,10 @@ class QuickPHP_Router
     }
 
     /**
-     * Generates routed URI from given URI.
+     * 构建重构后的URI.
      *
-     * @param  string  URI to convert
-     * @return string  Routed uri
+     * @param  string  要转换的URI
+     * @return string  重构后的URI
      */
     protected function routed_uri($uri)
     {

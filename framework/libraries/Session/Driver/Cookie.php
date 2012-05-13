@@ -36,11 +36,6 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
     protected $cookie_name;
     protected $encrypt;
 
-    /**
-     * __construct method
-     *
-     * @return mixed
-     */
     public function __construct()
     {
         $this->cookie_name = QuickPHP::config('session')->get('name') . '_data';
@@ -51,31 +46,16 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
         }
     }
 
-    /**
-     * 打开方法
-     *
-     * @return mixed
-     */
     public function open($path, $name)
     {
         return true;
     }
 
-    /**
-     * 关闭方法
-     *
-     * @return mixed
-     */
     public function close()
     {
         return true;
     }
 
-    /**
-     * 读取方法
-     *
-     * @return mixed
-     */
     public function read($id)
     {
         $data = (string) cookie::get($this->cookie_name);
@@ -88,11 +68,6 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
         return empty($this->encrypt) ? base64_decode($data) : $this->encrypt->decode($data);
     }
 
-    /**
-     * 写入方法
-     *
-     * @return mixed
-     */
     public function write($id, $data)
     {
         $data = empty($this->encrypt) ? base64_encode($data) : $this->encrypt->encode($data);
@@ -105,32 +80,17 @@ class QuickPHP_Session_Driver_Cookie implements QuickPHP_Session_Interface
         return cookie::set($this->cookie_name, $data, QuickPHP::config('session')->get('expiration'));
     }
 
-    /**
-     * 销毁方法
-     *
-     * @return mixed
-     */
     public function destroy($id)
     {
         return cookie::delete($this->cookie_name);
     }
 
-    /**
-     * 重构方法
-     *
-     * @return mixed
-     */
     public function regenerate()
     {
         session_regenerate_id(true);
         return session_id();
     }
 
-    /**
-     * 垃圾回收方法
-     *
-     * @return mixed
-     */
     public function gc($maxlifetime)
     {
         return true;

@@ -34,32 +34,32 @@ class QuickPHP_Exception extends Exception
 {
     /**
      *
-     * @var  array  PHP error code => human readable name
+     * @var  array  PHP 错误代码
      */
     public static $php_errors = array(
-        E_ERROR              => 'Fatal Error',
-        E_USER_ERROR         => 'User Error',
-        E_PARSE              => 'Parse Error',
-        E_WARNING            => 'Warning',
-        E_USER_WARNING       => 'User Warning',
-        E_STRICT             => 'Strict',
-        E_NOTICE             => 'Notice',
-        E_RECOVERABLE_ERROR  => 'Recoverable Error',
+        E_ERROR             => 'Fatal Error',
+        E_USER_ERROR        => 'User Error',
+        E_PARSE             => 'Parse Error',
+        E_WARNING           => 'Warning',
+        E_USER_WARNING      => 'User Warning',
+        E_STRICT            => 'Strict',
+        E_NOTICE            => 'Notice',
+        E_RECOVERABLE_ERROR => 'Recoverable Error',
     );
 
     /**
-     * @var  string  error rendering view
+     * @var  string  错误信息模板
      */
     public static $error_view = 'error';
 
     /**
-     * Creates a new translated exception.
+     * 重载异常构造函数.
      *
-     * throw new QuickPHP_Exception('Something went terrible wrong, :user', array(':user' => $user));
+     * throw new QuickPHP_Exception('出现异常了, {0}', array($user));
      *
-     * @param   string          error message
-     * @param   array           translation variables
-     * @param   integer|string  the exception code
+     * @param   string          错误信息
+     * @param   array           错误变量集
+     * @param   integer|string  异常代码
      * @return  void
      */
     public function __construct($message, array $variables = null, $code = 0)
@@ -67,22 +67,19 @@ class QuickPHP_Exception extends Exception
         $messages = array('message' => $message,'variables' => $variables);
         $messages = serialize($messages);
 
-        // E_DEPRECATED only exists in PHP >= 5.3.0
         if (defined('E_DEPRECATED'))
         {
             QuickPHP_Exception::$php_errors[E_DEPRECATED] = 'Deprecated';
         }
 
-        // Save the unmodified code
         $this->code = $code;
-
         parent::__construct($messages, (int) $code);
     }
 
     /**
-     * Magic object-to-string method.
+     * 魔术方法.
      *
-     *     echo $exception;
+     * echo $exception;
      *
      * @uses    QuickPHP_Exception::text
      * @return  string
@@ -93,11 +90,11 @@ class QuickPHP_Exception extends Exception
     }
 
     /**
-     * Inline exception handler, displays the error message, source of the
-     * exception, and the stack trace of the error.
+     * 异常管理类，展示错误信息，错误行所在源代码的上下内容，以及堆栈信息
+     *
      *
      * @uses    QuickPHP_Exception::text
-     * @param   object   exception object
+     * @param   object   异常对象
      * @return  boolean
      */
     public static function handler(Exception $e)
@@ -106,10 +103,10 @@ class QuickPHP_Exception extends Exception
         {
             $type    = get_class($e);
             $code    = $e->getCode();
-            $message = $e->getMessage();
             $file    = $e->getFile();
             $line    = $e->getLine();
             $trace   = $e->getTrace();
+            $message = $e->getMessage();
 
             if($msgs = unserialize($message))
             {
@@ -135,7 +132,6 @@ class QuickPHP_Exception extends Exception
 
             if ($e instanceof ErrorException)
             {
-                // Use the human-readable error name
                 if (isset(QuickPHP_Exception::$php_errors[$code]))
                 {
                     $code = QuickPHP_Exception::$php_errors[$code];
@@ -143,31 +139,22 @@ class QuickPHP_Exception extends Exception
 
                 if (version_compare(PHP_VERSION, '5.3', '<'))
                 {
-                    // Workaround for a bug in ErrorException::getTrace() that exists in
-                    // all PHP 5.2 versions. @see http://bugs.php.net/bug.php?id=45895
                     for ($i = count($trace) - 1; $i > 0; --$i)
                     {
                         if (isset($trace[$i - 1]['args']))
                         {
-                            // Re-position the args
                             $trace[$i]['args'] = $trace[$i - 1]['args'];
-
-                            // Remove the args
                             unset($trace[$i - 1]['args']);
                         }
                     }
                 }
             }
 
-            // Create a text version of the exception
             $error = QuickPHP_Exception::text($e);
 
             if (is_object(QuickPHP::$log))
             {
-                // Add this exception to the log
                 QuickPHP::$log->add(Log::ERROR, $error);
-
-                // Make sure the logs are written
                 QuickPHP::$log->write();
             }
 
@@ -178,12 +165,11 @@ class QuickPHP_Exception extends Exception
 
             if ( ! headers_sent())
             {
-                // Make sure the proper http header is sent
                 $http_header_status = ($e instanceof HTTP_Exception) ? $code : 500;
                 header('Content-Type: text/html; charset='.QuickPHP::$charset, true, $http_header_status);
             }
 
-            if (request::is_ajax()) // 后续增加 firephp
+            if (request::is_ajax())
             {
                 exit(PHP_EOL.$error.PHP_EOL);
             }
@@ -211,8 +197,9 @@ class QuickPHP_Exception extends Exception
     }
 
     /**
-     * Get a single line of text representing the exception:
+     * 输出单行错误提示信息
      *
+     * 格式如下:
      * Error [ Code ]: Message ~ File [ Line ]
      *
      * @param   object  Exception

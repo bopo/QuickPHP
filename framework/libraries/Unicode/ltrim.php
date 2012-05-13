@@ -35,10 +35,12 @@ if( ! function_exists('_ltrim'))
         {
             return ltrim($str);
         }
+        
         if(Unicode::is_ascii($charlist))
         {
             return ltrim($str, $charlist);
         }
+
         $charlist = preg_replace('#[-\[\]:\\\\^/]#', '\\\\$0', $charlist);
         return preg_replace('/^[' . $charlist . ']+/u', '', $str);
     }
