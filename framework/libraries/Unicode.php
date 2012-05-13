@@ -163,7 +163,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -181,7 +181,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -204,7 +204,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -227,7 +227,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -249,7 +249,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -271,7 +271,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -291,7 +291,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -311,7 +311,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -331,7 +331,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -351,7 +351,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -374,7 +374,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -400,7 +400,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -423,7 +423,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -446,7 +446,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -469,7 +469,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -492,7 +492,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -513,7 +513,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -533,7 +533,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -555,7 +555,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -576,7 +576,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -597,7 +597,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -617,7 +617,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -643,7 +643,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 
@@ -669,7 +669,7 @@ class QuickPHP_Unicode
     {
         if( ! isset(self::$called[__FUNCTION__]))
         {
-            require_once APPPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
+            require_once SYSPATH . 'libraries/Unicode/' . __FUNCTION__ . EXT;
             self::$called[__FUNCTION__] = true;
         }
 

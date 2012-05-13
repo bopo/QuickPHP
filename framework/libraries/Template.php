@@ -120,22 +120,26 @@ class QuickPHP_Template
     {
         $config = QuickPHP::config('template');
         $group  = ( ! is_string($group)) ? 'simple' : $group;
+        $params = $config->get($group, array());
 
-        if( ! isset($config->$group))
+        if( empty($group))
         {
             throw new QuickPHP_Exception('undefined_group', array($group));
         }
 
-        foreach ($config->$group as $key => $value)
+        if(is_array($group))
         {
-            if(array_key_exists($key, Template::$config))
+            foreach ($group as $key => $value)
             {
-                Template::$config[$key] = $value;
+                if(array_key_exists($key, Template::$config))
+                {
+                    Template::$config[$key] = $value;
+                }
             }
         }
 
         $driver       = "Template_Driver_" . ucfirst($group);
-        $this->driver = new $driver($config->$group);
+        $this->driver = new $driver($params);
 
         if( ! ($this->driver instanceof QuickPHP_Template_Interface))
         {

@@ -95,8 +95,13 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
         {
             if(empty($this->template))
             {
-                $this->template = $this->directory.'/'.QuickPHP::route()->controller . '/' . QuickPHP::route()->get('method', 'index');
+                $directory  = rtrim($this->directory, '/') . '/';
+                $controller = QuickPHP::route()->get('controller');
+                $method     = QuickPHP::route()->get('method', 'index');
+
+                $this->template = $directory . $controller . '/' . $method;
                 $this->template = str_replace("_", "/", $this->template);
+                var_dump($this->template);
             }
 
             $this->view->render($this->template);

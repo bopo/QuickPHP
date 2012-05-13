@@ -60,8 +60,9 @@ class QuickPHP_Profiler
             'group'        => ($group),
             'stop_time'    => false,
             'start_time'   => microtime(true),
-            'stop_memory'  => false);
+            'stop_memory'  => false,
             'start_memory' => memory_get_usage(), // Set the stop keys without values
+        );
 
         return $token;
     }

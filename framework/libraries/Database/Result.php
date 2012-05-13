@@ -46,44 +46,38 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     protected $_as_object;
 
     /**
-     * Sets the total number of rows and stores the result locally.
+     * 初始化结果集操作的一些设置
      *
-     * @param   mixed   query result
-     * @param   string  SQL query
+     * @param   mixed   数据库结果集
+     * @param   string  SQL 字符串
      * @return  void
      */
     public function __construct($result, $sql, $as_object)
     {
-        // Store the result locally
         $this->_result = $result;
-
-        // Store the SQL locally
         $this->_query  = $sql;
 
         if(is_object($as_object))
         {
-            // Get the object class name
             $as_object = get_class($as_object);
         }
 
-        // Results as objects or associative arrays
         $this->_as_object = $as_object;
     }
 
     /**
-     * Result destruction cleans up all open result sets.
+     * 清除已经打开的全部结果集
      *
      * @return  void
      */
     abstract public function __destruct();
 
     /**
-     * Get a cached database result from the current result iterator.
+     * 从当前结果迭代器中获取已缓存的数据库结果
      *
      * $cachable = serialize($result->cached());
      *
      * @return  Database_Result_Cached
-     * @since   3.0.5
      */
     public function cached()
     {
@@ -91,19 +85,19 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Return all of the rows in the result as an array.
+     * 以数组形式返回结果.
      *
-     * // Indexed array of all rows
+     * // 返回所有结果
      * $rows = $result->as_array();
      *
-     * // Associative array of rows by "id"
+     * // 返回键为 "id" 的结果
      * $rows = $result->as_array('id');
      *
-     * // Associative array of rows, "id" => "name"
+     * // 返回 "id" => "name" 形式
      * $rows = $result->as_array('id', 'name');
      *
-     * @param   string  column for associative keys
-     * @param   string  column for values
+     * @param   string  键
+     * @param   string  值
      * @return  array
      */
     public function as_array($key = null, $value = null)
@@ -174,13 +168,13 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Return the named column from the current row.
+     * 返回当前行指定字段的值.
      *
-     * // Get the "id" value
+     * // 获取 "id" 值
      * $id = $result->get('id');
      *
-     * @param   string  column to get
-     * @param   mixed   default value if the column does not exist
+     * @param   string  要回去的字段名
+     * @param   mixed   默认值，如果该字段不存在或者为空则使用默认值
      * @return  mixed
      */
     public function get($name, $default = null)
@@ -206,7 +200,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [Countable::count], returns the total number of rows.
+     * Implements [Countable::count], 返回总行数.
      *
      * echo count($result);
      *
@@ -218,7 +212,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [ArrayAccess::offsetExists], determines if row exists.
+     * Implements [ArrayAccess::offsetExists], 确定指定行号是否存在.
      *
      * if (isset($result[10]))
      * {
@@ -233,7 +227,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [ArrayAccess::offsetGet], gets a given row.
+     * Implements [ArrayAccess::offsetGet], 获取已有的行.
      *
      * $row = $result[10];
      *
@@ -276,7 +270,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [Iterator::key], returns the current row number.
+     * Implements [Iterator::key], 返回当前行的序号
      *
      * echo key($result);
      *
@@ -288,7 +282,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [Iterator::next], moves to the next row.
+     * Implements [Iterator::next], 移动到下一行.
      *
      * next($result);
      *
@@ -301,7 +295,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [Iterator::prev], moves to the previous row.
+     * Implements [Iterator::prev], 移动到上一行.
      *
      * prev($result);
      *
@@ -314,7 +308,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [Iterator::rewind], sets the current row to zero.
+     * Implements [Iterator::rewind], 设置当前行序号.
      *
      * rewind($result);
      *
@@ -327,7 +321,7 @@ abstract class QuickPHP_Database_Result implements Countable, Iterator, Seekable
     }
 
     /**
-     * Implements [Iterator::valid], checks if the current row exists.
+     * Implements [Iterator::valid], 验证当前行是否存在.
      *
      * [!!] This method is only used internally.
      *

@@ -42,6 +42,8 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
     {
         $this->_config = $config;
 
+        var_dump($this->_config);
+
         if(isset($this->_config['left_delimiter']) && isset($this->_config['right_delimiter']))
         {
             if(is_string($this->_config['left_delimiter']))
@@ -171,7 +173,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
         if(empty($tempate))
         {
-            throw new Template_Exception('template_content_null',array($tempate));
+            throw new Template_Exception('template_content_null', array($tempate));
         }
 
         $_obj                  = $_top;
@@ -324,6 +326,8 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
         }
 
         $tempate = $this->_config['template_dir'] . $tempate . $this->_config['template_suffix'];
+
+        var_dump($template);
 
         list($L, $R) = $this->_delimiter;
 
