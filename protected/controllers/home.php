@@ -33,6 +33,5 @@ class Home_Controller extends Template_Controller
 {
     public function __call($method, $args)
     {
-        throw new Session_Exception("invalid_session_name", array('adfadfadfadf'));
     }
 }

@@ -92,7 +92,7 @@ class QuickPHP_Template
     {
         if(empty(Template::$_instances[$group]))
         {
-            Template::$_instances[$group] = new self($group);
+            Template::$_instances[$group] = new Template($group);
         }
 
         return Template::$_instances[$group];
@@ -195,9 +195,9 @@ class QuickPHP_Template
 
         if($return == false)
         {
-            if(self::$config['compress_html'] == true)
+            if(Template::$config['compress_html'] == true)
             {
-                echo self::compress_html($output);
+                echo Template::compress_html($output);
             }
             else
             {

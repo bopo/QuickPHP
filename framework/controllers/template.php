@@ -101,7 +101,6 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
 
                 $this->template = $directory . $controller . '/' . $method;
                 $this->template = str_replace("_", "/", $this->template);
-                var_dump($this->template);
             }
 
             $this->view->render($this->template);
