@@ -59,7 +59,6 @@ class QuickPHP_xml
         {
             $dom   = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $array = self::get_object_vars_final($dom);
-
             return $array;
         }
 
@@ -101,7 +100,8 @@ class QuickPHP_xml
         $temp = '__TEMP_AMPERSANDS__';
         $str  = preg_replace('/&#(\d+);/', "$temp\\1;", $xml);
         $str  = preg_replace('/&(\w+);/', "$temp\\1;", $xml);
-        $str  = str_replace(array("&", "<", ">", "\"", "'", "-"), array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"), $xml);
+        $str  = str_replace(array("&", "<", ">", "\"", "'", "-"),
+            array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"), $xml);
         $str  = preg_replace("/$temp(\d+);/", "&#\\1;", $xml);
         $str  = preg_replace("/$temp(\w+);/", "&\\1;", $xml);
 

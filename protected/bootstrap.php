@@ -58,13 +58,31 @@ spl_autoload_register(array('QuickPHP', 'autoloader'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
+/*
+|--------------------------------------------------------------------------
+| URI PROTOCOL
+|--------------------------------------------------------------------------
+|
+| This item determines which server global should be used to retrieve the
+| URI string.  The default setting of 'AUTO' works for most servers.
+| If your links do not seem to work, try one of the other delicious flavors:
+|
+| 'AUTO'			Default - auto detects
+| 'PATH_INFO'		Uses the PATH_INFO
+| 'QUERY_STRING'	Uses the QUERY_STRING
+| 'REQUEST_URI'		Uses the REQUEST_URI
+| 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
+|
+*/
+
 $settings = array(
 	'profiling'  => true,                    // 开启分析器
 	'log_error'  => true,                    // 开启log分析
 	'errors'     => true,                    // 开启错误分析
 	'caching'    => true,                    // 开启高速缓存
 	'frontend'   => '',         				// 入口文件名(默认为index.php)
-	'url_suffix' => 'html',
+	'url_suffix'   => 'html',
+	'uri_protocol' => 'AUTO',
 	'domain'     => $_SERVER['SERVER_NAME'],  // 网站域名
 );
 

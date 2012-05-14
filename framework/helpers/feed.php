@@ -42,7 +42,7 @@ class QuickPHP_feed
     {
         if( ! function_exists('simplexml_load_file'))
         {
-            throw new QuickPHP_Exception('extension_not_found',array('SimpleXML');
+            throw new QuickPHP_Exception('extension_not_found', array('SimpleXML'));
         }
 
         $ER    = error_reporting(0);

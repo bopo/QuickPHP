@@ -30,7 +30,6 @@
  */
 class QuickPHP_request
 {
-
     protected static $http_methods = array('GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE');
     protected static $accept_types;
 
@@ -168,6 +167,7 @@ class QuickPHP_request
     public static function accepts_at_quality($type = null, $explicit_check = false)
     {
         request::parse_accept_header();
+
         $type = strtolower((string) $type);
 
         if(strpos($type, '/') === false)
@@ -226,15 +226,17 @@ class QuickPHP_request
 
         foreach (explode(',', str_replace(array("\r", "\n"), '', $_SERVER['HTTP_ACCEPT'])) as $accept_entry)
         {
-            $accept_entry = explode(';', trim($accept_entry), 2);
-            $type = explode('/', $accept_entry[0], 2);
+            $accept_entry   = explode(';', trim($accept_entry), 2);
+            $type           = explode('/', $accept_entry[0], 2);
 
             if( ! isset($type[1]))
             {
                 continue;
             }
 
-            $q = (isset($accept_entry[1]) and preg_match('~\bq\s*+=\s*+([.0-9]+)~', $accept_entry[1], $match)) ? (float) $match[1] : 1;
+            $q = (isset($accept_entry[1]) and preg_match('~\bq\s*+=\s*+([.0-9]+)~', $accept_entry[1], $match))
+                ? (float) $match[1]
+                : 1;
 
             if( ! isset(request::$accept_types[$type[0]][$type[1]]) or $q > request::$accept_types[$type[0]][$type[1]])
             {
