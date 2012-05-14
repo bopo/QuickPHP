@@ -49,7 +49,7 @@ class QuickPHP_url
      * @uses    QuickPHP::$frontend
      * @uses    QuickPHP::$protocol
      */
-    public static function base($index = false, $protocol = 'http')
+    public static function base($index = true, $protocol = false)
     {
         $domain = QuickPHP::$domain;
 
@@ -60,7 +60,7 @@ class QuickPHP_url
 
         if($index === true and ! empty(QuickPHP::$frontend))
         {
-            $domain .= QuickPHP::$frontend . '/';
+            $domain .= QuickPHP::$frontend;
         }
 
         if(is_string($protocol))
@@ -73,7 +73,7 @@ class QuickPHP_url
             $domain = $protocol . '://' . $domain;
         }
 
-        return $domain;
+        return rtrim($domain, '/');
     }
 
     /**
@@ -88,8 +88,9 @@ class QuickPHP_url
      */
     public static function site($uri = '', $protocol = false)
     {
-        $path  = trim(parse_url($uri, PHP_URL_PATH), '/');
-        $query = parse_url($uri, PHP_URL_QUERY);
+        $path   = '/' . trim(parse_url($uri, PHP_URL_PATH), '/');
+        $query  = parse_url($uri, PHP_URL_QUERY);
+        $suffix = '.' . trim(QuickPHP::$url_suffix, '.');
 
         if( ! empty($query))
         {
@@ -103,7 +104,7 @@ class QuickPHP_url
             $fragment = '#' . $fragment;
         }
 
-        return url::base(true, $protocol) . $path . QuickPHP::$url_suffix . $query . $fragment;
+        return url::base(true, $protocol) . $path . $suffix . $query . $fragment;
     }
 
     /**
@@ -119,7 +120,7 @@ class QuickPHP_url
      * @param   array   array $params
      * @return  string
      */
-    public static function build_query(array $params = null)
+    public static function query(array $params = null)
     {
         if($params === null)
         {
@@ -137,6 +138,73 @@ class QuickPHP_url
 
         $query = http_build_query($params, '', '&');
         return ($query === '') ? '' : '?' . $query;
+    }
+
+    public static function http_bind()
+    {
+        $args = func_get_args();
+        $uri  = implode("/", $args);
+
+        return url::site($uri, 'http');
+    }
+
+    public static function https_bind()
+    {
+        $args = func_get_args();
+        $uri  = implode("/", $args);
+
+        return url::site($uri, 'https');
+    }
+
+    public static function bind()
+    {
+        $args = func_get_args();
+        $uri  = implode("/", $args);
+
+        return url::site($uri);
+    }
+
+    public static function domain($url)
+    {
+        $pattern = '/[\w-]+\.(com|net|org|gov|cc|biz|info|cn|co)(\.(cn|hk))*/';
+        $pattern = preg_match($pattern, $url, $matches);
+
+        if(count($matches) > 0)
+        {
+            return $matches[0];
+        }
+        else
+        {
+            $rs = parse_url($url);
+            $main_url = $rs["host"];
+
+            if(! strcmp((sprintf("%u", ip2long($main_url))), $main_url))
+            {
+                return $main_url;
+            }
+            else
+            {
+                $arr    = explode(".", $main_url);
+                $count  = count($arr);
+                $endarr = array("com", "net", "org", "3322"); //com.cn  net.cn 等情况
+
+                if(in_array($arr[$count - 2], $endarr))
+                {
+                    $domain = $arr[$count - 3] . "." . $arr[$count - 2] . "." . $arr[$count - 1];
+                }
+                else
+                {
+                    $domain = $arr[$count - 2] . "." . $arr[$count - 1];
+                }
+
+                return $domain;
+            }
+        }
+    }
+
+    public static function encode($url)
+    {
+        return urlencode($url);
     }
 
     /**

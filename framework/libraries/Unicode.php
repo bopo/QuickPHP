@@ -75,7 +75,7 @@ else
 
 if(PHP_SAPI == 'cli')
 {
-    $_SERVER['argv'] = Unicode::clean($_SERVER['argv']);
+    $_SERVER['argv'] = QuickPHP_Unicode::clean($_SERVER['argv']);
 }
 
 class QuickPHP_Unicode

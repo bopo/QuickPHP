@@ -399,6 +399,22 @@ class QuickPHP_Session
         $run = true;
     }
 
+
+    public function __toString()
+    {
+        return $this->id();
+    }
+
+    public function __get($id = null)
+    {
+        return $this->get($id, null);
+    }
+
+    public function __set($id = null, $value = null)
+    {
+        return $this->set($id, $value);
+    }
+
     /**
      * 得到一个变量。 进入子阵key.subkey并支持。
      *

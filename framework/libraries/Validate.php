@@ -78,8 +78,8 @@ class QuickPHP_Validate extends ArrayObject
     /**
      * 验证一个字段是否符合正则规则
      *
-     * @param   string  value
-     * @param   string  regular expression to match (including delimiters)
+     * @param   string  要验证的内容
+     * @param   string  正则表达式
      * @return  boolean
      */
     public static function regex($value, $expression)
@@ -248,96 +248,6 @@ class QuickPHP_Validate extends ArrayObject
         return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flags);
     }
 
-    /**
-     * 验证一个信用卡号码格式(国际格式)
-     *
-     * @link http://en.wikipedia.org/wiki/Luhn_algorithm
-     *
-     * @param   integer       信用卡号码
-     * @param   string|array  信用卡类型
-     * @return  boolean
-     */
-    public static function credit_card($number, $type = null)
-    {
-        if(($number = preg_replace('/\D+/', '', $number)) === '')
-        {
-            return false;
-        }
-
-        if($type == null)
-        {
-            $type = 'default';
-        }
-        elseif(is_array($type))
-        {
-            foreach ($type as $t)
-            {
-                if(Validate::credit_card($number, $t))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        $cards = QuickPHP::config('credit_cards');
-        $type  = strtolower($type);
-
-        if( ! isset($cards[$type]))
-        {
-            return false;
-        }
-
-        $length = strlen($number);
-
-        if( ! in_array($length, preg_split('/\D+/', $cards[$type]['length'])))
-        {
-            return false;
-        }
-
-        if( ! preg_match('/^' . $cards[$type]['prefix'] . '/', $number))
-        {
-            return false;
-        }
-
-        if($cards[$type]['luhn'] == false)
-        {
-            return true;
-        }
-
-        $checksum = 0;
-
-        for ($i = $length - 1; $i >= 0; $i -= 2)
-        {
-            $checksum += substr($number, $i, 1);
-        }
-
-        for ($i = $length - 2; $i >= 0; $i -= 2)
-        {
-            $double = substr($number, $i, 1) * 2;
-            $checksum += ($double >= 10) ? $double - 9 : $double;
-        }
-
-        return ($checksum % 10 === 0);
-    }
-
-    /**
-     * 检查判断是否是一个电话号码(国际格式)
-     *
-     * @param   string   电话号码
-     * @return  boolean
-     */
-    public static function phone($number, $lengths = null)
-    {
-        if( ! is_array($lengths))
-        {
-            $lengths = array(7, 10, 11);
-        }
-
-        $number = preg_replace('/\D+/', '', $number);
-        return in_array(strlen($number), $lengths);
-    }
 
     /**
      * 检查判断是否是一个手机号码(中国格式)
@@ -345,15 +255,8 @@ class QuickPHP_Validate extends ArrayObject
      * @param   string   需要验证的手机号码
      * @return  boolean
      */
-    public static function mobile($number, $lengths = null)
+    public static function mobile($number)
     {
-        if( ! is_array($lengths))
-        {
-            $lengths = array(7, 10, 11);
-        }
-
-        $number = preg_replace('/\D+/', '', $number);
-        return in_array(strlen($number), $lengths);
     }
 
     /**
@@ -442,10 +345,9 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 检查一个字符串是否为一个有效的数字(消极和十进制数字允许)。
+     * 检查一个字符串是否为一个有效的数字
      *
      * Uses {@link http://www.php.net/manual/en/function.localeconv.php locale conversion}
-     * to allow decimal point to be locale specific.
      *
      * @param   string   输入字符串
      * @return  boolean
@@ -470,7 +372,7 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 判断一个字符串是否为一个合适的小数格式。 选择性地,一定数量的数字可以查到的了。
+     * 判断一个字符串是否为指定位数的小数格式。 并且可以过滤置整数位数
      *
      * @param   string   number to check
      * @param   integer  number of decimal places
@@ -493,8 +395,7 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 判断一个字符串是否为一个合适的十六进制HTML颜色值。
-     * 验证是相当灵活,因为不需要最初的“#”并允许在这么短时间内符号仅使用三个不是6十六进制的角色。
+     * 判断一个字符串是否为一个正确的十六进制HTML颜色值。
      *
      * @param   string   输入字符串
      * @return  boolean
@@ -505,9 +406,9 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 设置了独具特色的“任意字段"键并且创造出了ArrayObject从过去的数组。
+     * 构造函数
      *
-     * @param   array   array to validate
+     * @param   array   要验证的数组
      * @return  void
      */
     public function __construct(array $array)
@@ -516,7 +417,7 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 复制当前的滤清器/法则/回调被一个新的数组。
+     * 复制当前的验证器的规则,过滤器等内容到一个数组
      *
      * $copy = $array->copy($new_data);
      *
@@ -543,10 +444,10 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 设置或重写标签名字的领域。
+     * 将字段名标注为人更容易理解的注释
      *
      * @param   string  字段名称
-     * @param   string  label
+     * @param   string  标注内容
      * @return  $this
      */
     public function label($field, $label)
@@ -556,9 +457,9 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 套标签用数组。
+     * 多重将字段名标注为人更容易理解的注释
      *
-     * @param   array  list of field => label names
+     * @param   array  字段名 =>  标注
      * @return  $this
      */
     public function labels(array $labels)
@@ -568,10 +469,9 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * Overwrites or appends filters to a field. Each filter will be executed once.
-     * All rules must be valid callbacks.
+     * 设置过滤器
      *
-     * // 全部字段使用 trim() 函数
+     * // 例如全部字段使用 trim() 函数过滤
      * $validation->filter(true, 'trim');
      *
      * @param   string  字段名
@@ -608,8 +508,7 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * Overwrites or appends rules to a field. Each rule will be executed once.
-     * All rules must be string names of functions method names.
+     * 设置验证规则
      *
      * // The "username" must not be empty and have a minimum length of 4
      * $validation->rule('username', 'not_empty')
@@ -632,7 +531,7 @@ class QuickPHP_Validate extends ArrayObject
     }
 
     /**
-     * 添加规则用数组。
+     * 多重设置验证规则
      *
      * @param   string  字段名称
      * @param   array   函数或静态方法名列表
@@ -830,7 +729,7 @@ class QuickPHP_Validate extends ArrayObject
                 elseif(strpos($rule, '::') === false)
                 {
                     $function = new ReflectionFunction($rule);
-                    $passed = $function->invokeArgs($params);
+                    $passed   = $function->invokeArgs($params);
                 }
                 else
                 {
@@ -904,119 +803,71 @@ class QuickPHP_Validate extends ArrayObject
      * @param   string  错误信息
      * @return  $this
      */
-    public function error($field, $error, array $params = null)
+    protected function error($field, $error, array $params = null)
     {
         $this->_errors[$field] = array($error, $params);
         return $this;
     }
 
     /**
-     * Returns the error messages. If no file is specified, the error message
-     * will be the name of the rule that failed. When a file is specified, the
-     * message will be loaded from "field/rule", or if no rule-specific message
-     * exists, "field/default" will be used. If neither is set, the returned
-     * message will be "file/field/rule".
+     * 返回错误信息集合
      *
-     * By default all messages are translated using the default language.
-     * A string can be used as the second parameter to specified the language
-     * that the message was written in.
-     *
-     * // Get errors from messages/forms/login.php
-     * $errors = $validate->errors('forms/login');
+     * $errors = $validate->errors('username');
      *
      * @uses    QuickPHP::message
-     * @param   string  file to load error messages from 文件装载错误信息
-     * @param   mixed   translate the message 翻译的信息
+     * @param   string  获取错误信息的字段名
      * @return  array
      */
-    public function errors($file = null, $translate = true)
+    public function errors($index = null)
     {
-        if($file === null)
-        {
-            return $this->_errors;
-        }
-
         $messages = array();
 
-        foreach ($this->_errors as $field => $set)
+        if(is_array($this->_errors) && count($this->_errors) > 0)
         {
-            list($error, $params) = $set;
-            $label = $this->_labels[$field];
-
-            if($translate)
+            foreach ($this->_errors as $field => $set)
             {
-                $label = QuickPHP::__($label);
-            }
+                list($error, $params) = $set;
+                $label = $this->_labels[$field];
+                $values = array(':field' => $label, ':value' => $this[$field]);
 
-            $values = array(':field' => $label, ':value' => $this[$field]);
-
-            if(is_array($values[':value']))
-            {
-                $values[':value'] = implode(', ', Arr::flatten($values[':value']));
-            }
-
-            if($params)
-            {
-                foreach ($params as $key => $value)
+                if(is_array($values[':value']))
                 {
-                    if(is_array($value))
-                    {
-                        $value = implode(', ', Arr::flatten($value));
-                    }
-
-                    if(isset($this->_labels[$value]))
-                    {
-                        $value = $this->_labels[$value];
-
-                        if($translate)
-                        {
-                            $value = QuickPHP::__($value);
-                        }
-                    }
-
-                    $values[':param' . ($key + 1)] = $value;
+                    $values[':value'] = implode(', ', arr::flatten($values[':value']));
                 }
-            }
 
-            if(QuickPHP::message($file, "{$field}.{$error}"))
-            {
-                $message = QuickPHP::message($file, "{$field}.{$error}");
-            }
-            elseif(QuickPHP::message($file, "{$field}.default"))
-            {
-                $message = QuickPHP::message($file, "{$field}.default");
-            }
-            elseif(QuickPHP::message($file, $error))
-            {
-                $message = QuickPHP::message($file, $error);
-            }
-            elseif(QuickPHP::message('validate', $error))
-            {
-                $message = QuickPHP::message('validate', $error);
-            }
-            else
-            {
-                $message = "{$file}.{$field}.{$error}";
-            }
-
-            if($translate)
-            {
-                if(is_string($translate))
+                if($params)
                 {
-                    $message = QuickPHP::__($message, $values, $translate);
+                    foreach ($params as $key => $value)
+                    {
+                        if(is_array($value))
+                        {
+                            $value = implode(', ', arr::flatten($value));
+                        }
+
+                        if(isset($this->_labels[$value]))
+                        {
+                            $value = $this->_labels[$value];
+                        }
+
+                        $values[':param' . ($key + 1)] = $value;
+                    }
+                }
+
+                if($message = QuickPHP::message('validate', $error))
+                {
                 }
                 else
                 {
-                    $message = QuickPHP::__($message, $values);
+                    $message = "{$file}.{$field}.{$error}";
                 }
-            }
-            else
-            {
-                $message = strtr($message, $values);
-            }
 
-            $messages[$field] = $message;
+                $message = strtr($message, $values);
+                $messages[$field] = $message;
+            }
         }
+
+        if(!empty($index) && isset($messages[$index]))
+            return $messages[$index];
 
         return $messages;
     }

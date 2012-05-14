@@ -60,6 +60,14 @@ class QuickPHP_Router
     // 默认路由协议
     protected $protocol     = 'http';
 
+    // 默认路由协议
+    // 'AUTO'			Default - auto detects
+    // 'PATH_INFO'		Uses the PATH_INFO
+    // 'QUERY_STRING'	Uses the QUERY_STRING
+    // 'REQUEST_URI'    Uses the REQUEST_URI
+    // 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
+    protected $uri_protocol = 'AUOT';
+
     // 路由片段
     protected $segments;
 
@@ -304,14 +312,17 @@ class QuickPHP_Router
         elseif(isset($_SERVER['PATH_INFO']) and $_SERVER['PATH_INFO'])
         {
             $this->current_uri = $_SERVER['PATH_INFO'];
+            $this->uri_protocol = 'PATH_INFO';
         }
         elseif(isset($_SERVER['ORIG_PATH_INFO']) and $_SERVER['ORIG_PATH_INFO'])
         {
             $this->current_uri = $_SERVER['ORIG_PATH_INFO'];
+            $this->uri_protocol = 'ORIG_PATH_INFO';
         }
         elseif(isset($_SERVER['PHP_Router']) and $_SERVER['PHP_Router'])
         {
             $this->current_uri = $_SERVER['PHP_Router'];
+            $this->uri_protocol = 'PHP_Router';
         }
         elseif(isset($_SERVER['QUERY_STRING']) and !empty($_SERVER['QUERY_STRING']))
         {
@@ -326,6 +337,7 @@ class QuickPHP_Router
 
             $_SERVER['QUERY_STRING'] = $query_string;
             parse_str($query_string, $_GET);
+            $this->uri_protocol = 'QUERY_STRING';
         }
 
         if(($strpos_fc = strpos($this->current_uri, EXT)) !== false)
