@@ -1,113 +1,125 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="zh-CN" />
   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
   <meta name="keywords" content="{{keywords}}" />
   <meta name="description" content="{{summary}}" />
-  <title>{{title}}</title>
-  <link rel="icon" type="image/x-icon" href="{{url::file('favicon.ico')}}" />
-  <link rel="shortcut icon" type="image/x-icon" href="{{url::file('favicon.ico')}}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{url::bind('feed')}}" />
-  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="{{url::bind('feed/atom')}}" />
-  <link rel="pingback" href="{{url::bind('xmlrpc')}}" />
-
-  <link rel="stylesheet" type="text/css" href="{{url::stylesheet('home/global_main.css')}}" media="screen" />
-  <link rel="stylesheet" type="text/css" href="{{url::stylesheet('global_common.css')}}" media="screen" />
-  <link rel="stylesheet" type="text/css" href="{{url::stylesheet('global_gnb.css')}}" media="screen" />
-  <link rel="stylesheet" type="text/css" href="{{url::stylesheet('print.css')}}" media="print" />
-
-  <script type="text/javascript" src="{{url::script('lib/jquery-1.7.1.min.js')}}" ></script>
-  <script type="text/javascript" src="{{url::script('lib/jquery/jquery.lazyload.js')}}"></script>
-  <script type="text/javascript" src="{{url::script('lib/jquery/jquery.cookie.js')}}"></script>
-  <script type="text/javascript" src="{{url::script('lib/jquery/jquery.scrollfollow.js')}}"></script>
+  <title>QuickPHP Framework - 首页</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="{{url::base()}}/assets/styles/screen.css"  type="text/css" media="all" />
 </head>
 <body>
-<!--头部开始-->
-<div id="g_head">
-  <div class="h1_wrap">
-    <h1 class="ir">Cyworld</h1>
-    <a target="_top" title="Cyworld" href="">Cyworld</a> </div>
-  <fieldset class="gnb_search">
-    <legend>Find friends</legend>
-    <form target="_top" action="" method="get" id="gnb_search">
-      <input type="hidden" name="search_type" value="name" />
-      <input type="text" value="查找好友" title="请查找好友" id="glbs-input" class="inp_gs" size="50" name="search_value" />
-      <input type="image" title="查找" alt="查找" src="http://common.global.cyworld.com/img/common/btn_gsearch.gif" />
-    </form>
-  </fieldset>
-  <dl class="main_nav">
-    <dt class="hide">网站服务</dt>
-    <dd>
-      <ul>
-        <li><a target="_top" href="">开运商城</a></li>
-        <li><a target="_top" href="">音乐</a></li>
-        <li><a target="_top" href="">俱乐部</a></li>
-        <li class="last"><a target="_top" href="">充值</a></li>
-      </ul>
-    </dd>
-  </dl>
-  <div class="gnb_sub">
-    <div class="gnbs_l">
-      <p id="cyNotice" class="gnbsl_evnt"><em>为了提供最佳的服务，我们会不断改善</em></p>
-    </div>
-    <div class="gnbs_r">
-      <form method="post" target="_top" name="login" id="login" action="{{url::bind('login')}}">
-        <fieldset class="gnb_loagin">
-          <legend>登录</legend>
-          <p class="keep_mail">
-            <input type="checkbox" tabindex="3" title="保存邮件" name="echk" id="echk" class="check">
-            <label for="echk">记住账号</label>
-          </p>
-          <input type="text" style="ime-mode: disabled" tabindex="1" title="用户名称" name="username" id="username" class="iptxt" size="20" />
-          <input type="password" tabindex="2" title="密码" name="password" id="password" class="iptxt" size="20" />
-          <button class="gbtn btd-ml btd-m1 btv-cg" type="submit"><span>登录</span></button>
-          <button onclick="window.location.href='{{url::bind('signup')}}'" class="gbtn btd-ml btd-m1 btv-cw" type="button"><span>加入会员</span></button>
-        </fieldset>
-        <p class="find_pwd"><a target="_blank" href="{{url::bind('forget')}}">忘记密码？</a></p>
-      </form>
-    </div>
-  </div>
-  <div class="clear"></div>
-</div>
-<!--头部结束-->
+
+<table cellpadding='0' cellspacing='0' width='100%' align='center'>
+  <tr>
+    <td class='topbar' align='center'>
+      <table cellpadding='0' cellspacing='0' width='800'>
+        <tr>
+          <td style='padding: 30px 0px 0px 0px;'><a href='{{url::base()}}'><img src='{{url::base()}}/assets/images/topbar_logo2.gif' border='0' alt=''></a></td>
+          <td align='right' valign='bottom' style='padding: 0px 0px 5px 0px;'>
+            <table cellpadding='0' cellspacing='0'>
+              <tr>
+                <td><a href='trial.php'></td>
+                <td style='padding-left: 10px;'></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table cellpadding='0' cellspacing='0' width='100%'>
+  <tr>
+    <td class='menu' align='center'>
+      <table cellpadding='0' cellspacing='0' align='center' width='780'>
+        <tr>
+          <td class='menu2'>
+            <a href="{{url::bind('home')}}" class='menu'>网站首页</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('download')}}" class='menu'>快速下载</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('apis')}}" class='menu'>API 手册</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('demos')}}" class='menu'>在线体验</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('docs')}}" class='menu'>开发文档</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('license')}}" class='menu'>授权协议</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('donation')}}" class='menu'>捐助我们</a> &nbsp;|&nbsp;
+            <a href="/community/" class='menu'>交流论坛</a> &nbsp;|&nbsp;
+            <a href="{{url::bind('feedback')}}" class='menu'>意见反馈</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table cellpadding='0' cellspacing='0' align='center' width='100%'>
+<tr>
+<td class="content">
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="shadow"><img src="{{url::base()}}/assets/images/shadow.gif" border='0'></td>
+</tr>
+</table>
+
 <!--内容部分开始-->
-<div class="container">{{container}}</div>
+{{container}}
 <!--内容部分结束-->
-<div id="g_footer">
-  <div class="gf_language">
-    <dl>
-      <dt class="hide"><a name="language">语言</a></dt>
-      <dd> <a title="" class="b_gfslct b_gfslct_x" href="javascript:void(0);">中文(简体)</a>
-        <div class="gfLang gfLangShow">
-          <ul>
-            <li><a id="en-US" href="#">English</a></li>
-            <li><a id="zh-TW" href="#">中文</a></li>
-            <li><a id="ja-JP" href="#">日本語</a></li>
-          </ul>
-        </div>
-      </dd>
-    </dl>
-    <div class="gf_CyKorea"> <a target="_blank" href="">思联互动科技有限公司</a> </div>
-  </div>
-  <!-- Service -->
-  <div class="gf_service">
-    <dl>
-      <dt class="hide">服务</dt>
-      <dd> <span class="first"><a href="">寻找好友</a></span>
-      <span><a href="">信息保护</a></span>
-      <span><a href="">服务条款</a></span>
-      <span><a href="">手机向导</a></span>
-      <span><a href="">公司介绍</a></span>
-      <span><a href="">招募伙伴</a></span>
-      <span><a href="">客服中心</a></span> </dd>
-    </dl>
-    <!-- Copyright -->
-    <div class="gf_copyright">
-      <p>Copyright &copy; <em><i></i> 思联互动科技有限公司.</em> All rights reserved.</p>
-    </div>
-  </div>
-</div>
+<table cellpadding='0' cellspacing='0' width='100%' align='center'>
+    <tr>
+    <td valign='top' style='padding: 15px 10px 30px 10px; background: #222222; border-top: 5px solid #484848;'>
+        <table cellpadding='0' cellspacing='0' width='780' align='center'>
+            <tr>
+                <td width='450' valign='top'>
+                <div style='border-bottom: 1px solid #555555; width: 420px; color: #999999; padding: 5px 3px 3px 0px; margin-bottom: 5px;'><b>快速链接</b></div>
+                    <table cellpadding='0' cellspacing='0'>
+                        <td valign='top'>
+                            <td valign='top' width='220'>
+                            <div class='link'><a href='{{url::base()}}/download' class='grey'>免费下载</a></div>
+                            <div class='link'><a href='{{url::base()}}/' class='grey'>常见问题</a></div>
+                            <div class='link'><a href='{{url::base()}}/document' class='grey'>开发文档</a></div>
+                            <div class='link'><a href='{{url::base()}}/joinour' class='grey'>加入我们</a></div>
+                            <div class='link'><a href='{{url::base()}}/demo' class='grey'>在线体验</a></div>
+                        </td>
+                        <td valign='top'>
+                            <div class='link'><a href='{{url::base()}}/about' class='grey'>关于我们</a></div>
+                            <div class='link'><a href='{{url::base()}}/forum' class='grey'>支持论坛</a></div>
+                            <div class='link'><a href='{{url::base()}}/cooperate' class='grey'>合作信息</a></div>
+                            <div class='link'><a href='{{url::base()}}/donation' class='grey'>捐助我们</a></div>
+                            <div class='link'><a href='{{url::base()}}/contact' class='grey'>意见反馈</a></div>
+                        </td>
+                        </tr>
+                    </table>
+                </td>
+                <td valign='top'>
+                <div style='border-bottom: 1px solid #555555; width: 250px; color: #999999; padding: 5px 3px 3px 0px; margin-bottom: 5px;'><b>其他资源</b></div>
+                    <table cellpadding='0' cellspacing='0'>
+                        <tr>
+                            <td valign='top' width='250'>
+                                <div class='link'><a href='http://www.php.net/manual/zh/' target='_blank' class='grey'>PHP 中文文档</a></div>
+                                <div class='link'><a href='http://www.treacle.cn/man/mysql/zh/' target='_blank' class='grey'>MySQL 中文文档</a></div>
+                                <div class='link'><a href='http://www.pgsqldb.org/pgsqldoc-8.1c/index.html' target='_blank' class='grey'>PostgreSQL 中文文档</a></div>
+                                <div class='link'><a href='http://lamp.linux.gov.cn/Apache/ApacheMenu/' target='_blank' class='grey'>Apache 中文文档</a></div>
+                                <div class='link'><a href='http://cb.vu/unixtoolbox.xhtml' target='_blank' class='grey'>Linux 手册</a></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td>
+    </tr>
+</table>
+
+<table cellpadding='0' cellspacing='0' width='780' align='center'>
+    <tr>
+        <td style='padding: 10px 10px 100px 0px; color: #444444;'>
+        Copyright 2008, 2009 <a href='{{url::base()}}/' class='grey' target='_blank'>Treacle Developments</a>&nbsp;<a href="http://www.miibeian.gov.cn" rel="external">京ICP备05061076号</a>
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>

@@ -13,7 +13,7 @@
  | distributed under the License is distributed on an 'AS IS' BASIS,    |
  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
  | implied. See the License for the specific language governing         |
- | permissions and limitations under the License.                       |
+ | permissions AND limitations under the License.                       |
  +----------------------------------------------------------------------+
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
@@ -37,7 +37,7 @@ class QuickPHP_Captcha_Driver_Black extends Captcha_Abstract
      */
     public function generate_challenge()
     {
-        return self::random('distinct', max(1, ceil(Captcha::$config['complexity'] / 1.5)));
+        return text::random('distinct', max(1, ceil(Captcha::$config['complexity'] / 1.5)));
     }
 
     /**
@@ -70,11 +70,11 @@ class QuickPHP_Captcha_Driver_Black extends Captcha_Abstract
 
         imagefttext($this->image, $size, $angle, $x + 1, $y + 1, $color, $font, $this->response);
 
-        (Captcha::$config['complexity'] < 10) and imagefttext($this->image, $size, $angle, $x - 1, $y - 1, $color, $font, $this->response);
-        (Captcha::$config['complexity'] < 8) and imagefttext($this->image, $size, $angle, $x - 2, $y + 2, $color, $font, $this->response);
-        (Captcha::$config['complexity'] < 6) and imagefttext($this->image, $size, $angle, $x + 2, $y - 2, $color, $font, $this->response);
-        (Captcha::$config['complexity'] < 4) and imagefttext($this->image, $size, $angle, $x + 3, $y + 3, $color, $font, $this->response);
-        (Captcha::$config['complexity'] < 2) and imagefttext($this->image, $size, $angle, $x - 3, $y - 3, $color, $font, $this->response);
+        (Captcha::$config['complexity'] < 10) AND imagefttext($this->image, $size, $angle, $x - 1, $y - 1, $color, $font, $this->response);
+        (Captcha::$config['complexity'] < 8) AND imagefttext($this->image, $size, $angle, $x - 2, $y + 2, $color, $font, $this->response);
+        (Captcha::$config['complexity'] < 6) AND imagefttext($this->image, $size, $angle, $x + 2, $y - 2, $color, $font, $this->response);
+        (Captcha::$config['complexity'] < 4) AND imagefttext($this->image, $size, $angle, $x + 3, $y + 3, $color, $font, $this->response);
+        (Captcha::$config['complexity'] < 2) AND imagefttext($this->image, $size, $angle, $x - 3, $y - 3, $color, $font, $this->response);
 
         $color = imagecolorallocate($this->image, 0, 0, 0);
         imagefttext($this->image, $size, $angle, $x, $y, $color, $font, $this->response);

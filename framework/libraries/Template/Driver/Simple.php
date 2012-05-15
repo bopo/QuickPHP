@@ -329,7 +329,7 @@ class QuickPHP_Template_Driver_Simple implements Template_Interface
 
         if( ! file_exists($tempate))
         {
-            throw new Template_Exception('template_content_null',array($tempate));
+            throw new Template_Exception('template_content_null', array($tempate));
         }
 
         // 编译文件到缓存目录

@@ -76,14 +76,13 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 */
 
 $settings = array(
-	'profiling'  => true,                    // 开启分析器
-	'log_error'  => true,                    // 开启log分析
-	'errors'     => true,                    // 开启错误分析
-	'caching'    => true,                    // 开启高速缓存
-	'frontend'   => '',         				// 入口文件名(默认为index.php)
+	'profiling'    => true,                    // 开启分析器
+	'log_error'    => true,                    // 开启log分析
+	'errors'       => true,                    // 开启错误分析
+	'caching'      => true,                    // 开启高速缓存
+	'frontend'     => '',         				// 入口文件名(默认为index.php)
 	'url_suffix'   => 'html',
-	'uri_protocol' => 'AUTO',
-	'domain'     => $_SERVER['SERVER_NAME'],  // 网站域名
+	'domain'       => '/QuickPHP/',  // 网站域名
 );
 
 QuickPHP::instance($settings)->dispatch();

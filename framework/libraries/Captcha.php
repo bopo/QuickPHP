@@ -19,7 +19,9 @@
  +----------------------------------------------------------------------+
 */
 /**
- * 验证码类
+ * Provides a driver-based interface for finding, creating, and deleting Cached
+ * resources. Caches are identified by a unique string. Tagging of Caches is
+ * also supported, and Caches can be found and deleted by id or tag.
  *
  * @category    QuickPHP
  * @package     Libraries
@@ -43,13 +45,13 @@ class QuickPHP_Captcha
         'background' => '',
         'fontpath'   => 'fonts',
         'fonts'      => array('DejaVuSerif.ttf'),
-        'promote'    => false,
+        'promote'    => FALSE,
     );
 
     /**
-     * 工厂方法，构建一个验证码对象.
+     * Constructs and returns a new Captcha object.
      *
-     * @param   string  配置组名
+     * @param   string  config group name
      * @return  object
      */
     public static function factory($group = null)
@@ -58,17 +60,17 @@ class QuickPHP_Captcha
     }
 
     /**
-     * 构建一个Captcha对象.
+     * Constructs a new Captcha object.
      *
-     * @throws  Captcha_Exception
-     * @param   string  配置组名
+     * @throws  QuickPHP_Captcha_Exception
+     * @param   string  config group name
      * @return  void
      */
     public function __construct($group = null)
     {
-        if(empty(Captcha::$_instance))
+        if(empty(self::$_instance))
         {
-            Captcha::$_instance = $this;
+            self::$_instance = $this;
         }
 
         if ( ! is_string($group))
@@ -78,14 +80,14 @@ class QuickPHP_Captcha
 
         if ( ! is_array($config = QuickPHP::config('captcha')->$group))
         {
-            throw new Captcha_Exception('undefined_group', array($group));
+            throw new QuickPHP_Captcha_Exception('undefined_group', array($group));
         }
 
         if ($group !== 'default')
         {
             if ( ! is_array($default = QuickPHP::config('captcha.default')))
             {
-                throw new Captcha_Exception('undefined_group', array('default'));
+                throw new QuickPHP_Captcha_Exception('undefined_group', array('default'));
             }
 
             $config += $default;
@@ -93,33 +95,33 @@ class QuickPHP_Captcha
 
         foreach ($config as $key => $value)
         {
-            if (array_key_exists($key, Captcha::$config))
+            if (array_key_exists($key, self::$config))
             {
-                Captcha::$config[$key] = $value;
+                self::$config[$key] = $value;
             }
         }
 
-        Captcha::$config['group'] = $group;
+        self::$config['group'] = $group;
 
         if ( ! empty($config['background']))
         {
-            Captcha::$config['background'] = str_replace('\\', '/', realpath($config['background']));
+            self::$config['background'] = str_replace('\\', '/', realpath($config['background']));
 
-            if ( ! is_file(Captcha::$config['background']))
+            if ( ! is_file(self::$config['background']))
             {
-                throw new Captcha_Exception('file_not_found', array(Captcha::$config['background']));
+                throw new QuickPHP_Captcha_Exception('file_not_found', array(self::$config['background']));
             }
         }
 
         if ( ! empty($config['fonts']))
         {
-            Captcha::$config['fontpath'] = str_replace('\\', '/', realpath($config['fontpath'])).'/';
+            self::$config['fontpath'] = str_replace('\\', '/', realpath($config['fontpath'])).'/';
 
             foreach ($config['fonts'] as $font)
             {
-                if ( ! is_file(Captcha::$config['fontpath'].$font))
+                if ( ! is_file(self::$config['fontpath'].$font))
                 {
-                    throw new Captcha_Exception('file_not_found', array(Captcha::$config['fontpath'].$font));
+                    throw new QuickPHP_Captcha_Exception( 'file_not_found', (self::$config['fontpath'].$font));
                 }
             }
         }
@@ -128,39 +130,38 @@ class QuickPHP_Captcha
 
         $this->driver = new $driver;
 
-        if ( ! ($this->driver instanceof Captcha_Interface))
+        if ( ! ($this->driver instanceof Captcha_Abstract))
         {
-            throw new Captcha_Exception('driver_implements',
-                array($config['style'], get_class($this), 'Captcha_Interface'));
+            throw new QuickPHP_Captcha_Exception('driver_implements', array($config['style'], get_class($this), 'Captcha_Interface'));
         }
     }
 
     /**
-     * 验证验证码输入数据,并且更新验证正确次数和错误数量
+     * Validates a Captcha response and updates response counter.
      *
-     * @param   string   验证验证码输入数据
+     * @param   string   captcha response
      * @return  boolean
      */
     public static function valid($response)
     {
-        if (Captcha::factory()->promoted())
+        if (self::factory()->promoted())
         {
             return true;
         }
 
-        $result = (bool) Captcha::factory()->driver->valid($response);
+        $result = (bool) self::factory()->driver->valid($response);
 
-        if (Captcha::$counted !== true)
+        if (self::$counted !== true)
         {
-            Captcha::$counted = true;
+            self::$counted = true;
 
             if ($result === true)
             {
-                Captcha::factory()->valid_count(Session::instance()->get('captcha_valid_count') + 1);
+                self::factory()->valid_count(Session::instance()->get('captcha_valid_count') + 1);
             }
             else
             {
-                Captcha::factory()->invalid_count(Session::instance()->get('captcha_invalid_count') + 1);
+                self::factory()->invalid_count(Session::instance()->get('captcha_invalid_count') + 1);
             }
         }
 
@@ -168,13 +169,13 @@ class QuickPHP_Captcha
     }
 
     /**
-     * 获得验证次数,如果参数不为空则更新验证次数.
+     * Gets or sets the number of valid Captcha responses for this session.
      *
-     * @param   integer  新验证次数
-     * @param   boolean  是否是错误次数还是正确次数
-     * @return  integer  新验证次数
+     * @param   integer  new counter value
+     * @param   boolean  trigger invalid counter (for internal use only)
+     * @return  integer  counter value
      */
-    public function valid_count($new_count = null, $invalid = false)
+    public function valid_count($new_count = null, $invalid = FALSE)
     {
         $session = ($invalid === true) ? 'captcha_invalid_count' : 'captcha_valid_count';
 
@@ -198,10 +199,10 @@ class QuickPHP_Captcha
     }
 
     /**
-     * 获得验证错误次数,如果参数不为空则更新验证错误次数.
+     * Gets or sets the number of invalid Captcha responses for this session.
      *
-     * @param   integer  新验证次数
-     * @return  integer  新验证次数
+     * @param   integer  new counter value
+     * @return  integer  counter value
      */
     public function invalid_count($new_count = null)
     {
@@ -220,31 +221,32 @@ class QuickPHP_Captcha
     }
 
     /**
-     * 检查用户是否超出验证限制次数
+     * Checks whether user has been promoted after having given enough valid responses.
      *
-     * @param   integer  验证次数
+     *
+     * @param   integer  valid response count threshold
      * @return  boolean
      */
     public function promoted($threshold = null)
     {
-        if (Captcha::$config['promote'] === false)
+        if (self::$config['promote'] === FALSE)
         {
-            return false;
+            return FALSE;
         }
 
         if ($threshold === null)
         {
-            $threshold = Captcha::$config['promote'];
+            $threshold = self::$config['promote'];
         }
 
         return ($this->valid_count() >= $threshold);
     }
 
     /**
-     * 显示出验证码(含HTML格式)
+     * 渲染出验证码
      *
-     * @param   boolean  是否HTML格式, 输出类似 <img src="#" />
-     * @return  mixed    HTML字符串或者图片对象
+     * @param   boolean  true to output html, e.g. <img src="#" />
+     * @return  mixed    html string or void
      */
     public function render($html = true)
     {
@@ -252,7 +254,7 @@ class QuickPHP_Captcha
     }
 
     /**
-     * 魔术方法,显示出验证码.
+     * Magically outputs the Captcha challenge.
      *
      * @return  mixed
      */

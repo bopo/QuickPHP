@@ -100,6 +100,22 @@
     <include name="${build.src.dir}/protected" />
   </fileset>
 
+  <fileset dir="." id="apps">
+    <exclude name="**/.svn" />
+    <exclude name="**/.git" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="protected/**/*.php" />
+  </fileset>
+
+  <fileset dir="." id="framework">
+    <exclude name="**/.svn" />
+    <exclude name="**/.git" />
+    <exclude name="**/*.bak" />
+    <exclude name="**/*~" />
+    <include name="framework/**/*.php" />
+  </fileset>
+
   <target name="help">
     <echo>
 
@@ -120,6 +136,7 @@
     - clean      : clean up the build directory;
     - tmpclean   : clean up the runtime directory;
     - rebuild    : clean first and then build;
+    - release    : release a new version;
     - db:create  : generate databae create;
     - db:migrate : generate databae migrate;
     - docs       : generate documentation;
@@ -144,6 +161,42 @@
     </chmod>
   </target>
 
+  <target name="release" description="release a new version">
+    <echo>Creating runtim directory...</echo>
+    <mkdir dir="runtime/_logs" />
+    <mkdir dir="runtime/_tmp" />
+    <mkdir dir="runtime/_cache" />
+    <mkdir dir="runtime/_views" />
+    <mkdir dir="runtime/_caching" />
+    <mkdir dir="runtime/_sessions" />
+
+
+
+<!--     <phpunit codecoverage="true" haltonfailure="true" haltonerror="true">
+      <formatter type="plain" usefile="false"/>
+      <batchtest>
+        <fileset dir="tests/units/framework/Validate/">
+          <include name="TValidTest.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit> -->
+    <phpcpd>
+    <fileset dir="framework" id="filestocpd">
+      <include name="**/*.php" />
+    </fileset>  
+      <formatter type="pmd" outfile="pmd-cpd.xml"/>
+    </phpcpd>
+
+    <phplint>
+      <fileset dir="framework">
+        <include name="**/*.php"/>
+      </fileset>
+    </phplint>
+
+
+
+  </target>
+
   <target name="tmpclean">
     <echo>Cleaning up the runtime directory.</echo>
     <delete>
@@ -166,6 +219,22 @@
   <target name="rebuild" depends="clean,build" />
   <target name="docs" depends="build">
     <echo>Build PDF + CHM + HTML Docs, it may take about 30 mins</echo>
+    <phpdoc title="API Documentation"
+      destdir="apidocs"
+      sourcecode="false"
+      output="HTML:Smarty:PHP">
+       <fileset dir="./framework">
+          <include name="**/*.php" />
+       </fileset>
+       <projdocfileset dir=".">
+          <include name="README" />
+          <include name="INSTALL" />
+          <include name="CHANGELOG" />
+       </projdocfileset>
+    </phpdoc> 
+    <touch file="README" millis="102134111" />   
+    <touch file="INSTALL" millis="102134111" />   
+    <touch file="CHANGELOG" millis="102134111" />   
   </target>
 
   <target name="dist" depends="rebuild,docs">

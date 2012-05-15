@@ -37,7 +37,7 @@ class QuickPHP_Captcha_Driver_Basic extends Captcha_Abstract
      */
     public function generate_challenge()
     {
-        return self::random('distinct', max(1, Captcha::$config['complexity']));
+        return text::random('distinct', max(1, Captcha::$config['complexity']));
     }
 
     /**

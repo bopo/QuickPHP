@@ -64,7 +64,9 @@ abstract class QuickPHP_Captcha_Abstract
     abstract public function render($html);
 
     /**
-     * 更新验证码问题到session中
+     * 目前储存响应验证码挑战在一节课上,所以它可在下一页负荷,为Captcha:正确的。()。
+     * 这种方法被称作后在system.post_controller控制器执行(事件)为了不覆盖本身得太快了。
+     * 更新问题到session中
      *
      * @return  void
      */
@@ -94,29 +96,30 @@ abstract class QuickPHP_Captcha_Abstract
     {
         switch (strtolower(substr(strrchr($filename, '.'), 1)))
         {
-            case 'png'  :
+            case 'png'  : 
                 return 'png';
                 break;
-            case 'gif'  :
+            case 'gif'  : 
                 return 'gif';
                 break;
             case 'jpg'  :
-            case 'jpeg' :
+            case 'jpeg' : 
                 return 'jpeg';
                 break;
-            default     :
+            default     : 
                 return false;
                 break;
         }
     }
 
     /**
-     * 创建一个图像对象
+     * 创建一个图像资源的维度中指定配置。
+     * 如果一个背景图像,图像尺寸提供使用。
      *
      * @param   string  背景图像文件路径
      * @return  void
      */
-    public function image_create($background = null)
+    public function image_create($background = NULL)
     {
         if( ! function_exists('imagegd2'))
         {
@@ -140,16 +143,16 @@ abstract class QuickPHP_Captcha_Abstract
     }
 
     /**
-     * 图像填充色
+     * 充满具有渐变色填充。
      *
-     * @param   resource  前景色
-     * @param   resource  背景色
-     * @param   string    方向:VERTICAL,HORIZONTAL 默认 VERTICAL
+     * @param   resource  gd image color identifier for start color|GD图像颜色标识符为起动的颜色
+     * @param   resource  gd image color identifier for end color|GD图像颜色标识符为最终的颜色
+     * @param   string    direction: 'horizontal' or 'vertical', 'random' by default|方向:“水平”或“垂直的”、“随机的默认
      * @return  void
      */
-    public function image_gradient($color1, $color2, $direction = null)
+    public function image_gradient($color1, $color2, $direction = NULL)
     {
-        $directions = array('HORIZONTAL', 'VERTICAL');
+        $directions = array('horizontal', 'vertical');
 
         if( ! in_array($direction, $directions))
         {
@@ -166,13 +169,13 @@ abstract class QuickPHP_Captcha_Abstract
         $color1 = imagecolorsforindex($this->image, $color1);
         $color2 = imagecolorsforindex($this->image, $color2);
         $steps  = ($direction === 'horizontal') ? Captcha::$config['width'] : Captcha::$config['height'];
-
+        
         $r1     = ($color1['red'] - $color2['red']) / $steps;
         $g1     = ($color1['green'] - $color2['green']) / $steps;
         $b1     = ($color1['blue'] - $color2['blue']) / $steps;
         $i      = null;
 
-        if($direction === 'HORIZONTAL')
+        if($direction === 'horizontal')
         {
             $x1 = & $i;
             $y1 = 0;
@@ -198,7 +201,7 @@ abstract class QuickPHP_Captcha_Abstract
     }
 
     /**
-     * 返回HTML内容或者输出图像
+     * 返回HTML元素和输出的形象浏览器。
      *
      * @param   boolean  是否输出HTML元素
      * @return  mixed    HTML或者无返回
@@ -210,6 +213,8 @@ abstract class QuickPHP_Captcha_Abstract
             return '<img alt="Captcha" src="' . url::bind('captcha/' . Captcha::$config['group']) . '" width="' . Captcha::$config['width'] . '" height="' . Captcha::$config['height'] . '" />';
         }
 
+        ob_clean();
+        
         header('Content-Type: image/' . $this->image_type);
 
         $function = 'image' . $this->image_type;
@@ -221,68 +226,68 @@ abstract class QuickPHP_Captcha_Abstract
     /**
      * 按指定的类型及长度产生一个随机字符串。
      *
-     * @param   string   生成随机数的规则
-     * @param   integer  字符串长度
+     * @param   string   a type of pool, or a string of characters to use as the pool|一种池、或一个字符串作为游泳池
+     * @param   integer  length of string to return 字符串长度回来了
      * @return  string
      *
-     * @tutorial  alnum     希腊数字字符
-     * @tutorial  alpha     字母字符
-     * @tutorial  hexdec    十六进制字符
-     * @tutorial  numeric   0 - 9数字字符,
-     * @tutorial  nozero    1 - 9数字字符,
-     * @tutorial  distinct  同时使用希腊字母和数字的字符
+     * @tutorial  alnum     alpha-numeric characters|alpha-numeric人物
+     * @tutorial  alpha     alphabetical characters|字母字符
+     * @tutorial  hexdec    hexadecimal characters, 0-9 plus a-f|十六进制特点、0 - 9 + a-f
+     * @tutorial  numeric   digit characters, 0-9|0 - 9数字字符,
+     * @tutorial  nozero    digit characters, 1-9|1 - 9数字字符,
+     * @tutorial  distinct  clearly distinct alpha-numeric characters|alpha-numeric角色分明
      */
-    public static function random($type = 'alnum', $length = 8)
-    {
-        $utf8 = false;
+    // public static function random($type = 'alnum', $length = 8)
+    // {
+    //     $utf8 = FALSE;
 
-        switch ($type)
-        {
-            case 'alnum' :
-                $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                break;
-            case 'alpha' :
-                $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                break;
-            case 'hexdec' :
-                $pool = '0123456789abcdef';
-                break;
-            case 'numeric' :
-                $pool = '0123456789';
-                break;
-            case 'nozero' :
-                $pool = '123456789';
-                break;
-            case 'distinct' :
-                $pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
-                break;
-            default :
-                $pool = (string) $type;
-                $utf8 = ! Unicode::is_ascii($pool);
-                break;
-        }
+    //     switch ($type)
+    //     {
+    //         case 'alnum' :
+    //             $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    //             break;
+    //         case 'alpha' :
+    //             $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    //             break;
+    //         case 'hexdec' :
+    //             $pool = '0123456789abcdef';
+    //             break;
+    //         case 'numeric' :
+    //             $pool = '0123456789';
+    //             break;
+    //         case 'nozero' :
+    //             $pool = '123456789';
+    //             break;
+    //         case 'distinct' :
+    //             $pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
+    //             break;
+    //         default :
+    //             $pool = (string) $type;
+    //             $utf8 = ! Unicode::is_ascii($pool);
+    //             break;
+    //     }
 
-        $pool = ($utf8 === true) ? Unicode::str_split($pool, 1) : str_split($pool, 1);
-        $max  = count($pool) - 1;
-        $str  = '';
+    //     $pool = ($utf8 === TRUE) ? Unicode::str_split($pool, 1) : str_split($pool, 1);
+    //     $max  = count($pool) - 1;
+    //     $str  = '';
 
-        for ($i = 0; $i < $length; $i++)
-        {
-            $str .= $pool[mt_rand(0, $max)];
-        }
+    //     for ($i = 0; $i < $length; $i++)
+    //     {
+    //         $str .= $pool[mt_rand(0, $max)];
+    //     }
 
-        if($type === 'alnum' and $length > 1)
-        {
-            if(ctype_alpha($str))
-            {
-                $str[mt_rand(0, $length - 1)] = chr(mt_rand(48, 57));
-            }
-            elseif(ctype_digit($str))
-            {
-                $str[mt_rand(0, $length - 1)] = chr(mt_rand(65, 90));
-            }
-        }
+    //     if($type === 'alnum' and $length > 1)
+    //     {
+    //         if(ctype_alpha($str))
+    //         {
+    //             $str[mt_rand(0, $length - 1)] = chr(mt_rand(48, 57));
+    //         }
+    //         elseif(ctype_digit($str))
+    //         {
+    //             $str[mt_rand(0, $length - 1)] = chr(mt_rand(65, 90));
+    //         }
+    //     }
 
-        return $str;
-    }
+    //     return $str;
+    // }
 }

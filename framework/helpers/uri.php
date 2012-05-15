@@ -180,16 +180,6 @@ class QuickPHP_uri
     }
 
     /**
-     * 魔术方法对象转换为字符串
-     *
-     * @return  string
-     */
-    public static function __toString()
-    {
-        return QuickPHP::route()->current_uri;
-    }
-
-    /**
      * 返回的URI段总数
      *
      * @return  integer

@@ -232,7 +232,7 @@ class QuickPHP
         }
 
         // 如果框架开启基准测试，则开始一个测试
-        if(QuickPHP::$profiling === true && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) != 'XMLHTTPREQUEST')
+        if(QuickPHP::$profiling === true)// && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) != 'XMLHTTPREQUEST')
         {
             $benchmark = Profiler::start('QuickPHP', 'QuickPHP::' . __FUNCTION__ );
         }
@@ -1073,33 +1073,10 @@ class QuickPHP
             exit(1);
         }
 
-        if(QuickPHP::$profiling === true)
+        if(QuickPHP::$profiling === true and ! headers_sent())
         {
             include QuickPHP::find('errors', 'stats');
         }
     }
-
-    // /**
-    //  * 获取以文本方式异常错误信息:
-    //  *
-    //  * 返回以下格式:
-    //  * Error [ Code ]: Message ~ File [ Line ]
-    //  *
-    //  * @param   object  Exception
-    //  * @return  string
-    //  */
-    // public static function exception_text(Exception $e)
-    // {
-    //     $trace  = sprintf('%s [ %s ]: %s ~ %s [ %d ]', get_class($e),
-    //         $e->getCode(), strip_tags($e->getMessage()), debug::path($e->getFile()),
-    //         $e->getLine()).PHP_EOL;
-
-    //     foreach ($e->getTrace() as $i => $step)
-    //     {
-    //         $trace .= "  " . sprintf('%s :%s ~ %s [ %d ]', $step['file'], null, $step['class'] . $step['type'] . $step['function'], $step['line']).PHP_EOL;
-    //     }
-
-    //     return $trace;
-    // }
 
 }
