@@ -170,7 +170,12 @@
       </fileset>
     </phplint>
   </target>
-
+    <!-- <jsMin targetDir="assets/scripts" failOnError="false">
+      <fileset dir="assets/scripts">
+        <exclude name="**/*min.js" />
+        <include name="**/*.js"/>
+      </fileset>
+    </jsMin> -->
   <target name="release" description="release a new version">
     <echo>Creating runtim directory...</echo>
     <mkdir dir="runtime/_logs" />
@@ -179,26 +184,21 @@
     <mkdir dir="runtime/_views" />
     <mkdir dir="runtime/_caching" />
     <mkdir dir="runtime/_sessions" />
+    <mkdir dir="runtime/_indexs" />
 
     <phplint>
       <fileset dir="protected">
         <include name="**/*.php"/>
       </fileset>
     </phplint>
-    <!-- <jsMin targetDir="assets/scripts" failOnError="false">
-      <fileset dir="assets/scripts">
-        <exclude name="**/*min.js" />
-        <include name="**/*.js"/>
-      </fileset>
-    </jsMin> -->
 
-    <phpcodesniffer standard="Zend" showSniffs="true" showWarnings="true">
+    <!-- <phpcodesniffer standard="Zend" showSniffs="true" showWarnings="true">
       <fileset dir="protected">
         <include name="**/*.php"/>
       </fileset>
       <formatter type="default" usefile="false"/>
       <formatter type="checkstyle" outfile="checklog.xml"/>
-    </phpcodesniffer>
+    </phpcodesniffer> -->
 
   </target>
 

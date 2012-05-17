@@ -19,11 +19,13 @@
  +----------------------------------------------------------------------+
 */
 /** framework 目录路径  */
-$framework = dirname(__FILE__) . "/framework";
+$framework  = dirname(__FILE__) . "/framework";
 /** protected 目录路径 */
-$protected = dirname(__FILE__) . "/protected";
+$protected  = dirname(__FILE__) . "/protected";
 /** runtime 目录路径 */
-$runtime   = dirname(__FILE__) . "/runtime";
+$runtime    = dirname(__FILE__) . "/runtime";
+/** thirdparty 目录路径 */
+$thirdparty = dirname(__FILE__) . "/thirdparty";
 
 /** 系统常量 EXT,入口文件扩展名称 */
 define('EXT', '.' . pathinfo(__FILE__, PATHINFO_EXTENSION));
@@ -37,6 +39,8 @@ define('RUNTIME', str_replace("\\", "/", realpath($runtime)) . '/');
 define('SYSPATH', str_replace("\\", "/", realpath($framework)) . '/');
 /** 系统常量 APPPATH 目录路径 */
 define('APPPATH', str_replace("\\", "/", realpath($protected)) . '/');
+/** 系统常量 THIRDPARTY 目录路径 */
+define('THIRDPARTY', str_replace("\\", "/", realpath($thirdparty)) . '/');
 
 /** 载入框架,加载相关配置,进行调度,执行应用 */
 require APPPATH . 'bootstrap' . EXT;
