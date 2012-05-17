@@ -1,4 +1,5 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php
+$template = "<?php defined('SYSPATH') or die('No direct access allowed.');
 /*
  +----------------------------------------------------------------------+
  | QuickPHP Framework Version 0.10                                      |
@@ -18,16 +19,53 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array(
-    'simple' => array(
-        'layout_dir'       => APPPATH . 'views/layout/',
-        'template_dir'     => APPPATH . 'views/template/',
-        'template_suffix'  => '.html',
-        'compile_dir'      => RUNTIME . '_views/',
-        'cache_dir'        => RUNTIME . '_views/',
-        'compile_lifetime' => 0, //3600 * 24 * 30,
-        'left_delimiter'   => "{{",
-        'right_delimiter'  => "}}",
-        'compress_html'    => true,
-    ),
-);
+/**
+ * $Id: $
+ *
+ * {{controller}}
+ *
+ * @package    {{controller}}
+ * @author     BoPo <ibopo@126.com>
+ * @copyright  (c) 2008-2009 QuickPHP
+ * @license    http://www.quickphp.net/license.html
+ */
+
+class {{controller}}_Controller extends Template_Controller
+{
+    public function __call(\$method, \$args)
+    {
+    }
+}
+";
+mkdir('controller');
+if ($handle = opendir('.'))
+{
+    while (false !== ($file = readdir($handle)))
+    {
+        if (is_dir($file))
+        {
+            $filename = 'controller/'.$file.'.php';
+            $tpl = str_replace("{{controller}}", ucfirst($file), $template);
+            file_put_contents($filename, $tpl);
+
+            echo "$file\n";
+        }
+    }
+    closedir($handle);
+}
+
+//if ($handle = opendir('.'))
+//{
+//    while (false !== ($file = readdir($handle)))
+//    {
+//        if (!is_dir($file))
+//        {
+//            $dirname = str_replace(".html","", $file);
+//            $newfile = $dirname . '/index.html';
+//            mkdir($dirname);
+//            copy($file,$newfile);
+//            echo "$file\n";
+//        }
+//    }
+//    closedir($handle);
+//}

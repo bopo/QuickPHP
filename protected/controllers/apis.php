@@ -18,16 +18,20 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array(
-    'simple' => array(
-        'layout_dir'       => APPPATH . 'views/layout/',
-        'template_dir'     => APPPATH . 'views/template/',
-        'template_suffix'  => '.html',
-        'compile_dir'      => RUNTIME . '_views/',
-        'cache_dir'        => RUNTIME . '_views/',
-        'compile_lifetime' => 0, //3600 * 24 * 30,
-        'left_delimiter'   => "{{",
-        'right_delimiter'  => "}}",
-        'compress_html'    => true,
-    ),
-);
+/**
+ * : $
+ *
+ * Apis
+ *
+ * @package    Apis
+ * @author     BoPo <ibopo@126.com>
+ * @copyright  (c) 2008-2009 QuickPHP
+ * @license    http://www.quickphp.net/license.html
+ */
+
+class Apis_Controller extends Template_Controller
+{
+    public function __call($method, $args)
+    {
+    }
+}

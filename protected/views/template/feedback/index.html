@@ -1,0 +1,46 @@
+<!-- #layout name='frontend.html' block='container' -->
+<table cellpadding='0' cellspacing='0' align='center' width='790'>
+<tr>
+<td style='padding: 15px 0px 15px 0px;'>
+
+<div class='content'>
+
+<h1>意见反馈 </h1>
+如过您对 Treacle 有什么意见或者建议可以通过下面的表单发送给我们。
+<br><br>
+
+<form action='{_config.base_url}contact' method='post'>
+<table cellpadding='0' cellspacing='5'>
+<tr>
+<td align='right'><b>您的姓名:</b>&nbsp;&nbsp;</td>
+<td><input type='text' name='name' size='30' class='text' value=''></td>
+</tr>
+<tr>
+<td align='right'><b>电子邮件:</b>&nbsp;&nbsp;</td>
+<td><input type='text' name='email' size='30' class='text' value=''></td>
+</tr>
+<tr>
+<td valign='top'><b>意见正文:</b>&nbsp;&nbsp;</td>
+<td style='padding-top: 2px;'>
+  <textarea rows='8' name='message' cols='70' class='text'></textarea>
+</td>
+</tr>
+<td>&nbsp;</td>
+<td style='padding-top: 3px;'>
+  <input type='submit' class='button' value='写好了,发送...'>
+  <input type='hidden' name='task' value='dosend'>
+  <input type='hidden' name='IP' value='61.149.64.123'>
+  </form>
+</td>
+</tr>
+</table>
+
+</div>
+
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>

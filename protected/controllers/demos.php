@@ -28,39 +28,10 @@
  * @copyright  (c) 2008-2009 QuickPHP
  * @license    http://www.quickphp.net/license.html
  */
-require_once 'Zend/Search/Lucene.php';
-class Home_Controller extends Controller
+
+class Demos_Controller extends Template_Controller
 {
     public function __call($method, $args)
     {
-        $index = new Zend_Search_Lucene('./tmp/Lucene', true);
-
-        $doc = new Zend_Search_Lucene_Document();
-
-        // Store document URL to identify it in search result.
-        $doc->addField(Zend_Search_Lucene_Field::Text('url', $docUrl));
-
-        // Index document content
-        $doc->addField(Zend_Search_Lucene_Field::UnStored('contents', $docContent));
-
-        // Add document to the index.
-        $index->addDocument($doc);
-
-        // Write changes to the index.
-        $index->commit();
-
-
-        $hits = $index->find('x');
-
-        var_dump($hits);
-
-        foreach ($hits as $hit) {
-            echo $hit->id;
-            echo $hit->score;
-
-            echo $hit->title;
-            echo $hit->author;
-        }
-//        var_dump(feed::parse('http://manhuashu.net/feed/all.html'));
     }
 }

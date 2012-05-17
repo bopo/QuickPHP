@@ -226,7 +226,7 @@ class QuickPHP
         }
 
         // 判断配置是否开启基准测试
-        if(isset($settings['profiling']))
+        if(isset($settings['profiling']) && !IN_PRODUCTION)
         {
             QuickPHP::$profiling = (bool) $settings['profiling'];
         }

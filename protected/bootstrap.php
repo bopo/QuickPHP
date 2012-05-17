@@ -34,11 +34,13 @@ if((bool) IN_PRODUCTION == false)
 else
 {
 	error_reporting(0);
-	ini_set('error_displays', 'on');
+	ini_set('error_displays', 'off');
 }
 
-define('QUICKPHP_START_TIME', microtime(true));
-define('QUICKPHP_START_MEMORY', memory_get_usage());
+if (defined('THIRDPARTY')) 
+{
+	set_include_path(get_include_path().';'. THIRDPARTY);
+}
 
 version_compare(PHP_VERSION, '5.2', '<') and exit('QuickPHP requires PHP 5.2 or newer.');
 version_compare(PHP_VERSION, '5.3', '<') and set_magic_quotes_runtime(0);
@@ -58,31 +60,17 @@ spl_autoload_register(array('QuickPHP', 'autoloader'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-/*
-|--------------------------------------------------------------------------
-| URI PROTOCOL
-|--------------------------------------------------------------------------
-|
-| This item determines which server global should be used to retrieve the
-| URI string.  The default setting of 'AUTO' works for most servers.
-| If your links do not seem to work, try one of the other delicious flavors:
-|
-| 'AUTO'			Default - auto detects
-| 'PATH_INFO'		Uses the PATH_INFO
-| 'QUERY_STRING'	Uses the QUERY_STRING
-| 'REQUEST_URI'		Uses the REQUEST_URI
-| 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
-|
-*/
-
 $settings = array(
-	'profiling'    => true,                    // 开启分析器
+	'profiling'    => false,                    // 开启分析器
 	'log_error'    => true,                    // 开启log分析
 	'errors'       => true,                    // 开启错误分析
 	'caching'      => true,                    // 开启高速缓存
 	'frontend'     => '',         				// 入口文件名(默认为index.php)
 	'url_suffix'   => 'html',
-	'domain'       => '/QuickPHP/',  // 网站域名
+	'domain'       => '/quickphp/',  // 网站域名
 );
+
+define('QUICKPHP_START_TIME', microtime(true));
+define('QUICKPHP_START_MEMORY', memory_get_usage());
 
 QuickPHP::instance($settings)->dispatch();

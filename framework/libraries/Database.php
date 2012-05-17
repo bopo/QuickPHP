@@ -102,6 +102,27 @@ class QuickPHP_Database
     }
 
     /**
+     * 销毁已经存在的数据库链接实例
+     *
+     * @param   string   数据库配置组名
+     * @return  Database
+     */
+    public static function destroy($name = null)
+    {
+        if (empty($name))
+        {
+            Database::$_instances = array();
+        }
+        else
+        {
+            if (isset(Database::$_instances[$name])) 
+            {
+                unset(Database::$_instances[$name]);
+            }
+        }
+    }
+
+    /**
      * 创建一个新的数据库请求[Database_Query]
      *
      * // 创建一个数据库SELECT请求

@@ -127,9 +127,9 @@ class QuickPHP_Template
             throw new QuickPHP_Exception('undefined_group', array($group));
         }
 
-        if(is_array($group))
+        if(is_array($params))
         {
-            foreach ($group as $key => $value)
+            foreach ($params as $key => $value)
             {
                 if(array_key_exists($key, Template::$config))
                 {
@@ -195,7 +195,7 @@ class QuickPHP_Template
 
         if($return == false)
         {
-            if(Template::$config['compress_html'] == true)
+            if((bool) Template::$config['compress_html'] === true)
             {
                 echo Template::compress_html($output);
             }
@@ -284,12 +284,12 @@ class QuickPHP_Template
      * */
     protected static function compress_html($string)
     {
-        $string = str_replace("\t", '', $string); //清除制表符
+        $string = str_replace("\t", '    ', $string); //清除制表符
         $string = preg_replace('/\/\*.*?\*\//si', '', $string);
-        $string = preg_replace('/<!--\s*[^\[].*?[^\/\/]-->/m', '', $string);
+        // $string = preg_replace('/<!--\s*[^\[].*?[^\/\/]-->/m', '', $string);
         $string = preg_replace('/^\s+/m', '', $string);
         $string = preg_replace('/\s+$/m', '', $string);
 
-        return $string;
+        return trim($string);
     }
 }

@@ -64,8 +64,24 @@ class QuickPHP_Exception extends Exception
      */
     public function __construct($message, array $variables = null, $code = 0)
     {
-        $messages = array('message' => $message,'variables' => $variables);
-        $messages = serialize($messages);
+
+        $directory = rtrim(strtolower(str_replace("Exception", "", get_class($this))), '_');
+        $messages  = QuickPHP::message($directory, $message);
+
+        if(is_array($variables))
+        {
+            foreach($variables as $key => $val)
+            {
+                $variable["{{$key}}"] = $val;
+            }
+        }
+
+        $messages = !empty($messages) ? $message : $message;
+
+        if(isset($variable))
+        {
+            $messages = strtr($messages, $variable);
+        }
 
         if (defined('E_DEPRECATED'))
         {
@@ -86,7 +102,7 @@ class QuickPHP_Exception extends Exception
      */
     public function __toString()
     {
-        return QuickPHP_Exception::text($this);
+        return $this->getTraceAsString();
     }
 
     /**
@@ -108,28 +124,6 @@ class QuickPHP_Exception extends Exception
             $trace   = $e->getTrace();
             $message = $e->getMessage();
 
-            if($msgs = unserialize($message))
-            {
-                $directory = rtrim(strtolower(str_replace("Exception", "", $type)), '_');
-                $variables = $msgs['variables'];
-                $messages  = QuickPHP::message($directory, $msgs['message']);
-
-                if(is_array($variables))
-                {
-                    foreach($variables as $key => $val)
-                    {
-                        $variable["{{$key}}"] = $val;
-                    }
-                }
-
-                if(isset($variable))
-                {
-                    $messages = strtr($messages, $variable);
-                }
-
-                $message = !empty($messages) ? $messages : $msgs['message'];
-            }
-
             if ($e instanceof ErrorException)
             {
                 if (isset(QuickPHP_Exception::$php_errors[$code]))
@@ -150,28 +144,29 @@ class QuickPHP_Exception extends Exception
                 }
             }
 
-            $error = QuickPHP_Exception::text($e);
-
             if (is_object(QuickPHP::$log))
             {
-                QuickPHP::$log->add(Log::ERROR, $error);
+                QuickPHP::$log->add(Log::ERROR, QuickPHP_Exception::text($e));
                 QuickPHP::$log->write();
             }
 
             if (QuickPHP::$is_cli)
             {
-                exit($error);
+                exit($e->getTraceAsString());
             }
 
             if ( ! headers_sent())
-            {
+            {                
                 $http_header_status = ($e instanceof HTTP_Exception) ? $code : 500;
                 header('Content-Type: text/html; charset='.QuickPHP::$charset, true, $http_header_status);
             }
 
             if (request::is_ajax())
             {
-                exit(PHP_EOL.$error.PHP_EOL);
+                require_once "FirePHP.php";
+                FirePHP::instance()->error($message,'exception');
+                FirePHP::instance()->trace('exception'); 
+                exit($e->getTraceAsString().PHP_EOL);
             }
 
             ob_start();
@@ -191,7 +186,7 @@ class QuickPHP_Exception extends Exception
         catch (Exception $e)
         {
             ob_get_level() and ob_clean();
-            echo QuickPHP_Exception::text($e), PHP_EOL;
+            echo $e->getTraceAsString() . PHP_EOL;
             exit(0);
         }
     }
