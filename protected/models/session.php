@@ -31,6 +31,4 @@
  */
 class Session_Model extends QuickPHP_Session_Model
 {
-    protected $_db_group    = NULL;
-    protected $_primary_key = 'session_id';
 }

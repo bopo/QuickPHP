@@ -6,10 +6,10 @@
   ============
   xdebug >= 2.0.0beta4
 -->
-<project name="divine" basedir="." default="help">
+<project name="quickphp" basedir="." default="help">
   <taskdef name="quickphp-version-check" classname="QuickphpVersionTask" classpath="buildscripts/phing/tasks" />
-  <taskdef name="quickphp-doc" classname="QuickphpDocTask" classpath="buildscripts/phing/tasks" />
-  <!-- <taskdef name="quickphp-test" classname="QuickphpTestTask" classpath="buildscripts/phing/tasks"/> -->
+<!--   <taskdef name="quickphp-doc" classname="QuickphpDocTask" classpath="buildscripts/phing/tasks" />
+ -->  <!-- <taskdef name="quickphp-test" classname="QuickphpTestTask" classpath="buildscripts/phing/tasks"/> -->
   <quickphp-version-check />
 
   <property name="php" value="php" />
@@ -161,6 +161,16 @@
     </chmod>
   </target>
 
+
+  <target name="syntax" description="Check syntax">
+    <echo>Checking PHP syntax...</echo>
+    <phplint>
+      <fileset dir=".">
+        <include name="**/*.php"/>
+      </fileset>
+    </phplint>
+  </target>
+
   <target name="release" description="release a new version">
     <echo>Creating runtim directory...</echo>
     <mkdir dir="runtime/_logs" />
@@ -170,31 +180,48 @@
     <mkdir dir="runtime/_caching" />
     <mkdir dir="runtime/_sessions" />
 
-
-
-<!--     <phpunit codecoverage="true" haltonfailure="true" haltonerror="true">
-      <formatter type="plain" usefile="false"/>
-      <batchtest>
-        <fileset dir="tests/units/framework/Validate/">
-          <include name="TValidTest.php"/>
-        </fileset>
-      </batchtest>
-    </phpunit> -->
-    <phpcpd>
-    <fileset dir="framework" id="filestocpd">
-      <include name="**/*.php" />
-    </fileset>  
-      <formatter type="pmd" outfile="pmd-cpd.xml"/>
-    </phpcpd>
-
     <phplint>
-      <fileset dir="framework">
+      <fileset dir="protected">
         <include name="**/*.php"/>
       </fileset>
     </phplint>
+    <!-- <jsMin targetDir="assets/scripts" failOnError="false">
+      <fileset dir="assets/scripts">
+        <exclude name="**/*min.js" />
+        <include name="**/*.js"/>
+      </fileset>
+    </jsMin> -->
 
+    <phpcodesniffer standard="Zend" showSniffs="true" showWarnings="true">
+      <fileset dir="protected">
+        <include name="**/*.php"/>
+      </fileset>
+      <formatter type="default" usefile="false"/>
+      <formatter type="checkstyle" outfile="checklog.xml"/>
+    </phpcodesniffer>
 
+  </target>
 
+  <target name="init" description="init a new project">
+    <echo>Creating project directory...</echo>
+    <mkdir dir="runtime/_logs" />
+    <mkdir dir="runtime/_tmp" />
+    <mkdir dir="runtime/_cache" />
+    <mkdir dir="runtime/_views" />
+    <mkdir dir="runtime/_caching" />
+    <mkdir dir="runtime/_sessions" />
+    <mkdir dir="thirdparty" />
+    <mkdir dir="protected/config" />
+    <mkdir dir="protected/controllers" />
+    <mkdir dir="protected/databases" />
+    <mkdir dir="protected/errors" />
+    <mkdir dir="protected/fonts" />
+    <mkdir dir="protected/libraries" />
+    <mkdir dir="protected/messages" />
+    <mkdir dir="protected/models" />
+    <mkdir dir="protected/views" />
+    <mkdir dir="protected/views/layout" />
+    <mkdir dir="protected/views/template" />
   </target>
 
   <target name="tmpclean">
@@ -231,29 +258,15 @@
           <include name="INSTALL" />
           <include name="CHANGELOG" />
        </projdocfileset>
-    </phpdoc> 
-    <touch file="README" millis="102134111" />   
-    <touch file="INSTALL" millis="102134111" />   
-    <touch file="CHANGELOG" millis="102134111" />   
+    </phpdoc>
+    <touch file="README" millis="102134111" />
+    <touch file="INSTALL" millis="102134111" />
+    <touch file="CHANGELOG" millis="102134111" />
   </target>
 
   <target name="dist" depends="rebuild,docs">
     <echo>Moving doc files to build...</echo>
     <mkdir dir="${build.dist.dir}" />
-  </target>
-
-  <target name="test" description="Running unit tests">
-    <delete dir="${build.test.dir}" />
-    <mkdir dir="${build.test.dir}" />
-    <quickphp-test codecoverage="false" haltonfailure="false" haltonerror="false" printsummary="true">
-      <batchtest>
-        <fileset dir="tests/unit">
-          <include name="**/*Test.php" />
-        </fileset>
-      </batchtest>
-      <formatter type="xml" todir="${build.test.dir}" outfile="unit-tests.xml" />
-    </quickphp-test>
-    <phpunit2report infile="${build.test.dir}/unit-tests.xml" format="frames" styledir="buildscripts/phing/style" todir="${build.test.dir}" />
   </target>
 
   <target name="snapshot" depends="rebuild">
