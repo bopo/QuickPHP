@@ -103,27 +103,9 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
                 $this->template = str_replace("_", "/", $this->template);
             }
 
-            $stats_footer = $this->version();
-            $this->view->stats_footer = $stats_footer;
             $this->view->render($this->template);
-
-            echo PHP_EOL."<!-- ".$stats_footer." -->";
         }
 
         return parent::after();
-    }
-
-    function version()
-    {
-        $variables = array(
-            microtime(true) - QUICKPHP_START_TIME,
-            text::bytes(memory_get_usage()),
-            QuickPHP::VERSION,
-        );
-
-        $messages = QuickPHP::message('quickphp','stats_footer');
-        $messages = vsprintf($messages, $variables);
-
-        return $messages;
     }
 }

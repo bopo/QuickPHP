@@ -356,7 +356,11 @@ class QuickPHP
         // 如果开启则缓存所有导入数据的文件
         if(QuickPHP::$caching === true)
         {
-            QuickPHP::$_files = QuickPHP::cache('QuickPHP::find()');
+            QuickPHP::$_files     = QuickPHP::cache('QuickPHP::find()');
+            QuickPHP::$_messages  = QuickPHP::cache('QuickPHP::message()');
+            QuickPHP::$_autoloads = QuickPHP::cache('QuickPHP::autoloader()');
+            QuickPHP::$_config    = QuickPHP::cache('QuickPHP::_onfig()');
+            QuickPHP::$_locales   = QuickPHP::cache('QuickPHP::lang()');
         }
 
         // 判断是否设置了字符编码
@@ -522,9 +526,8 @@ class QuickPHP
         {
             try
             {
-                // 加载控制器文件,并反射这个控制器
-                require_once QuickPHP::route()->controller_path;
-                $class = new ReflectionClass(ucfirst(QuickPHP::route()->get('controller')) . '_Controller');
+                $class = ucfirst(QuickPHP::route()->get('controller')) . '_Controller';
+                $class = new ReflectionClass($class);
             }
             catch(ReflectionException $e)
             {
@@ -587,9 +590,8 @@ class QuickPHP
             return true;
         }
 
-        $cache_key  = "QuickPHP::autoloader()";
-        $segments   = explode("_", $class);
-        $system     = false;
+        $segments = explode("_", $class);
+        $system   = false;
 
         if(($segments[0]) == 'QuickPHP')
         {
@@ -599,21 +601,15 @@ class QuickPHP
 
         $suffix = count($segments) > 1 ? end($segments) : null;
 
-        // 产品模式下使用高速缓存保存加载路径
-        if (QuickPHP::$caching === true)
-        {
-            QuickPHP::$_autoloads = QuickPHP::cache('QuickPHP::autoloader()');
-        }
-
-        if(!empty(QuickPHP::$_autoloads[$class]) and file_exists(QuickPHP::$_autoloads[$class]))
+        if(QuickPHP::$caching === true and file_exists(QuickPHP::$_autoloads[$class]))
         {
             require_once QuickPHP::$_autoloads[$class];
 
-            if(class_exists($class) || interface_exists($class))
+            if(class_exists($class) or interface_exists($class))
             {
                 return true;
             }
-            elseif((stripos(QuickPHP::$_autoloads[$class], SYSPATH) == 0))
+            elseif(class_exists("QuickPHP_$class") or interface_exists("QuickPHP_$class"))
             {
                 if(strtolower($suffix) === 'abstract')
                 {
@@ -629,7 +625,12 @@ class QuickPHP
                 }
             }
 
-            return (bool) eval($alis);
+            eval($alis);
+
+            if((class_exists($class) or interface_exists($class)))
+            {
+                return true;
+            }
         }
 
         if($suffix === 'Controller')
@@ -676,15 +677,15 @@ class QuickPHP
                 {
                     if(strtolower($suffix) === 'abstract')
                     {
-                        $alis = "abstract class $class extends QuickPHP_$class{}";
+                        $alis = "abstract class $class extends QuickPHP_$class {}";
                     }
                     elseif(strtolower($suffix) === 'interface')
                     {
-                        $alis = "interface $class extends QuickPHP_$class{}";
+                        $alis = "interface $class extends QuickPHP_$class {}";
                     }
                     else
                     {
-                        $alis = "class $class extends QuickPHP_$class{}";
+                        $alis = "class $class extends QuickPHP_$class {}";
                     }
 
                     eval($alis);
@@ -752,7 +753,7 @@ class QuickPHP
             $benchmark = Profiler::start('QuickPHP', 'QuickPHP::' . __FUNCTION__ );
         }
 
-        if($array OR $dir === 'config' OR $dir === 'locale' OR $dir === 'messages'  OR $dir === 'langs')
+        if($array OR $dir === 'config' OR $dir === 'langs' OR $dir === 'messages')
         {
             $paths = array_reverse(QuickPHP::$_paths);
             $found = array();
@@ -838,9 +839,9 @@ class QuickPHP
      */
     public static function config($group)
     {
-        if (QuickPHP::$caching === true)
+        if (QuickPHP::$caching === true and isset(QuickPHP::$_config[$group]))
         {
-            QuickPHP::$_config = QuickPHP::cache("QuickPHP::config()");
+            return QuickPHP::$_config[$group];
         }
 
         if( ! isset(QuickPHP::$_config[$group]) or empty(QuickPHP::$_config[$group]))
@@ -885,11 +886,11 @@ class QuickPHP
      * @param   integer  有效期限，单位秒
      * @return  mixed    返回字符串、数组或者空
      */
-    public static function cache($name, $data = null, $lifetime = 60)
+    public static function cache($name, $data = null, $lifetime = 3)
     {
         QuickPHP::$cache_dir = empty(QuickPHP::$cache_dir) ? RUNTIME . '_caching' : QuickPHP::$cache_dir;
 
-        $file = sha1("QuickPHP::cache({$name})") . '.txt';
+        $file = sha1("QuickPHP::cache({$name})") . EXT;
         $dir  = rtrim(QuickPHP::$cache_dir, '/') . '/' . strtoupper(substr($file,0,2)) . '/';
 
         if ($data === null)
@@ -900,23 +901,16 @@ class QuickPHP
                 {
                     try
                     {
-                        return unserialize(file_get_contents($dir . $file));
+                        return include($dir . $file);
                     }
                     catch (Exception $e)
                     {
-
+                        return null;
                     }
                 }
                 else
                 {
-                    try
-                    {
-                        return unlink($dir . $file);
-                    }
-                    catch (Exception $e)
-                    {
-
-                    }
+                    unlink($dir . $file);
                 }
             }
 
@@ -929,11 +923,11 @@ class QuickPHP
             chmod($dir, 0777);
         }
 
-        $data = serialize($data);
+        $data = QuickPHP::FILE_SECURITY . PHP_EOL . "return " . var_export($data, true) . ';';
 
         try
         {
-            return (bool) file_put_contents($dir.$file, $data, LOCK_EX);
+            file_put_contents($dir.$file, $data, LOCK_EX);
         }
         catch (Exception $e)
         {
@@ -959,11 +953,9 @@ class QuickPHP
     {
         $locale = QuickPHP::$language;
 
-        $cache_key = "QuickPHP::message()";
-
-        if (QuickPHP::$caching === true)
+        if (QuickPHP::$caching === true and isset(QuickPHP::$_messages[$file]))
         {
-            QuickPHP::$_messages = QuickPHP::cache($cache_key);
+            return arr::path(QuickPHP::$_messages[$file], $path, $default);
         }
 
         if( ! isset(QuickPHP::$_messages[$file]) or empty(QuickPHP::$_messages[$file]))
@@ -1010,6 +1002,24 @@ class QuickPHP
         $group  = explode('.', $key, 2);
         $group  = $group[0];
         $locale = QuickPHP::$language;
+
+        if (QuickPHP::$caching === true and isset(self::$_locales[$locale][$group]))
+        {
+            $line = arr::path(self::$_locales[$locale], $key);
+
+            if ($line === NULL)
+            {
+                return $key;
+            }
+
+            if (is_string($line) AND func_num_args() > 1)
+            {
+                $args = array_slice(func_get_args(), 1);
+                $line = vsprintf($line, is_array($args[0]) ? $args[0] : $args);
+            }
+
+            return $line; 
+        }
 
         if ( ! isset(self::$_locales[$locale][$group]))
         {
@@ -1129,6 +1139,16 @@ class QuickPHP
             {
                 QuickPHP::cache("QuickPHP::config()", QuickPHP::$_config);
             }
+
+            $variables = array(
+                microtime(true) - QUICKPHP_START_TIME,
+                text::bytes(memory_get_usage()),
+                QuickPHP::VERSION,
+            );
+
+            $messages = QuickPHP::message('quickphp','stats_footer');
+            $messages = vsprintf($messages, $variables);
+            echo PHP_EOL."<!-- ".$messages." -->"; 
 
         }
         catch(Exception $e)
