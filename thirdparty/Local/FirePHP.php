@@ -76,26 +76,11 @@ if (!defined('E_USER_DEPRECATED'))   define('E_USER_DEPRECATED', 16384);
  *
  * For more information see: http://www.firephp.org/
  *
- * @copyright       Copyright (C) 2007-2009 Christoph Dorn
- * @author          Christoph Dorn <christoph@christophdorn.com>
- * @license         http://www.opensource.org/licenses/bsd-license.php
- * @package         FirePHPCore
+ * @copyright   Copyright (C) 2007-2009 Christoph Dorn
+ * @author      Christoph Dorn <christoph@christophdorn.com>
+ * @license     http://www.opensource.org/licenses/bsd-license.php
+ * @package     FirePHPCore
  */
-
-// $var = array('a'=>'pizza', 'b'=>'cookies', 'c'=>'celery'); 
-// FirePHP::instance()->info($var,'adfad');
-// FirePHP::instance()->warn($var,'adfad');
-// FirePHP::instance()->log($var,'adfad');
-// FirePHP::instance()->error('sdssssssss','adfad');
-// FirePHP::instance()->trace('adfad');
-// FirePHP::instance()->dump('dump','adfad');
-
-// fb($var); 
-// fb($var, "An array"); 
-// fb($var, FirePHP::WARN); 
-// fb($var, FirePHP::INFO); 
-// fb($var, 'An array with an Error type', FirePHP::ERROR);
-// var_dump($_ENV);
 
 class FirePHP
 {
@@ -233,11 +218,11 @@ class FirePHP
      *
      * @var array
      */
-    protected $options = array('maxDepth'           => 10,
-                               'maxObjectDepth'     => 5,
-                               'maxArrayDepth'      => 5,
-                               'useNativeJsonEncode'=> true,
-                               'includeLineNumbers' => true);
+    protected $options = array('maxDepth'            => 10,
+                               'maxObjectDepth'      => 5,
+                               'maxArrayDepth'       => 5,
+                               'useNativeJsonEncode' => true,
+                               'includeLineNumbers'  => true);
 
     /**
      * Filters used to exclude object members when encoding
@@ -726,10 +711,10 @@ class FirePHP
      */
     public function detectClientExtension()
     {
-        if (@preg_match_all('/\sFirePHP\/([\.\d]*)\s?/si',$this->getUserAgent(),$m) && version_compare($m[1][0],'0.0.6','>='))
+        if (@preg_match_all('/\sFirePHP\/([\.\d]*)\s?/si', $this->getUserAgent(),$m) && version_compare($m[1][0],'0.0.6', '>='))
             return true;
         else
-            if (@preg_match_all('/^([\.\d]*)$/si',$this->getRequestHeader("X-FirePHP-Version"),$m) && version_compare($m[1][0],'0.0.6','>='))
+            if (@preg_match_all('/^([\.\d]*)$/si', $this->getRequestHeader("X-FirePHP-Version"), $m) && version_compare($m[1][0], '0.0.6', '>='))
                 return true;
 
         return false;
@@ -793,7 +778,7 @@ class FirePHP
         }
         elseif (func_num_args()==3)
         {
-            $Type = func_get_arg(2);
+            $Type  = func_get_arg(2);
             $Label = func_get_arg(1);
         }
         elseif (func_num_args()==4)
@@ -835,7 +820,6 @@ class FirePHP
                 case FirePHP::TABLE:
                     if (isset($Object[0]) && !is_string($Object[0]) && $Label)
                         $Object = array($Label, $Object);
-
                     return $msg->table($Object[0], array_slice($Object[1],1), $Object[1][0]);
                 case FirePHP::GROUP_START:
                     $insightGroupStack[] = $msg->group(md5($Label))->open();
@@ -843,7 +827,6 @@ class FirePHP
                 case FirePHP::GROUP_END:
                     if(count($insightGroupStack)==0)
                         throw new Error('Too many groupEnd() as opposed to group() calls!');
-
                     $group = array_pop($insightGroupStack);
                     return $group->close();
                 default:

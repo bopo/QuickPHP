@@ -27,7 +27,7 @@
  * @copyright  (c) 2008-2009 QuickPHP Team
  * @license    http://www.QuickPHP.net/license
  */
-class QuickPHP_Database_Driver_Mysqli extends QuickPHP_Database_Driver_Mysql
+class QuickPHP_Database_Driver_Mysqli extends Database_Driver_Mysql
 {
 
     public function connect()

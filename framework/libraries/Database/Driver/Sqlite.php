@@ -133,8 +133,7 @@ class QuickPHP_Database_Driver_SQLite extends QuickPHP_Database_Abstract
         }
 
         $error_message = null;
-
-        $result = sqlite_query($this->_connection, $sql, SQLITE_ASSOC);
+        $result        = sqlite_query($this->_connection, $sql, SQLITE_ASSOC);
 
         if( ! empty($error))
         {

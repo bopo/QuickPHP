@@ -23,9 +23,9 @@ return array(
         'type' => 'mysql',
         'connection' => array(
             'hostname'   => 'localhost',
-            'database'   => 'divine',
-            'username'   => 'root',
-            'password'   => '',
+            'database'   => 'qing',
+            'username'   => 'bopo',
+            'password'   => '123',
             'persistent' => FALSE,
         ),
         'table_prefix' => '',
@@ -37,8 +37,8 @@ return array(
         'type' => 'pdo',
         'connection' => array(
             'dsn'        => 'sqlite:astro.db',
-            'username'   => 'root',
-            'password'   => '',
+            'username'   => 'bopo',
+            'password'   => '123',
             'persistent' => FALSE,
         ),
         'table_prefix' => '',

@@ -8,9 +8,9 @@
 -->
 <project name="quickphp" basedir="." default="help">
   <taskdef name="quickphp-version-check" classname="QuickphpVersionTask" classpath="buildscripts/phing/tasks" />
-<!--   <taskdef name="quickphp-doc" classname="QuickphpDocTask" classpath="buildscripts/phing/tasks" />
- -->  <!-- <taskdef name="quickphp-test" classname="QuickphpTestTask" classpath="buildscripts/phing/tasks"/> -->
+  <taskdef name="quickphp-database-config" classname="QuickphpDBCTask" classpath="buildscripts/phing/tasks" />
   <quickphp-version-check />
+  <quickphp-database-config />
 
   <property name="php" value="php" />
   <!-- PHP parser -->
@@ -282,9 +282,23 @@
     <move file="${build.base.dir}/${pkgname}.zip" tofile="${build.snapshot.dir}/quickphp-latest.zip" />
   </target>
 
+  <target name="db:backup">
+    <echo>database backuping... </echo>
+    <echo>mysqldump -h${quickphp.db.hostname} -u${quickphp.db.username} -p${quickphp.db.password} ${quickphp.db.database} &gt; protected/databases/backup.sql</echo>
+    <exec command="mysqldump -h${quickphp.db.hostname} -u${quickphp.db.username} -p${quickphp.db.password} ${quickphp.db.database} > ${quickphp.db.driver}.sql" escape="false" />
+  </target>
+
+  <target name="db:restore">
+    <echo>database restoreing...</echo>
+    <pdosqlexec url="${quickphp.db.driver}:host=${quickphp.db.hostname};dbname=${quickphp.db.database}" userid="${quickphp.db.username}" password="${quickphp.db.password}">
+      <transaction src="protected/databases/backup.sql"/>
+      <formatter type="plain" outfile="docs/db/output.log"/>
+    </pdosqlexec>
+  </target>
+
   <target name="db:create">
     <echo>database creating...</echo>
-    <pdosqlexec url="mysql:host=${db.host};dbname=${db.name}" userid="${db.user}" password="${db.pass}">
+    <pdosqlexec url="mysql:host=${quickphp.db.hostname};dbname=${quickphp.db.database}" userid="${quickphp.db.username}" password="${quickphp.db.password}">
       <transaction src="docs/db/setup.sql"/>
       <formatter type="plain" outfile="docs/db/output.log"/>
     </pdosqlexec>
@@ -295,13 +309,13 @@
     <property name="build.dbdeploy.deployfile" value="deploy-${DSTAMP}${TSTAMP}.sql" />
     <property name="build.dbdeploy.undofile" value="undo-${DSTAMP}${TSTAMP}.sql" />
     <dbdeploy
-        url="mysql:host=${db.host};dbname=${db.name}"
-        userid="${db.user}"
-        password="${db.pass}"
+        url="mysql:host=${quickphp.db.hostname};dbname=${quickphp.db.database}"
+        userid="${quickphp.db.username}"
+        password="${quickphp.db.password}"
         dir="docs/db/migrate"
         outputfile="docs/db/deltas/${build.dbdeploy.deployfile}"
         undooutputfile="docs/db/deltas/${build.dbdeploy.undofile}" />
-    <pdosqlexec url="mysql:host=${db.host};dbname=${db.name}" userid="${db.user}" password="${db.pass}">
+    <pdosqlexec url="mysql:host=${quickphp.db.hostname};dbname=${quickphp.db.database}" userid="${quickphp.db.username}" password="${quickphp.db.password}">
       <fileset dir="docs/db/deltas">
         <include name="${build.dbdeploy.deployfile}"/>
       </fileset>
