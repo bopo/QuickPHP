@@ -179,9 +179,14 @@ class QuickPHP
     protected static $_messages = array();
 
     /**
-     * @var array 自动加载的路径
+     * @var array find() 加载的路径
      */
     protected static $_paths = array(APPPATH, SYSPATH);
+
+    /**
+     * @var array 自动加载的文件路径容器
+     */
+    protected static $_autoloads = array();
 
     /**
      * @var array 已加载缓存文件的目录集合
@@ -191,14 +196,30 @@ class QuickPHP
     /**
      * @var bool 高速缓存修改的状态
      */
-    protected static $_files_changed = false;
+    protected static $_files_changed     = false;
+
+    /**
+     * @var bool 消息缓存修改的状态
+     */
+    protected static $_messages_changed  = false;
+
+    /**
+     * @var bool 自动加载缓存修改的状态
+     */
+    protected static $_autoloads_changed = false;
+    
+    /**
+     * @var bool 配置缓存修改的状态
+     */ 
+    protected static $_config_changed = false;
+    protected static $_locales_changed = false;
 
     /**
      * @var string 本地语言(待定)
      */
-    public static $language = 'zh_CN';
-    public static $locale   = array();
-    public static $timezone = null;
+    public static $language   = 'zh_CN';
+    public static $_locales   = array();
+    public static $timezone   = null;
     public static $user_agent = null;
 
     /**
@@ -566,7 +587,7 @@ class QuickPHP
             return true;
         }
 
-        $cache_key  = "QuickPHP::autoloader($class)";
+        $cache_key  = "QuickPHP::autoloader()";
         $segments   = explode("_", $class);
         $system     = false;
 
@@ -579,29 +600,32 @@ class QuickPHP
         $suffix = count($segments) > 1 ? end($segments) : null;
 
         // 产品模式下使用高速缓存保存加载路径
-        $class_file = QuickPHP::cache($cache_key);
-
-        if(!empty($class_file) and file_exists($class_file))
+        if (QuickPHP::$caching === true)
         {
-            require_once $class_file;
+            QuickPHP::$_autoloads = QuickPHP::cache('QuickPHP::autoloader()');
+        }
+
+        if(!empty(QuickPHP::$_autoloads[$class]) and file_exists(QuickPHP::$_autoloads[$class]))
+        {
+            require_once QuickPHP::$_autoloads[$class];
 
             if(class_exists($class) || interface_exists($class))
             {
                 return true;
             }
-            elseif((stripos($class_file, SYSPATH) == 0))
+            elseif((stripos(QuickPHP::$_autoloads[$class], SYSPATH) == 0))
             {
                 if(strtolower($suffix) === 'abstract')
                 {
-                    $alis = "abstract class $class extends QuickPHP_$class{}";
+                    $alis = "abstract class $class extends QuickPHP_$class {}";
                 }
                 elseif(strtolower($suffix) === 'interface')
                 {
-                    $alis = "interface $class extends QuickPHP_$class{}";
+                    $alis = "interface $class extends QuickPHP_$class {}";
                 }
                 else
                 {
-                    $alis = "class $class extends QuickPHP_$class{}";
+                    $alis = "class $class extends QuickPHP_$class {}";
                 }
             }
 
@@ -632,18 +656,20 @@ class QuickPHP
             {
                 require_once APPPATH . $filepath;
 
-                if(IN_PRODUCTION)
+                if (QuickPHP::$caching === true)
                 {
-                    QuickPHP::cache($cache_key, APPPATH . $filepath);
+                    QuickPHP::$_autoloads_changed = true;
+                    QuickPHP::$_autoloads[$class] = APPPATH . $filepath;
                 }
             }
             elseif(file_exists(SYSPATH . $filepath))
             {
                 require_once SYSPATH . $filepath;
 
-                if(IN_PRODUCTION)
+                if (QuickPHP::$caching === true)
                 {
-                    QuickPHP::cache($cache_key, SYSPATH . $filepath);
+                    QuickPHP::$_autoloads_changed = true;
+                    QuickPHP::$_autoloads[$class] = SYSPATH . $filepath;
                 }
 
                 if($system === false)
@@ -671,9 +697,10 @@ class QuickPHP
             {
                 require_once SYSPATH . $filepath;
 
-                if(IN_PRODUCTION)
+                if (QuickPHP::$caching === true)
                 {
-                    QuickPHP::cache($cache_key, SYSPATH . $filepath);
+                    QuickPHP::$_autoloads_changed = true;
+                    QuickPHP::$_autoloads[$class] = SYSPATH . $filepath;
                 }
             }
         }
@@ -689,21 +716,6 @@ class QuickPHP
     public static function get_include_paths()
     {
         return QuickPHP::$_paths;
-    }
-
-    /**
-     * QuickPHP::find  的别名
-     *
-     * @param   string   目录名
-     * @param   string   含有子目录和文件名
-     * @param   string   扩展名
-     * @param   boolean  是否返回数组形式的文件列表?
-     * @return  array    如果$array为真返回数组形式的文件列表
-     * @return  string   单文件路径
-     */
-    public static function locate($dir, $file, $ext = null, $array = false)
-    {
-        return self::find($dir, $file, $ext, $array);
     }
 
     /**
@@ -826,18 +838,16 @@ class QuickPHP
      */
     public static function config($group)
     {
-        $cache_key = "QuickPHP::cache()";
-
-        if (QuickPHP::$_config == null)
+        if (QuickPHP::$caching === true)
         {
-            QuickPHP::$config = QuickPHP::cache($cache_key);
+            QuickPHP::$_config = QuickPHP::cache("QuickPHP::config()");
         }
 
         if( ! isset(QuickPHP::$_config[$group]) or empty(QuickPHP::$_config[$group]))
         {
             QuickPHP::$config          = Config::instance()->attach(new Config_Driver_File());
             QuickPHP::$_config[$group] = QuickPHP::$config->load($group);
-            QuickPHP::cache($cache_key, QuickPHP::$_config);
+            QuickPHP::$_config_changed = true;
         }
 
         return QuickPHP::$_config[$group];
@@ -894,19 +904,18 @@ class QuickPHP
                     }
                     catch (Exception $e)
                     {
-                        return false;
+
                     }
                 }
                 else
                 {
                     try
                     {
-                        unlink($dir.$file);
+                        return unlink($dir . $file);
                     }
                     catch (Exception $e)
                     {
-                        // Cache has mostly likely already been deleted,
-                        // let return happen normally.
+
                     }
                 }
             }
@@ -952,7 +961,7 @@ class QuickPHP
 
         $cache_key = "QuickPHP::message()";
 
-        if (QuickPHP::$_messages == null)
+        if (QuickPHP::$caching === true)
         {
             QuickPHP::$_messages = QuickPHP::cache($cache_key);
         }
@@ -978,7 +987,7 @@ class QuickPHP
                 }
             }
 
-            QuickPHP::cache($cache_key, QuickPHP::$_messages);
+            QuickPHP::$_messages_changed = true;
         }
 
         if($path === null)
@@ -990,19 +999,19 @@ class QuickPHP
     }
 
     /**
-     * Fetch an i18n language item.
+     * 获取语言包翻译项目.
      *
-     * @param   string  language key to fetch
-     * @param   array   additional information to insert into the line
-     * @return  string  i18n language string, or the requested key if the i18n item is not found
+     * @param   string  语言包的键
+     * @param   array   替换参数
+     * @return  string  翻译后的内容，如果没有找到翻译项目，则返回 输入的参数
      */
     public static function lang($key, $args = array())
-    {    
+    {
         $group  = explode('.', $key, 2);
-        $group  = $group[0]; 
+        $group  = $group[0];
         $locale = QuickPHP::$language;
-        
-        if ( ! isset(self::$locale[$locale][$group]))
+
+        if ( ! isset(self::$_locales[$locale][$group]))
         {
             $messages = array();
 
@@ -1022,10 +1031,10 @@ class QuickPHP
                 }
             }
 
-            self::$locale[$locale][$group] = $messages;
+            self::$_locales[$locale][$group] = $messages;
         }
 
-        $line = arr::path(self::$locale[$locale], $key);
+        $line = arr::path(self::$_locales[$locale], $key);
 
         if ($line === NULL)
         {
@@ -1100,6 +1109,27 @@ class QuickPHP
             {
                 QuickPHP::cache('QuickPHP::find()', QuickPHP::$_files);
             }
+
+            if (QuickPHP::$caching === true and QuickPHP::$_messages_changed === true)
+            {
+                QuickPHP::cache("QuickPHP::message()", QuickPHP::$_messages);
+            }
+
+            if (QuickPHP::$caching === true and QuickPHP::$_locales_changed === true)
+            {
+                QuickPHP::cache("QuickPHP::lang()", QuickPHP::$_locales);
+            }
+
+            if (QuickPHP::$caching === true and QuickPHP::$_autoloads_changed === true)
+            {
+                QuickPHP::cache("QuickPHP::autoloader()", QuickPHP::$_autoloads);
+            }
+
+            if (QuickPHP::$caching === true and QuickPHP::$_config_changed === true)
+            {
+                QuickPHP::cache("QuickPHP::config()", QuickPHP::$_config);
+            }
+
         }
         catch(Exception $e)
         {

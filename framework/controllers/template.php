@@ -116,13 +116,13 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
     function version()
     {
         $variables = array(
-            "{0}" => microtime(true) - QUICKPHP_START_TIME,
-            "{1}" => text::bytes(memory_get_usage()),
-            "{2}" => QuickPHP::VERSION
+            microtime(true) - QUICKPHP_START_TIME,
+            text::bytes(memory_get_usage()),
+            QuickPHP::VERSION,
         );
 
         $messages = QuickPHP::message('quickphp','stats_footer');
-        $messages = strtr($messages, $variables);
+        $messages = vsprintf($messages, $variables);
 
         return $messages;
     }

@@ -42,7 +42,10 @@ class Home_Controller extends Template_Controller
 
     public function __call($method, $args)
     {
-        var_dump(QuickPHP::lang('calendar.su',array('aaaa')));
+
+        // throw new Exception("Error Processing Request", 1);
+        
+        // var_dump(QuickPHP::lang('calendar.su',array('aaaa')));
         // $index = new Zend_Search_Lucene(RUNTIME.'/_indexs', true);
 
         // $doc = new Zend_Search_Lucene_Document();
