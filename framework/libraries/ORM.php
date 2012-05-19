@@ -38,34 +38,34 @@ class QuickPHP_ORM
 
     // 数据对象关系
     protected $_has_one    = array();
-    
+
     protected $_belongs_to = array();
-    
+
     protected $_has_many   = array();
-    
+
     // 载入的对象关系
     protected $_load_with  = array();
-    
+
     // 验证成员
     protected $_validate   = null;
-    
+
     protected $_rules      = array();
-    
+
     protected $_callbacks  = array();
-    
+
     protected $_filters    = array();
-    
+
     protected $_labels     = array();
-    
+
     // 当前对象
     protected $_object     = array();
-    
+
     protected $_changed    = array();
-    
+
     protected $_related    = array();
-    
+
     protected $_loaded     = false;
-    
+
     protected $_saved      = false;
 
     protected $_sorting;
@@ -259,10 +259,10 @@ class QuickPHP_ORM
     {
         $this->_load();
 
-        return (isset($this->_object[$column]) 
-            or isset($this->_related[$column]) 
-            or isset($this->_has_one[$column]) 
-            or isset($this->_belongs_to[$column]) 
+        return (isset($this->_object[$column])
+            or isset($this->_related[$column])
+            or isset($this->_has_one[$column])
+            or isset($this->_belongs_to[$column])
             or isset($this->_has_many[$column]));
     }
 
@@ -699,24 +699,24 @@ class QuickPHP_ORM
                 case 0 :
                     $this->_db_builder->$name();
                 break;
-                
+
                 case 1 :
                     $this->_db_builder->$name($args[0]);
                 break;
-                
+
                 case 2 :
                     $this->_db_builder
                         ->$name($args[0], $args[1]);
                 break;
-                
+
                 case 3 :
                     $this->_db_builder->$name($args[0], $args[1], $args[2]);
                 break;
-                
+
                 case 4 :
                     $this->_db_builder->$name($args[0], $args[1], $args[2], $args[3]);
                 break;
-                
+
                 default :
                     call_user_func_array(array($this->_db_builder, $name), $args);
                 break;
@@ -1176,7 +1176,7 @@ class QuickPHP_ORM
             $this->_loaded = $this->_saved = ($values[$this->_primary_key] !== null);
         }
 
-        $相关 = array();
+        $related = array();
 
         foreach ($values as $column => $value)
         {
@@ -1190,13 +1190,13 @@ class QuickPHP_ORM
             else
             {
                 list ($prefix, $column) = explode(':', $column, 2);
-                $相关[$prefix][$column] = $value;
+                $related[$prefix][$column] = $value;
             }
         }
 
-        if( ! empty($相关))
+        if( ! empty($related))
         {
-            foreach ($相关 as $object => $values)
+            foreach ($related as $object => $values)
             {
                 $this->_related($object)->_load_values($values);
             }
@@ -1295,7 +1295,7 @@ class QuickPHP_ORM
     /**
      * 复位请求构建器.
      *
-     * @param  bool 
+     * @param  bool
      */
     public function reset($next = true)
     {
