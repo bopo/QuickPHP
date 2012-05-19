@@ -32,12 +32,12 @@
  */
 class Trackback
 {
-    protected $time_format = 'local';
-    protected $charset = 'UTF-8';
-    protected $data = array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+    protected $data          = array('url' => '', 'title' => '', 'excerpt' => '', 'blog_name' => '', 'charset' => '');
+    protected $charset       = 'UTF-8';
+    protected $response      = '';
+    protected $error_msg     = array();
+    protected $time_format   = 'local';
     protected $convert_ascii = true;
-    protected $response = '';
-    protected $error_msg = array();
 
     /**
      * Constructor
@@ -76,19 +76,19 @@ class Trackback
             {
                 case 'ping_url' :
                     $$item = $this->extract_urls($tb_data[$item]);
-                    break;
+                break;
 
                 case 'excerpt' :
                     $$item = $this->limit_characters($this->convert_xml(strip_tags(stripslashes($tb_data[$item]))));
-                    break;
+                break;
 
                 case 'url' :
                     $$item = str_replace('&#45;', '-', $this->convert_xml(strip_tags(stripslashes($tb_data[$item]))));
-                    break;
+                break;
 
                 default :
                     $$item = $this->convert_xml(strip_tags(stripslashes($tb_data[$item])));
-                    break;
+                break;
             }
 
             if($this->convert_ascii == true)
@@ -189,8 +189,8 @@ class Trackback
     {
         echo '<?xml version="1.0" encoding="utf-8"?>'
             .'<response>'
-            .'    <error>1</error>'
-            .'    <message>' . $message . '</message>'
+            .'<error>1</error>'
+            .'<message>' . $message . '</message>'
             .'</response>';
 
         exit();
@@ -209,7 +209,7 @@ class Trackback
     {
         echo '<?xml version="1.0" encoding="utf-8"?>'
             .'<response>'
-            .'    <error>0</error>'
+            .'<error>0</error>'
             .'</response>';
 
         exit();
@@ -361,7 +361,7 @@ class Trackback
         if(strstr($url, '?'))
         {
             $tb_array = explode('/', $url);
-            $tb_end = $tb_array[count($tb_array) - 1];
+            $tb_end   = $tb_array[count($tb_array) - 1];
 
             if(! is_numeric($tb_end))
             {
@@ -369,7 +369,7 @@ class Trackback
             }
 
             $tb_array = explode('=', $tb_end);
-            $tb_id = $tb_array[count($tb_array) - 1];
+            $tb_id    = $tb_array[count($tb_array) - 1];
         }
         else
         {
@@ -379,7 +379,7 @@ class Trackback
             }
 
             $tb_array = explode('/', $url);
-            $tb_id = $tb_array[count($tb_array) - 1];
+            $tb_id    = $tb_array[count($tb_array) - 1];
 
             if(! is_numeric($tb_id))
             {
@@ -405,12 +405,11 @@ class Trackback
     public function convert_xml($str)
     {
         $temp = '__TEMP_AMPERSANDS__';
-        $str = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
-        $str = preg_replace("/&(\w+);/", "$temp\\1;", $str);
-        $str = str_replace(array("&", "<", ">", "\"", "'", "-"),
-            array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"), $str);
-        $str = preg_replace("/$temp(\d+);/", "&#\\1;", $str);
-        $str = preg_replace("/$temp(\w+);/", "&\\1;", $str);
+        $str  = preg_replace("/&#(\d+);/", "$temp\\1;", $str);
+        $str  = preg_replace("/&(\w+);/", "$temp\\1;", $str);
+        $str  = str_replace(array("&", "<", ">", "\"", "'", "-"), array("&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;"), $str);
+        $str  = preg_replace("/$temp(\d+);/", "&#\\1;", $str);
+        $str  = preg_replace("/$temp(\w+);/", "&\\1;", $str);
 
         return $str;
     }
@@ -465,9 +464,9 @@ class Trackback
      */
     public function convert_ascii($str)
     {
-        $count  = 1;
-        $out    = '';
-        $temp   = array();
+        $out   = '';
+        $temp  = array();
+        $count = 1;
 
         for($i = 0, $s = strlen($str); $i < $s; $i ++)
         {
@@ -492,9 +491,9 @@ class Trackback
                         ? (($temp['0'] % 16) * 4096) + (($temp['1'] % 64) * 64) + ($temp['2'] % 64)
                         : (($temp['0'] % 32) * 64) + ($temp['1'] % 64);
 
-                    $out .= '&#' . $number . ';';
+                    $out  .= '&#' . $number . ';';
                     $count = 1;
-                    $temp = array();
+                    $temp  = array();
                 }
             }
         }

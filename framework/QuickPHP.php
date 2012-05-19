@@ -19,6 +19,9 @@
  +----------------------------------------------------------------------+
 */
 
+defined('QUICKPHP_START_TIME') or define('QUICKPHP_START_TIME', microtime(true));
+defined('QUICKPHP_START_MEMORY') or define('QUICKPHP_START_MEMORY', memory_get_usage());
+
 /**
  * QuickPHP 核心类，应用程序的调度工作
  *
@@ -27,18 +30,17 @@
  * @copyright  Copyright (c) 2010 http://quickphp.net All rights reserved.
  * @license    http://framework.quickphp.net/license/new-bsd     New BSD License
  */
-
 class QuickPHP
 {
     /**
-     *  @const string Base path to AOL CDN
+     *  @const 框架版本号
      */
     const VERSION   = '1.0.2';
 
     /**
-     *  @const string Base path to AOL CDN
+     *  @const 框架代号
      */
-    const CODENAME  = 'snail';
+    // const CODENAME  = 'snail';
 
     /**
      *  @const string 日志消息类型
@@ -82,7 +84,7 @@ class QuickPHP
     public static $is_cli = false;
 
     /**
-     * @var  boolean  判断是否是windows环境
+     * @var  boolean  判断是否是windows环境开关
      */
     public static $is_windows = false;
 
@@ -152,7 +154,7 @@ class QuickPHP
     public static $shutdown_errors = array(E_PARSE, E_ERROR, E_USER_ERROR, E_COMPILE_ERROR);
 
     /**
-     * @var  object   日志存储接口对象
+     * @var  object  日志存储接口对象
      */
     public static $log;
 
@@ -294,7 +296,7 @@ class QuickPHP
                 }
                 catch (Exception $e)
                 {
-                    throw new QuickPHP_Exception('Could not create cache directory {0}', array(debug::path($settings['cache_dir'])));
+                    throw new QuickPHP_Exception('cache_dir_not_create', array(debug::path($settings['cache_dir'])));
                 }
             }
 
@@ -308,7 +310,7 @@ class QuickPHP
         // 判断系统高速缓存目录是否可写
         if( ! is_writable(QuickPHP::$cache_dir))
         {
-            throw new QuickPHP_Exception('Directory "{0}" must be writable', array(debug::path(QuickPHP::$cache_dir)));
+            throw new QuickPHP_Exception('cache_dir_unwritable', array(debug::path(QuickPHP::$cache_dir)));
         }
         // 设置默认高速缓存周期
         if (isset($settings['url_suffix']))
@@ -393,7 +395,7 @@ class QuickPHP
     {
         if(isset($_REQUEST['GLOBALS']) or isset($_FILES['GLOBALS']))
         {
-            exit("Global variable overload attack detected! Request aborted.\n");
+            exit("已检测到全局变量攻击! 终止请求.\n");
         }
 
         $global_variables = array_keys($GLOBALS);
@@ -486,13 +488,13 @@ class QuickPHP
             }
             catch(ReflectionException $e)
             {
-                throw new QuickPHP_Exception('route.not_controller', $e->getMessage());
+                throw new QuickPHP_Exception('controller_not_found', array(QuickPHP::route()->get('controller'),$e->getMessage()));
             }
 
             // 判断控制器文件是否是抽象类，以及开启了生产模式，ALLOW_PRODUCTION 常量设置为否
             if($class->isAbstract() or (IN_PRODUCTION and $class->getConstant('ALLOW_PRODUCTION') == false))
             {
-                throw new QuickPHP_Exception('route.controller_is_not_allowed', QuickPHP::route()->segments);
+                throw new QuickPHP_Exception('controller_is_not_allowed', QuickPHP::route()->segments);
             }
 
             $controller = $class->newinstance();
@@ -503,14 +505,14 @@ class QuickPHP
 
                 if($method[0] === '_')
                 {
-                    throw new QuickPHP_Exception('route.method_is_not_exists', array($method));
+                    throw new QuickPHP_Exception('method_is_not_exists', array($method));
                 }
 
                 $method = $class->getMethod($method);
 
                 if($method->isProtected() or $method->isPrivate())
                 {
-                    throw new QuickPHP_Exception('route.protected_or_private_controller_method', array($method));
+                    throw new QuickPHP_Exception('protected_or_private_method', array($method->class.'::'.$method->name));
                 }
 
                 $arguments = QuickPHP::route()->get('arguments');
@@ -545,7 +547,7 @@ class QuickPHP
             return true;
         }
 
-        $cache_key  = "autoloader($class)";
+        $cache_key  = "QuickPHP::autoloader($class)";
         $segments   = explode("_", $class);
         $system     = false;
 
@@ -719,7 +721,7 @@ class QuickPHP
             $benchmark = Profiler::start('QuickPHP', 'QuickPHP::' . __FUNCTION__ );
         }
 
-        if($array OR $dir === 'config' OR $dir === 'locale')
+        if($array OR $dir === 'config' OR $dir === 'locale' OR $dir === 'messages')
         {
             $paths = array_reverse(QuickPHP::$_paths);
             $found = array();
@@ -776,7 +778,7 @@ class QuickPHP
         }
         catch (Exception $e)
         {
-            throw new QuickPHP_Exception('Could not find file {0}', array($file));
+            throw new QuickPHP_Exception('file_not_found', array($file));
         }
 
     }
@@ -1010,7 +1012,6 @@ class QuickPHP
     /**
      * 系统自定义异常处理器，显示错误信息，异常的来源，和堆栈跟踪的错误等。
      *
-     * @uses    QuickPHP::exception_text
      * @param   object   exception object
      * @return  boolean
      */
@@ -1022,6 +1023,7 @@ class QuickPHP
             header("HTTP/1.1 404 Not Found");
             header("Status: 404 Not Found");
 
+            ob_start();
             include QuickPHP::find('errors', '404');
             echo ob_get_clean();
 

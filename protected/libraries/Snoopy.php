@@ -52,7 +52,6 @@ class Snoopy
     /**** Public variables ****/
 
     /* user definable vars */
-
     var $host           =   "www.php.net";      // host name we are connecting to
     var $port           =   80;                 // port we are connecting to
     var $proxy_host     =   "";                 // proxy host to use
@@ -1150,8 +1149,10 @@ class Snoopy
     {
         for($x=0; $x<count($this->headers); $x++)
         {
-        if(preg_match('/^set-cookie:[\s]+([^=]+)=([^;]+)/i', $this->headers[$x],$match))
-            $this->cookies[$match[1]] = urldecode($match[2]);
+            if(preg_match('/^set-cookie:[\s]+([^=]+)=([^;]+)/i', $this->headers[$x],$match))
+            {
+                $this->cookies[$match[1]] = urldecode($match[2]);
+            }
         }
     }
 
@@ -1164,13 +1165,17 @@ class Snoopy
 
     private function _check_timeout($fp)
     {
-        if ($this->read_timeout > 0) {
+        if ($this->read_timeout > 0) 
+        {
             $fp_status = socket_get_status($fp);
-            if ($fp_status["timed_out"]) {
+           
+            if ($fp_status["timed_out"]) 
+            {
                 $this->timed_out = true;
                 return true;
             }
         }
+
         return false;
     }
 
@@ -1183,12 +1188,12 @@ class Snoopy
     private function _connect(&$fp)
     {
         if(!empty($this->proxy_host) && !empty($this->proxy_port))
-            {
-                $this->_isproxy = true;
+        {
+            $this->_isproxy = true;
 
-                $host = $this->proxy_host;
-                $port = $this->proxy_port;
-            }
+            $host = $this->proxy_host;
+            $port = $this->proxy_port;
+        }
         else
         {
             $host = $this->host;
@@ -1206,24 +1211,25 @@ class Snoopy
                     ))
         {
             // socket connection succeeded
-
             return true;
         }
         else
         {
             // socket connection failed
             $this->status = $errno;
+
             switch($errno)
             {
                 case -3:
-                    $this->error="socket creation failed (-3)";
+                    $this->error = "socket creation failed (-3)";
                 case -4:
-                    $this->error="dns lookup failure (-4)";
+                    $this->error = "dns lookup failure (-4)";
                 case -5:
-                    $this->error="connection refused or timed out (-5)";
+                    $this->error = "connection refused or timed out (-5)";
                 default:
-                    $this->error="connection failed (".$errno.")";
+                    $this->error = "connection failed (".$errno.")";
             }
+
             return false;
         }
     }
@@ -1251,6 +1257,7 @@ class Snoopy
     {
         settype($formvars, "array");
         settype($formfiles, "array");
+        
         $postdata = '';
 
         if (count($formvars) == 0 && count($formfiles) == 0)

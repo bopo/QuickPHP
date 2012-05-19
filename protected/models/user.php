@@ -30,26 +30,17 @@
  */
 class User_Model extends Auth_User_Model
 {
-    protected $_db      = NULL;
+    // protected $_db       = NULL;
 
-    // Relationships
-    protected $_has_one = array(
-        '_profile' => array('model' => 'profile'),
-        '_token'   => array('model' => 'user_token'),
-    );
+    // // Relationships
+    // protected $_has_one  = array();
 
-    protected $_has_many = array(
-        '_tokens'   => array('model' => 'user_token'),
-        '_roles'    => array('model' => 'role', 'through' => 'roles_has_users'),
-        '_favorite' => array('model' => 'favorite'),
-        '_payment'  => array('model' => 'payment'),
-        '_invite'   => array('model' => 'user', 'through' => 'invites', 'foreign_key' => 'inviter_id', 'far_key' => 'owner_id'),
-        '_message'  => array('model' => 'message', 'foreign_key' => 'sender_id', 'far_key' => 'receiver_id'),
-    );
+    // protected $_has_many = array(
+    //     '_tokens'   => array('model' => 'user_token'),
+    //     '_roles'    => array('model' => 'role', 'through' => 'roles_has_users'),
+    // );
 
-    protected $_belongs_to = array(
-        '_invite'   => array('model' => 'user', 'through' => 'invites', 'foreign_key' => 'inviter_id', 'far_key' => 'owner_id'),
-    );
+    // protected $_belongs_to = array();
 
     /**
      * Complete the login for a user by incrementing the logins and saving login timestamp
@@ -59,33 +50,17 @@ class User_Model extends Auth_User_Model
     public function complete_login()
     {
         // 判断是否载入
-        if ( ! $this->_loaded) return;
+        if ( ! $this->_loaded) 
+        {
+            return false;
+        }
 
-        $this->last_ip = ip2long(request::ip_address());
+        if (isset($this->last_ip)) 
+        {
+            $this->last_ip = ip2long(request::ip_address());
+        }
 
         return parent::complete_login();
-    }
-
-    /**
-     * Allows a model use both email and username as unique identifiers for login
-     *
-     * @param   string  unique value
-     * @return  string  field name
-     */
-    public function unique_key($value)
-    {
-        if(Validate::email($value))
-        {
-            return 'email';
-        }
-        elseif(Validate::mobile($value))
-        {
-            return 'mobile';
-        }
-        else
-        {
-            return 'username';
-        }
     }
 
     /**

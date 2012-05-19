@@ -206,7 +206,7 @@ class QuickPHP_Router
         {
             if( ! isset($this->_routes['_default']))
             {
-                throw new QuickPHP_Exception('no_default_route', array($this->segments));
+                throw new QuickPHP_Exception('default_route_not_found', array($this->segments));
             }
 
             $this->current_uri = $this->_routes['_default'];
@@ -272,7 +272,7 @@ class QuickPHP_Router
 
         if($this->controller === null)
         {
-            throw new QuickPHP_Exception('no_controller', $this->segments, 404);
+            throw new QuickPHP_Exception('controller_not_found', array($this->segments), 404);
         }
     }
 

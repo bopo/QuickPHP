@@ -33,13 +33,13 @@ if((bool) IN_PRODUCTION == false)
 }
 else
 {
-	error_reporting(0);
-	ini_set('error_displays', 'off');
+    error_reporting(0);
+    ini_set('error_displays', 'off');
 }
 
-if (defined('THIRDPARTY')) 
+if (defined('THIRDPARTY'))
 {
-	set_include_path(get_include_path().';'. THIRDPARTY);
+    set_include_path(get_include_path().';'. THIRDPARTY);
 }
 
 version_compare(PHP_VERSION, '5.2', '<') and exit('QuickPHP requires PHP 5.2 or newer.');
@@ -61,13 +61,13 @@ spl_autoload_register(array('QuickPHP', 'autoloader'));
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 $settings = array(
-	'profiling'    => false,                    // 开启分析器
-	'log_error'    => true,                    // 开启log分析
-	'errors'       => true,                    // 开启错误分析
-	'caching'      => true,                    // 开启高速缓存
-	'frontend'     => '',         				// 入口文件名(默认为index.php)
-	'url_suffix'   => 'html',
-	'domain'       => '/quickphp/',  // 网站域名
+    'profiling'  => false,                  // 开启分析器
+    'log_error'  => true,                   // 开启log分析
+    'errors'     => true,                   // 开启错误分析
+    'caching'    => true,                   // 开启高速缓存
+    'frontend'   => '',                     // 入口文件名(默认为index.php)
+    'url_suffix' => 'html',
+    'domain'     => '/quickphp/',           // 网站域名
 );
 
 define('QUICKPHP_START_TIME', microtime(true));

@@ -76,7 +76,7 @@ class QuickPHP_Exception extends Exception
             }
         }
 
-        $messages = !empty($messages) ? $message : $message;
+        $messages = !empty($messages) ? $messages : $message;
 
         if(isset($variable))
         {
@@ -156,7 +156,7 @@ class QuickPHP_Exception extends Exception
             }
 
             if ( ! headers_sent())
-            {                
+            {
                 $http_header_status = ($e instanceof HTTP_Exception) ? $code : 500;
                 header('Content-Type: text/html; charset='.QuickPHP::$charset, true, $http_header_status);
             }
@@ -165,7 +165,7 @@ class QuickPHP_Exception extends Exception
             {
                 require_once "FirePHP.php";
                 FirePHP::instance()->error($message,'exception');
-                FirePHP::instance()->trace('exception'); 
+                FirePHP::instance()->trace('exception');
                 exit($e->getTraceAsString().PHP_EOL);
             }
 

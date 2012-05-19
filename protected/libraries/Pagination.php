@@ -43,15 +43,15 @@ class Pagination
     protected $current;
     protected $perpage;
     protected $uri;
-    protected $ar           = array();
-    protected $page_flag    = 'p';
-    protected $uri_string   = '';
-    protected $request      = array();
+    protected $ar         = array();
+    protected $request    = array();
+    protected $page_flag  = 'p';
+    protected $uri_string = '';
 
     public static function factory($config = array())
     {
-        empty(self::$_instance) AND self::$_instance = new self($config);
-        return self::$_instance;
+        empty(Pagination::$_instance) AND Pagination::$_instance = new Pagination($config);
+        return Pagination::$_instance;
     }
 
     public function __construct()
@@ -69,13 +69,13 @@ class Pagination
      */
     public function initialize($recordcount = 0, $perpage = 3, $pagesize = 20)
     {
-        $this->recordcount  = $recordcount;
-        $this->pagecount    = ceil($recordcount / $pagesize);
-        $this->perpage      = $perpage;
-        $this->current      = $this->_current();
-        $this->offset       = ($this->current - 1) * $pagesize;
-        $this->offset       = ($this->offset > 0) ? $this->offset : 0;
-        $this->limit        = $pagesize;
+        $this->recordcount = $recordcount;
+        $this->pagecount   = ceil($recordcount / $pagesize);
+        $this->perpage     = $perpage;
+        $this->current     = $this->_current();
+        $this->offset      = ($this->current - 1) * $pagesize;
+        $this->offset      = ($this->offset > 0) ? $this->offset : 0;
+        $this->limit       = $pagesize;
 
         return $this;
     }
@@ -136,22 +136,22 @@ class Pagination
     public function generate()
     {
         $result['recordcount'] = $this->recordcount;
-        $result['pagecount'] = $this->pagecount;
-        $result['current'] = $this->current;
+        $result['pagecount']   = $this->pagecount;
+        $result['current']     = $this->current;
 
         if($this->current == 1)
         {
             $result['first'] = '';
-            $result['prev'] = '';
+            $result['prev']  = '';
         }
         else
         {
             $result['first'] = $this->_newarg(1);
-            $result['prev'] = $this->_newarg($this->current - 1);
+            $result['prev']  = $this->_newarg($this->current - 1);
         }
 
-        $startpage  = $this->current - $this->perpage;
-        $endpage    = $this->current + $this->perpage;
+        $startpage = $this->current - $this->perpage;
+        $endpage   = $this->current + $this->perpage;
 
         if($startpage < 1)
         {
@@ -182,12 +182,12 @@ class Pagination
             if($i != $this->current)
             {
                 $result['pages'][$n]['link'] = $this->_newarg($i);
-                $result['pages'][$n]['title'] = $i;
+                $result['pages'][$n]['text'] = $i;
             }
             else
             {
                 $result['pages'][$n]['link'] = NULL;
-                $result['pages'][$n]['title'] = $i;
+                $result['pages'][$n]['text'] = $i;
                 $result['current'] = $i;
             }
 
@@ -197,12 +197,12 @@ class Pagination
         if($this->current == $this->pagecount || $this->pagecount == 0)
         {
             $result['next'] = '';
-            $result['end'] = '';
+            $result['end']  = '';
         }
         else
         {
             $result['next'] = $this->_newarg($this->current + 1);
-            $result['end'] = $this->_newarg($this->pagecount);
+            $result['end']  = $this->_newarg($this->pagecount);
         }
 
         return $result;

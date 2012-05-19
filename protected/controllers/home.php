@@ -33,6 +33,13 @@
 
 class Home_Controller extends Template_Controller
 {
+    private function test1()
+    {
+    }
+    private function test2()
+    {
+    }
+
     public function __call($method, $args)
     {
         // $index = new Zend_Search_Lucene(RUNTIME.'/_indexs', true);

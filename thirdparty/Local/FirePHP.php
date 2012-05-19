@@ -81,95 +81,94 @@ if (!defined('E_USER_DEPRECATED'))   define('E_USER_DEPRECATED', 16384);
  * @license     http://www.opensource.org/licenses/bsd-license.php
  * @package     FirePHPCore
  */
-
 class FirePHP
 {
-    /**
+     /**
      * FirePHP version
      *
      * @var string
      */
-    const VERSION = '0.3';    // @pinf replace '0.3' with '%%package.version%%'
-
-    /**
+     const VERSION     = '0.3';    // @pinf replace '0.3' with '%%package.version%%'
+     
+     /**
      * Firebug LOG level
      *
      * Logs a message to firebug console.
      *
      * @var string
      */
-    const LOG = 'LOG';
-
-    /**
+     const LOG         = 'LOG';
+     
+     /**
      * Firebug INFO level
      *
      * Logs a message to firebug console and displays an info icon before the message.
      *
      * @var string
      */
-    const INFO = 'INFO';
-
-    /**
+     const INFO        = 'INFO';
+     
+     /**
      * Firebug WARN level
      *
      * Logs a message to firebug console, displays an warning icon before the message and colors the line turquoise.
      *
      * @var string
      */
-    const WARN = 'WARN';
-
-    /**
+     const WARN        = 'WARN';
+     
+     /**
      * Firebug ERROR level
      *
      * Logs a message to firebug console, displays an error icon before the message and colors the line yellow. Also increments the firebug error count.
      *
      * @var string
      */
-    const ERROR = 'ERROR';
-
-    /**
+     const ERROR       = 'ERROR';
+     
+     /**
      * Dumps a variable to firebug's server panel
      *
      * @var string
      */
-    const DUMP = 'DUMP';
-
-    /**
+     const DUMP        = 'DUMP';
+     
+     /**
      * Displays a stack trace in firebug console
      *
      * @var string
      */
-    const TRACE = 'TRACE';
-
-    /**
+     const TRACE       = 'TRACE';
+     
+     /**
      * Displays an exception in firebug console
      *
      * Increments the firebug error count.
      *
      * @var string
      */
-    const EXCEPTION = 'EXCEPTION';
-
-    /**
+     const EXCEPTION   = 'EXCEPTION';
+     
+     /**
      * Displays an table in firebug console
      *
      * @var string
      */
-    const TABLE = 'TABLE';
-
-    /**
+     const TABLE       = 'TABLE';
+     
+     /**
      * Starts a group in firebug console
      *
      * @var string
      */
-    const GROUP_START = 'GROUP_START';
-
-    /**
+     const GROUP_START = 'GROUP_START';
+     
+     /**
      * Ends a group in firebug console
      *
      * @var string
      */
-    const GROUP_END = 'GROUP_END';
+     const GROUP_END   = 'GROUP_END';
 
     /**
      * Singleton instance of FirePHP
@@ -231,7 +230,7 @@ class FirePHP
      */
     protected $objectFilters = array(
         'firephp'            => array('objectStack', 'instance', 'json_objectStack'),
-        'firephp_test_class' => array('objectStack', 'instance', 'json_objectStack')
+        'firephp_test_class' => array('objectStack', 'instance', 'json_objectStack'),
     );
 
     /**
@@ -274,7 +273,9 @@ class FirePHP
     public static function instance($AutoCreate = TRUE)
     {
         if ($AutoCreate === true && !FirePHP::$instance)
+        {
             FirePHP::$instance = new FirePHP();
+        }
 
         return FirePHP::$instance;
     }
@@ -290,7 +291,9 @@ class FirePHP
         if(is_string($console))
         {
             if(get_class($this)!='FirePHP_Insight' && !is_subclass_of($this, 'FirePHP_Insight'))
+            {
                 throw new Exception('FirePHP instance not an instance or subclass of FirePHP_Insight!');
+            }
 
             $this->logToInsightConsole = $this->to('request')->console($console);
         }
@@ -374,7 +377,9 @@ class FirePHP
     public function setOption($Name, $Value)
     {
         if (!isset($this->options[$Name]))
+        {
             throw $this->newException('Unknown option: ' . $Name);
+        }
 
         $this->options[$Name] = $Value;
     }
@@ -389,7 +394,9 @@ class FirePHP
     public function getOption($Name)
     {
         if (!isset($this->options[$Name]))
+        {
             throw $this->newException('Unknown option: ' . $Name);
+        }
 
         return $this->options[$Name];
     }
@@ -407,9 +414,8 @@ class FirePHP
         //      E_ERROR, E_PARSE, E_CORE_ERROR,
         //      E_CORE_WARNING, E_COMPILE_ERROR,
         //      E_COMPILE_WARNING, E_STRICT
-
+        
         $this->throwErrorExceptions = $throwErrorExceptions;
-
         return set_error_handler(array($this, 'errorHandler'));
     }
 

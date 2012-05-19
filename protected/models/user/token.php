@@ -18,6 +18,7 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-class User_Token_Model extends Auth_User_Token_Model
+class User_Token_Model extends Auth_User_Token_Model 
 {
+
 }

@@ -39,14 +39,14 @@ class Custom_Model extends ORM
     {
         if ($this->empty_pk())
         {
-            if(isset($this->created))
+            if(isset($this->created) && empty($this->created))
             {
                 $this->created = time();
             }
         }
         else
         {
-            if(isset($this->modified))
+            if(isset($this->modified) && empty($this->modified))
             {
                 $this->modified = time();
             }
@@ -60,8 +60,13 @@ class Custom_Model extends ORM
      *
      * @return  ORM
      */
-    public function register($array)
+    public function import(array $array = null)
     {
+        if (empty($array)) 
+        {
+            return false;
+        }
+
         foreach( $array as $key => $value )
         {
             $this->$key = $value;
@@ -76,7 +81,7 @@ class Custom_Model extends ORM
         $records    = $this->count_all();
         $pagination = Pagination::factory()->initialize($records, 3, $size);
 
-        $items->order_by('id','desc');
+        $items->order_by('id','DESC');
         $items->limit($pagination->limit());
         $items->offset($pagination->offset());
 

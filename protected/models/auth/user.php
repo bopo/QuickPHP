@@ -138,11 +138,11 @@ class Auth_User_Model extends Custom_Model
         $array = Validate::factory($array)
             ->label('password', $this->_labels['password'])
             ->label('password_confirm', $this->_labels['password_confirm'])
-            ->filter(TRUE, 'trim')
+            ->filter(true, 'trim')
             ->rules('password', $this->_rules['password'])
             ->rules('password_confirm', $this->_rules['password_confirm']);
 
-        if ((bool)($status = $array->check()))
+        if ((bool) ($status = $array->check()))
         {
             // 修改密码
             $this->password = $array['password'];

@@ -64,14 +64,11 @@ require_once 'Zend/Search/Lucene/Index/SegmentInfoPriorityQueue.php';
 /** Zend_Search_Lucene_LockManager */
 require_once 'Zend/Search/Lucene/LockManager.php';
 
-
-
 /** Zend_Search_Lucene_Interface */
 require_once 'Zend/Search/Lucene/Interface.php';
 
 /** Zend_Search_Lucene_Proxy */
 require_once 'Zend/Search/Lucene/Proxy.php';
-
 
 /**
  * @category   Zend
@@ -392,9 +389,9 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
             $segSize = $segmentsFile->readInt();
 
             // 2.1+ specific properties
-            //$delGen          = $segmentsFile->readLong();
-            $delGenHigh        = $segmentsFile->readInt();
-            $delGenLow         = $segmentsFile->readInt();
+            //$delGen   = $segmentsFile->readLong();
+            $delGenHigh = $segmentsFile->readInt();
+            $delGenLow  = $segmentsFile->readInt();
             if ($delGenHigh == (int)0xFFFFFFFF  && $delGenLow == (int)0xFFFFFFFF) {
                 $delGen = -1; // There are no deletes
             } else {
@@ -430,7 +427,7 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
                 throw new Zend_Search_Lucene_Exception('Separate norm files are not supported. Optimize index to use it with Zend_Search_Lucene.');
             }
 
-            $isCompoundByte     = $segmentsFile->readByte();
+            $isCompoundByte = $segmentsFile->readByte();
 
             if ($isCompoundByte == 0xFF) {
             	// The segment is not a compound file

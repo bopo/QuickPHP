@@ -29,25 +29,25 @@ $error_id = uniqid('error');
 ?>
 
 <style type="text/css">
-#QuickPHP_error { background: #ddd; font-size: 1em; font-family:sans-serif; text-align: left; color: #111; }
-#QuickPHP_error h1,
-#QuickPHP_error h2 { margin: 0; padding: 1em; font-size: 1em; font-weight: normal; background: #911; color: #fff; }
-#QuickPHP_error h1 a,
-#QuickPHP_error h2 a { color: #fff; }
-#QuickPHP_error h2 { background: #222; }
-#QuickPHP_error h3 { margin: 0; padding: 0.4em 0 0; font-size: 1em; font-weight: normal; }
-#QuickPHP_error p { margin: 0; padding: 0.2em 0; }
-#QuickPHP_error a { color: #1b323b; }
-#QuickPHP_error pre { overflow: auto; white-space: pre-wrap; }
-#QuickPHP_error table { width: 100%; display: block; margin: 0 0 0.4em; padding: 0; border-collapse: collapse; background: #fff; }
-#QuickPHP_error table td { border: solid 1px #ddd; text-align: left; vertical-align: top; padding: 0.4em; }
-#QuickPHP_error div.content { padding: 0.4em 1em 1em; overflow: hidden; }
-#QuickPHP_error pre.source { margin: 0 0 1em; padding: 0.4em; background: #fff; border: dotted 1px #b7c680; line-height: 1.2em; }
-#QuickPHP_error pre.source span.line { display: block; }
-#QuickPHP_error pre.source span.highlight { background: #f0eb96; }
-#QuickPHP_error pre.source span.line span.number { color: #666; }
-#QuickPHP_error ol.trace { display: block; margin: 0 0 0 2em; padding: 0; list-style: decimal; }
-#QuickPHP_error ol.trace li { margin: 0; padding: 0; }
+#quickphp_error { background: #ddd; font-size: 1em; font-family:sans-serif; text-align: left; color: #111; }
+#quickphp_error h1,
+#quickphp_error h2 { margin: 0; padding: 1em; font-size: 1em; font-weight: normal; background: #911; color: #fff; }
+#quickphp_error h1 a,
+#quickphp_error h2 a { color: #fff; }
+#quickphp_error h2 { background: #222; }
+#quickphp_error h3 { margin: 0; padding: 0.4em 0 0; font-size: 1em; font-weight: normal; }
+#quickphp_error p { margin: 0; padding: 0.2em 0; }
+#quickphp_error a { color: #1b323b; }
+#quickphp_error pre { overflow: auto; white-space: pre-wrap; }
+#quickphp_error table { width: 100%; display: block; margin: 0 0 0.4em; padding: 0; border-collapse: collapse; background: #fff; }
+#quickphp_error table td { border: solid 1px #ddd; text-align: left; vertical-align: top; padding: 0.4em; }
+#quickphp_error div.content { padding: 0.4em 1em 1em; overflow: hidden; }
+#quickphp_error pre.source { margin: 0 0 1em; padding: 0.4em; background: #fff; border: dotted 1px #b7c680; line-height: 1.2em; }
+#quickphp_error pre.source span.line { display: block; }
+#quickphp_error pre.source span.highlight { background: #f0eb96; }
+#quickphp_error pre.source span.line span.number { color: #666; }
+#quickphp_error ol.trace { display: block; margin: 0 0 0 2em; padding: 0; list-style: decimal; }
+#quickphp_error ol.trace li { margin: 0; padding: 0; }
 .js .collapsed { display: none; }
 </style>
 
@@ -56,24 +56,18 @@ document.documentElement.className = 'js';
 function koggle(elem)
 {
     elem = document.getElementById(elem);
-
     if (elem.style && elem.style['display'])
-        // Only works with the "style" attr
         var disp = elem.style['display'];
     else if (elem.currentStyle)
-        // For MSIE, naturally
         var disp = elem.currentStyle['display'];
     else if (window.getComputedStyle)
-        // For most other browsers
         var disp = document.defaultView.getComputedStyle(elem, null).getPropertyValue('display');
-
-    // Toggle the state of the "display" style
     elem.style.display = disp == 'block' ? 'none' : 'block';
     return false;
 }
 </script>
 
-<div id="QuickPHP_error">
+<div id="quickphp_error">
     <h1><span class="type"><?php echo $type ?> [ <?php echo $code ?> ]:</span> <span class="message"><?php echo htmlspecialchars($message) ?></span></h1>
     <div id="<?php echo $error_id ?>" class="content">
         <p><span class="file"><?php echo debug::path($file) ?> [ <?php echo $line ?> ]</span></p>
@@ -136,7 +130,8 @@ function koggle(elem)
                 <?php endforeach ?>
             </table>
         </div>
-        <?php foreach (array('_SESSION', '_GET', '_POST', '_FILES', '_COOKIE', '_SERVER') as $var): ?>
+
+        <?php foreach (array('_ENV', '_SERVER', '_SESSION', '_COOKIE', '_GET', '_POST', '_FILES') as $var): ?>
         <?php if (empty($GLOBALS[$var]) OR ! is_array($GLOBALS[$var])) continue ?>
         <h3><a href="#<?php echo $env_id = $error_id.'environment'.strtolower($var) ?>" onclick="return koggle('<?php echo $env_id ?>')">$<?php echo $var ?></a></h3>
         <div id="<?php echo $env_id ?>" class="collapsed">
@@ -150,5 +145,6 @@ function koggle(elem)
             </table>
         </div>
         <?php endforeach ?>
+
     </div>
 </div>
