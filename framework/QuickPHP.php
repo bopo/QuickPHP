@@ -997,11 +997,11 @@ class QuickPHP
      * @return  string  i18n language string, or the requested key if the i18n item is not found
      */
     public static function lang($key, $args = array())
-    {
-        $keys   = explode('.', $key);
-        $group  = $keys[0];
+    {    
+        $group  = explode('.', $key, 2);
+        $group  = $group[0]; 
         $locale = QuickPHP::$language;
-
+        
         if ( ! isset(self::$locale[$locale][$group]))
         {
             $messages = array();
