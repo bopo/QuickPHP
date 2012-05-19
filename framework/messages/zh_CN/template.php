@@ -19,8 +19,11 @@
  +----------------------------------------------------------------------+
 */
 
+// 模版异常提示
 return array(
-    'undefined_group'   => '配置没有定义 {0} 组。',
-    'requires_mcrypt'   => '使用加密（Encrypt）库，必须在 PHP 中开启 mcrypt',
-    'no_encryption_key' => '使用加密（Encrypt）库, 必须在配置文件中设定加密关键字'
+    'template_content_null'   => "模板文件:'%s 为空或不存在.",
+    'template_format_invalid' => "模版标签格式错误.",
+    'template_write_error'    => "模版文件或临时目录不可写,请修改“DOCROOT/runtime/_views”的权限.",
+    'template_not_extension'  => "没有发现模版引擎的扩展: %s.",
+    'template_syntax_invalid' => "模版: %s 标签错误."
 );

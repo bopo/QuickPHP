@@ -18,6 +18,16 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
+
 return array(
-    'invalid_session_name' => '无效的 Session 名：{0}。只能包含字母，数字和下划线。至少还需要一个字母存在。'
+    'undefined_group'   => '分页配置中未定义组：%s。',
+    'page'              => '页',
+    'pages'             => '页',
+    'item'              => '条',
+    'items'             => '条',
+    'of'                => ' / ',
+    'first'             => '首页',
+    'last'              => '末页',
+    'previous'          => '前页',
+    'next'              => '后页',
 );

@@ -20,7 +20,9 @@
 */
 
 return array(
-    'Invalid_method_call'   => '错误的调用了类 {1} 的 {0} 方法。',
-//    'invalid_property'      => '错误的调用了类 {1} 的 {0} 属性。',
-    'invalid_property'      => '属性{0}不存在于{1}类中。',
+    'undefined_group'   => '配置中未定义组：%s。',
+    'driver_implements' => '%s 驱动在类 %s 中必须继承 %s 接口',
+    'driver_not_found'  => '%s 驱动在类 %s 中没有发现',
+    'file_not_found'    => '指定文件 %s 不存在. 请在使用之前使用 file_exists() 方法确认文件是否存在.',
+    'requires_GD2'      => '验证码(Captcha)库需要带 FreeType 的 GD2 支持. 详情请看 http://php.net/gd_info.'
 );

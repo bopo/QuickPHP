@@ -24,7 +24,8 @@ class QuickphpPackageTask extends Task
      * Supports embedded <filelist> element.
      * @return FileList
      */
-    function createFileList() {
+    function createFileList() 
+    {
         $num = array_push($this->filelists, new FileList());
         return $this->filelists[$num-1];
     }
@@ -32,7 +33,6 @@ class QuickphpPackageTask extends Task
     function main()
     {
         $project = $this->getProject();
-
         $content = '';
         $files   = array();
 
@@ -63,7 +63,9 @@ class QuickphpPackageTask extends Task
         $content = str_replace('/Exceptions/messages', '/messages', $content);
 
         if($this->strip)
+        {
             $content=$this->strip_comments($content);
+        }
 
         $content = $this->strip_empty_lines($content);
         $content = "<?php".$this->getFileComment($files).preg_replace('/(\?>\s?|<\?php\s?)/mu','',$content)."\n?>";
@@ -96,7 +98,6 @@ class QuickphpPackageTask extends Task
         {
             if (is_string($token))
             {
-                // simple 1-character token
                 $output .= $token;
             }
             else
@@ -109,10 +110,8 @@ class QuickphpPackageTask extends Task
                     case T_COMMENT:
                     case T_ML_COMMENT: // we've defined this
                     case T_DOC_COMMENT: // and this
-                        // no action on comments
                         break;
                     default:
-                        // anything else -> output "as is"
                         $output .= $text;
                         break;
                 }
@@ -137,7 +136,9 @@ class QuickphpPackageTask extends Task
         $fileList   = array();
 
         foreach($files as $file)
+        {
             $fileList[] = " *   $file";
+        }
 
         $fileListStr = implode("\n", $fileList);
         $comments    = "
@@ -150,10 +151,10 @@ class QuickphpPackageTask extends Task
  * Files:
 {$fileListStr}
  *
- * @author Qiang Xue <qiang.xue@gmail.com>, Wei Zhuo <weizhuo@gmail.com>
- * @link http://www.pradosoft.com/
- * @copyright Copyright &copy; 2005-{$year} PradoSoft
- * @license http://www.pradosoft.com/license/
+ * @author BoPo <ibopo@126.com>
+ * @link http://www.quickphp.net/
+ * @copyright Copyright &copy; 2005-{$year} QuickPHP
+ * @license http://www.quickphp.net/license/
  */
 
 ";

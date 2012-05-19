@@ -1,7 +1,10 @@
 <?php
+
 define('SYSPATH', dirname(__FILE__).'/../../../framework/');
+define('APPPATH', dirname(__FILE__).'/../../../protected/');
+
 require_once 'phing/Task.php';
-include_once 'phing/tasks/system/PropertyTask.php';
+require_once 'phing/tasks/system/PropertyTask.php';
 
 class QuickphpDBCTask extends PropertyTask
 {
@@ -20,14 +23,16 @@ class QuickphpDBCTask extends PropertyTask
     }
 
     /**
-     * @return string Quickphp version
+     * @return string Quickphp database config
      */
     private function getConfig()
     {
-        $coreFile = dirname(__FILE__).'/../../../protected/config/database.php';
+        $coreFile = APPPATH . 'config/database.php';
         $config   = include $coreFile;
 
         if(isset($config['default']))
+        {
             return $config['default'];
+        }
     }
 }

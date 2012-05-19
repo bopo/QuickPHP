@@ -67,6 +67,7 @@ $settings = array(
     'caching'    => true,                   // 开启高速缓存
     'frontend'   => '',                     // 入口文件名(默认为index.php)
     'url_suffix' => 'html',
+    'language'   => 'zh_CN',
     'domain'     => '/quickphp/',           // 网站域名
 );
 

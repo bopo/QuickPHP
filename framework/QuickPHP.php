@@ -196,8 +196,10 @@ class QuickPHP
     /**
      * @var string 本地语言(待定)
      */
-    public static $locale  = 'zh-CN';
-    public static $_locale = array();
+    public static $language = 'zh_CN';
+    public static $locale   = array();
+    public static $timezone = null;
+    public static $user_agent = null;
 
     /**
      * @var array 配置信息集合
@@ -348,10 +350,27 @@ class QuickPHP
             mb_internal_encoding(QuickPHP::$charset);
         }
 
+        QuickPHP::$user_agent = ( ! empty($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '');
+
         // 判断是否设置域名
         if(isset($settings['domain']))
         {
             QuickPHP::$domain = rtrim($settings['domain'], '/') . '/';
+        }
+
+        $ER = error_reporting(~E_NOTICE & ~E_STRICT);
+
+        if (function_exists('date_default_timezone_set') && (isset($settings['timezone'])))
+        {
+            date_default_timezone_set(empty($settings['timezone']) ? date_default_timezone_get() : $settings['timezone']);
+        }
+
+        error_reporting($ER);
+
+        // 设置默认本地化语言
+        if(isset($settings['language']))
+        {
+            QuickPHP::$language = $settings['language'];
         }
 
         // 判断是否设置系统入口文件名
@@ -721,7 +740,7 @@ class QuickPHP
             $benchmark = Profiler::start('QuickPHP', 'QuickPHP::' . __FUNCTION__ );
         }
 
-        if($array OR $dir === 'config' OR $dir === 'locale' OR $dir === 'messages')
+        if($array OR $dir === 'config' OR $dir === 'locale' OR $dir === 'messages'  OR $dir === 'langs')
         {
             $paths = array_reverse(QuickPHP::$_paths);
             $found = array();
@@ -929,6 +948,8 @@ class QuickPHP
      */
     public static function message($file, $path = null, $default = null)
     {
+        $locale = QuickPHP::$language;
+
         $cache_key = "QuickPHP::message()";
 
         if (QuickPHP::$_messages == null)
@@ -940,7 +961,7 @@ class QuickPHP
         {
             QuickPHP::$_messages[$file] = array();
 
-            $files = QuickPHP::find('messages', $file);
+            $files = QuickPHP::find('messages',  $locale . '/' . $file);
 
             if(!empty($files))
             {
@@ -968,29 +989,56 @@ class QuickPHP
         return arr::path(QuickPHP::$_messages[$file], $path, $default);
     }
 
-    public static function lang($file, $lang = null)
+    /**
+     * Fetch an i18n language item.
+     *
+     * @param   string  language key to fetch
+     * @param   array   additional information to insert into the line
+     * @return  string  i18n language string, or the requested key if the i18n item is not found
+     */
+    public static function lang($key, $args = array())
     {
-        if( ! isset(QuickPHP::$_locale[$lang]))
+        $keys   = explode('.', $key);
+        $group  = $keys[0];
+        $locale = QuickPHP::$language;
+
+        if ( ! isset(self::$locale[$locale][$group]))
         {
-            QuickPHP::$_locale[$file] = array();
+            $messages = array();
 
-            $files = QuickPHP::find('locale', $file);
-
-            if($files)
+            if ($files = self::find('langs', $locale.'/'.$group))
             {
-                foreach ($files as $msg)
+                foreach ($files as $file)
                 {
-                    QuickPHP::$_locale[$file] = array_merge(QuickPHP::$_locale[$file], QuickPHP::load($msg));
+                    $lang = include $file;
+
+                    if ( ! empty($lang) AND is_array($lang))
+                    {
+                        foreach ($lang as $k => $v)
+                        {
+                            $messages[$k] = $v;
+                        }
+                    }
                 }
             }
+
+            self::$locale[$locale][$group] = $messages;
         }
 
-        if($path === null)
+        $line = arr::path(self::$locale[$locale], $key);
+
+        if ($line === NULL)
         {
-            return QuickPHP::$_locale[$file];
+            return $key;
         }
 
-        return arr::path(QuickPHP::$_locale[$file], $path, $default);
+        if (is_string($line) AND func_num_args() > 1)
+        {
+            $args = array_slice(func_get_args(), 1);
+            $line = vsprintf($line, is_array($args[0]) ? $args[0] : $args);
+        }
+
+        return $line;
     }
 
     /**

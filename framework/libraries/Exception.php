@@ -67,20 +67,11 @@ class QuickPHP_Exception extends Exception
 
         $directory = rtrim(strtolower(str_replace("Exception", "", get_class($this))), '_');
         $messages  = QuickPHP::message($directory, $message);
+        $messages  = !empty($messages) ? $messages : $message;
 
-        if(is_array($variables))
+        if(!empty($variables) && is_array($variables))
         {
-            foreach($variables as $key => $val)
-            {
-                $variable["{{$key}}"] = $val;
-            }
-        }
-
-        $messages = !empty($messages) ? $messages : $message;
-
-        if(isset($variable))
-        {
-            $messages = strtr($messages, $variable);
+            $messages = vsprintf($messages, $variables);
         }
 
         if (defined('E_DEPRECATED'))

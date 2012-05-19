@@ -20,14 +20,7 @@
 */
 
 return array(
-    'undefined_group'   => '分页配置中未定义组：{0}。',
-    'page'              => '页',
-    'pages'             => '页',
-    'item'              => '条',
-    'items'             => '条',
-    'of'                => ' / ',
-    'first'             => '首页',
-    'last'              => '末页',
-    'previous'          => '前页',
-    'next'              => '后页',
+    'Invalid_method_call'   => '错误的调用了类 %s 的 %s 方法。',
+//    'invalid_property'      => '错误的调用了类 %s 的 %s 属性。',
+    'invalid_property'      => '属性%s不存在于%s类中。',
 );

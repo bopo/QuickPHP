@@ -20,15 +20,9 @@
 */
 
 return array(
-    'undefined_group'       => '配置未定义 {0} 组。',
-    'error'                 => 'SQL 错误：{0}',
-    'invalid_connection'    => '连接数据库失败：{0}',
-    'invalid_dsn'           => 'DSN 无效的：{0}',
-    'must_use_set'          => '缺少 SET 语句。',
-    'must_use_where'        => '缺少 WHERE 语句。',
-    'must_use_table'        => '数据库表未赋值。',
-    'table_not_found'       => '数据库不存在表 {0}。',
-    'not_implemented'       => '驱动不支持你调用的方法，{0}。',
-    'result_read_only'      => '查询结果仅为只读。',
-    'invalid_query'         => '数据库错误：{0};<br /> '.PHP_EOL.' SQL: {1}',
+    'undefined_group'      => '配置未定义 %s 组。',
+    'extension_not_loaded' => '使用这个驱动必须使用 PHP 的 %s 扩展加载。',
+    'unwritable'           => '配置的储存地址不可写：%s。',
+    'resources'            => '资源无法缓存，因为资源没有被序列化。',
+    'driver_error'         => '驱动错误 %s',
 );
