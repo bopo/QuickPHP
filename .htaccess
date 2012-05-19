@@ -1,0 +1,42 @@
+# 增加rewrite
+#LoadModule expires_module modules/mod_rewrite.so
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{SCRIPT_FILENAME} !-f
+    RewriteCond %{SCRIPT_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+# 增加expires
+#LoadModule expires_module modules/mod_expires.so
+<IfModule mod_expires.c>
+    <FilesMatch "\.(jpg|jpeg|gif|png|css|js|cur|html)$">
+        ExpiresActive on
+        ExpiresDefault "access plus 1 years"
+    </FilesMatch>
+</IfModule>
+
+# 增加deflate(gzip) 需要打开headers deflate模块
+#LoadModule expires_module modules/mod_deflate.so
+#LoadModule headers_module modules/mod_headers.so
+<IfModule mod_deflate.c>
+    <IfModule mod_headers.c>
+        AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/x-javascript application/json application/x-httpd-php
+        Header append Vary Accept-Encoding
+   </IfModule>
+</IfModule>
+
+# 默认编码
+AddDefaultCharset utf-8
+
+# 开启pathinfo
+AcceptPathInfo On
+
+# 图片优化工具
+# 
+
+# 二级域名设置
+# RewriteEngine On
+# RewriteCond %{HTTP_HOST} ^(www.)?(?!/.|www|bbs|demo)(.*)\.war3cn.net$
+# RewriteRule ^/?$ /%{HTTP_HOST}
+# RewriteRule ([^.]+)\.war3cn.net/(.*) /$1/$2
