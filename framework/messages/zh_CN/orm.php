@@ -21,6 +21,5 @@
 
 return array(
     'Invalid_method_call'   => '错误的调用了类 %s 的 %s 方法。',
-//    'invalid_property'      => '错误的调用了类 %s 的 %s 属性。',
     'invalid_property'      => '属性%s不存在于%s类中。',
 );
