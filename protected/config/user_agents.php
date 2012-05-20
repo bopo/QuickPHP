@@ -22,7 +22,7 @@ return array
 (
     /** 平台类型 */
     'platforms' => array (
-        'Windows NT 6.1'    => 'Windows 7',
+        'windows nt 6.1'    => 'Windows 7',
         'windows nt 6.0'    => 'Windows Vista',
         'windows nt 5.2'    => 'Windows 2003',
         'windows nt 5.0'    => 'Windows 2000',
@@ -100,14 +100,14 @@ return array
 
     /** 搜索引擎机器人类型 可以自己增加 */
     'robots' => array(
-        'googlebot'         => 'Googlebot',
-        'msnbot'            => 'MSNBot',
         'slurp'             => 'Inktomi Slurp',
         'yahoo'             => 'Yahoo',
-        'askjeeves'         => 'AskJeeves',
-        'fastcrawler'       => 'FastCrawler',
-        'infoseek'          => 'InfoSeek Robot 1.0',
         'lycos'             => 'Lycos',
-        'baiduspider'       => 'BaiDuSpider'
+        'msnbot'            => 'MSNBot',
+        'infoseek'          => 'InfoSeek Robot 1.0',
+        'askjeeves'         => 'AskJeeves',
+        'googlebot'         => 'Googlebot',
+        'baiduspider'       => 'BaiDuSpider',
+        'fastcrawler'       => 'FastCrawler',
     )
 );

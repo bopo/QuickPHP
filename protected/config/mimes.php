@@ -18,24 +18,6 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-/**
- * @package Mimes
- *
- * Captcha configuration is defined in groups which allows you to easily switch
- * between different Captcha settings for different forms on your website.
- * Note: all groups inherit and overwrite the default group.
- *
- * Group Options:
- *  style      - Captcha type, e.g. basic, alpha, word, math, riddle
- *  width      - Width of the Captcha image
- *  height     - Height of the Captcha image
- *  complexity - Difficulty level (0-10), usage depends on chosen style
- *  background - Path to background image file
- *  fontpath   - Path to font folder
- *  fonts      - Font files
- *  promote    - Valid response count threshold to promote user (FALSE to disable)
- */
-
 return array(
     '323'      => array('text/h323'),
     '7z'       => array('application/x-7z-compressed'),
