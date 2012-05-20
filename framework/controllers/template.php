@@ -103,6 +103,11 @@ abstract class QuickPHP_Template_Controller extends QuickPHP_Controller
                 $this->template = str_replace("_", "/", $this->template);
             }
 
+            if (request::is_ajax()) 
+            {
+                $this->template .= '.ajax';
+            }
+            
             $this->view->render($this->template);
         }
 
