@@ -19,21 +19,17 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Database expressions can be used to add unescaped SQL fragments to a
- * [Database_Query_Builder] object.
- * QuickPHP 数据库请求逃逸封装类.
+ * QuickPHP 数据库请求表达式逃逸封装类.
  *
- * For example, you can use an expression to generate a column alias:
- *
- * // SELECT CONCAT(first_name, last_name) AS full_name
+ * // 如果查询 ”SELECT CONCAT(first_name, last_name) AS full_name“ 则:
  * $query = Database::select(array(Database::expr('CONCAT(first_name, last_name)'), 'full_name')));
  *
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Expression.php 8320 2011-10-05 14:59:55Z bopo $
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Expression.php 8320 2011-10-05 14:59:55Z bopo $
  */
 class QuickPHP_Database_Expression
 {
@@ -67,7 +63,7 @@ class QuickPHP_Database_Expression
     }
 
     /**
-     * 魔术方法 __toString 获得表单式的值
+     * 魔术方法 __toString 获得表达式的值
      *
      * echo $expression;
      *

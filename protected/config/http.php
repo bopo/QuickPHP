@@ -18,10 +18,8 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array
-(
-    'meta_equiv' => array
-    (
+return array(
+    'meta_equiv' => array(
         'cache-control',
         'content-type',
         'content-script-type',

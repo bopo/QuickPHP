@@ -30,16 +30,16 @@
 class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
 {
 
-    // Database in use by each connection
+    // 数据库连接容器
     protected static $_current_databases = array();
 
-    // Use SET NAMES to set the character set
+    // 使用 SET NAMES 设置的字符集
     protected static $_set_names;
 
-    // Identifier for this connection within the PHP driver
+    // PHP 连接数据库的唯一标示ID
     protected $_connection_id;
 
-    // MySQL uses a backtick for identifiers
+    // MySQL 字段表名的标示符
     protected $_identifier = array('`');
 
     public function connect()
@@ -92,9 +92,9 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     }
 
     /**
-     * Select the database
+     * 选择数据库
      *
-     * @param   string  Database
+     * @param   string  数据名
      * @return  void
      */
     protected function _select_db($database)
@@ -108,8 +108,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     }
 
     /**
-     * 关闭数据库链接(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::disconnect()
+     * 关闭数据库链接
      */
     public function disconnect()
     {
@@ -136,8 +135,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     }
 
     /**
-     * 设置字符集(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::set_charset()
+     * 设置字符集
      */
     public function set_charset($charset)
     {
@@ -159,8 +157,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     }
 
     /**
-     * 数据库请求操作(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::query()
+     * 数据库请求操作
      */
     public function query($type, $sql, $as_object)
     {
@@ -208,8 +205,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     }
 
     /**
-     * 数据类型(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::datatype()
+     * 数据类型
      */
     public function datatype($type)
     {
@@ -261,8 +257,7 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
     }
 
     /**
-     * 数据库中的列表(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::list_tables()
+     * 数据库中的列表
      */
     public function list_tables($like = null)
     {
@@ -277,11 +272,10 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $sql = 'SHOW TABLES';
         }
 
-        /** @todo 产品模式增加缓存 */
-        if(IN_PRODUCTION == true)
+        if($this->_config['connection'] == true)
         {
             $cache_key = 'Database::list_tables("' . $db . '", "' . $sql . '")';
-            $tables    = Cache::instance()->get($cache_key);
+            $tables    = QuickPHP::cache($cache_key);
 
             if(!empty($tables))
             {
@@ -300,15 +294,14 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
         /** @todo 产品模式增加缓存 */
         if(isset($cache_key))
         {
-            Cache::instance()->set($cache_key, $tables, 0);
+            QuickPHP::cache($cache_key, $tables, 0);
         }
 
         return $tables;
     }
 
     /**
-     * 列出表中的字段(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::list_columns()
+     * 列出表中的字段
      */
     public function list_columns($table, $like = null)
     {
@@ -323,10 +316,11 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $sql = 'SHOW FULL COLUMNS FROM ' . $table;
         }
 
-        if(IN_PRODUCTION == true)
+        // 开启数据库查询缓存开关. 为节省资源,缓存数据库表结构数据.
+        if($this->_config['caching'] == true)
         {
             $cache_key = 'Database::list_tables("' . $db . '", "' . $sql . '")';
-            $columns   = Cache::instance()->get($cache_key);
+            $columns   = QuickPHP::cache($cache_key);
 
             if(!empty($columns))
             {
@@ -396,18 +390,17 @@ class QuickPHP_Database_Driver_Mysql extends QuickPHP_Database_Abstract
             $columns[$row['Field']] = $column;
         }
 
-        /** @todo 产品模式增加缓存 */
         if(isset($cache_key))
         {
-            Cache::instance()->set($cache_key, $columns, 0);
+            // 使用框架内部缓存
+            QuickPHP::cache($cache_key, $columns, 0);
         }
 
         return $columns;
     }
 
     /**
-     * 请求转码(non-PHPdoc)
-     * @see framework/libraries/Database/QuickPHP_Database_Abstract::escape()
+     * 请求转码
      */
     public function escape($value)
     {

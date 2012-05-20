@@ -42,10 +42,19 @@ class Home_Controller extends Template_Controller
 
     public function __call($method, $args)
     {
+        $db = Database::instance();
+        // $row = $db->query(Database::SELECT, 'SELECT * FROM users LIMIT 1');
+        $query = Database::select(array('username', 'u'), array('password', 'p'))->from(array('users','u'))->compile($db);
+        var_dump($query);
+        // var_dump($row->current()->roles->find()->as_array());
+        // var_dump($columns = $db->list_columns('users','%name%'));
+        // $column = $db->quote_identifier('users.id');
+        // $column = $db->quote_identifier('COUNT("column")');
+        // var_dump($column);
 
         // throw new Exception("Error Processing Request", 1);
         
-        // var_dump(QuickPHP::lang('calendar.su',array('aaaa')));
+        // var_dump(QuickPHP::lang('calendar.su', array('aaaa')));
         // $index = new Zend_Search_Lucene(RUNTIME.'/_indexs', true);
 
         // $doc = new Zend_Search_Lucene_Document();

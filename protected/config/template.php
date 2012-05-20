@@ -20,14 +20,14 @@
 */
 return array(
     'simple' => array(
-        'layout_dir'       => APPPATH . 'views/layout/',
-        'template_dir'     => APPPATH . 'views/template/',
-        'template_suffix'  => '.html',
-        'compile_dir'      => RUNTIME . '_views/',
-        'cache_dir'        => RUNTIME . '_views/',
-        'compile_lifetime' => 0, //3600 * 24 * 30,
-        'left_delimiter'   => "{{",
-        'right_delimiter'  => "}}",
-        'compress_html'    => true,
+        'layout_dir'        => APPPATH . 'views/layout/',
+        'template_dir'      => APPPATH . 'views/template/',
+        'template_suffix'   => '.html',
+        'compile_dir'       => RUNTIME . '_views/',
+        'cache_dir'         => RUNTIME . '_views/',
+        'compile_lifetime'  => 3600 * 24 * 30, // 数字单位秒，产品模式下启用，0为永不过期，-1永远过期；
+        'left_delimiter'    => "{{",
+        'right_delimiter'   => "}}",
+        'compress_html'     => true,
     ),
 );

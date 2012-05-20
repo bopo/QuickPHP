@@ -18,7 +18,8 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-return array(
+return array
+(
     'uncountable' => array(
         'access',
         'advice',
@@ -58,20 +59,20 @@ return array(
         'work'
     ),
     'irregular' => array(
-        'child' => 'children',
-        'clothes' => 'clothing',
-        'man' => 'men',
-        'movie' => 'movies',
-        'person' => 'people',
-        'woman' => 'women',
-        'mouse' => 'mice',
-        'goose' => 'geese',
-        'ox' => 'oxen',
-        'leaf' => 'leaves',
-        'course' => 'courses',
-        'size' => 'sizes',
-        'was' => 'were',
-        'is' => 'are',
-        'verse' => 'verses'
+        'child'     => 'children',
+        'clothes'   => 'clothing',
+        'man'       => 'men',
+        'movie'     => 'movies',
+        'person'    => 'people',
+        'woman'     => 'women',
+        'mouse'     => 'mice',
+        'goose'     => 'geese',
+        'ox'        => 'oxen',
+        'leaf'      => 'leaves',
+        'course'    => 'courses',
+        'size'      => 'sizes',
+        'was'       => 'were',
+        'is'        => 'are',
+        'verse'     => 'verses'
     )
 );

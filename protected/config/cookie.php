@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 /*
  +----------------------------------------------------------------------+
  | QuickPHP Framework Version 0.10                                      |
@@ -19,9 +19,9 @@
  +----------------------------------------------------------------------+
 */
 return array(
-    'domain'   => '',
-    'path'     => '/',
-    'expire'   => 0,
-    'secure'   => FALSE,
-    'httponly' => FALSE
+	'domain'   => '',
+	'path'     => '/',
+	'expire'   => 0,
+	'secure'   => FALSE,
+	'httponly' => FALSE
 );

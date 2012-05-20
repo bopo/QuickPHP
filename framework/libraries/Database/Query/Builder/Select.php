@@ -52,13 +52,13 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     // OFFSET ...
     protected $_offset   = null;
 
-    // The last JOIN statement created
+    // 最后创建 JOIN 段容器
     protected $_last_join;
 
     /**
-     * Sets the initial columns to select from.
+     * 设置并初始化 SELECT 选择的表字段(列).
      *
-     * @param   array  column list
+     * @param   array  字段列表
      * @return  void
      */
     public function __construct(array $columns = null)
@@ -72,9 +72,9 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Enables or disables selecting only unique columns using "SELECT DISTINCT"
+     * 开启或关闭 "SELECT DISTINCT"
      *
-     * @param   boolean  enable or disable distinct columns
+     * @param   boolean  要开启或关闭 DISTINCT 字段(列)
      * @return  $this
      */
     public function distinct($value = null)
@@ -84,9 +84,9 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Choose the columns to select from.
+     * SELECT 查询的选择字段.
      *
-     * @param   mixed  column name or array($column, $alias) or object
+     * @param   mixed  字段(列)名或者 array($column, $alias) 或者是对象模型
      * @param   ...
      * @return  $this
      */
@@ -99,7 +99,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Choose the columns to select from, using an array.
+     * SELECT 查询的选择字段, 使用数组形式.
      *
      * @param   array  list of column names or aliases
      * @return  $this
@@ -111,9 +111,9 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Choose the tables to select "FROM ..."
+     * SELECT 操作的主表 "FROM ...".
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @param   ...
      * @return  $this
      */
@@ -125,10 +125,10 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Adds addition tables to "JOIN ...".
+     * 添加附属表到 "JOIN ..." 中.
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  join type (LEFT, RIGHT, INNER, etc)
+     * @param   mixed   字段(列)名或者 array($column, $alias) 或者是对象模型
+     * @param   string  JOIN 类型 (LEFT, RIGHT, INNER 等)
      * @return  $this
      */
     public function join($table, $type = null)
@@ -138,11 +138,11 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Adds "ON ..." conditions for the last created JOIN statement.
+     * 添加 "ON ..." 条件语句到最后声明的 JOIN 部分.
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column name or array($column, $alias) or object
+     * @param   mixed   主表字段(列)名或者 array($column, $alias) 或者是对象模型
+     * @param   string  逻辑运算
+     * @param   mixed   附表字段(列)名或者 array($column, $alias) 或者是对象模型
      * @return  $this
      */
     public function on($c1, $op, $c2)
@@ -152,9 +152,9 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Creates a "GROUP BY ..." filter.
+     * 创建 "GROUP BY ..." 过滤.
      *
-     * @param   mixed   column name or array($column, $alias) or object
+     * @param   mixed   字段(列)名或者 array($column, $alias) 或者是对象模型
      * @param   ...
      * @return  $this
      */
@@ -166,11 +166,11 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Alias of and_having()
+     * and_having() 的别名
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column value
+     * @param   mixed   字段(列)名或者 array($column, $alias) 或者是对象模型
+     * @param   string  逻辑运算
+     * @param   mixed   字段(列)值
      * @return  $this
      */
     public function having($column, $op, $value = null)
@@ -179,11 +179,11 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Creates a new "AND HAVING" condition for the query.
+     * 创建 "AND HAVING" 查询条件.
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column value
+     * @param   mixed   字段(列)名或者 array($column, $alias) 或者是对象模型
+     * @param   string  逻辑运算
+     * @param   mixed   字段(列)值
      * @return  $this
      */
     public function and_having($column, $op, $value = null)
@@ -193,11 +193,11 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Creates a new "OR HAVING" condition for the query.
+     * 创建 "OR HAVING" 查询条件. 
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column value
+     * @param   mixed   字段(列)名或者 array($column, $alias) 或者是对象模型
+     * @param   string  逻辑运算
+     * @param   mixed   字段(列)值
      * @return  $this
      */
     public function or_having($column, $op, $value = null)
@@ -207,7 +207,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Alias of and_having_open()
+     * 打开开始 "AND HAVING (...)" 查询条件组. and_having_open() 的简写别名
      *
      * @return  $this
      */
@@ -217,7 +217,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Opens a new "AND HAVING (...)" grouping.
+     * 打开 "AND HAVING (...)" 查询条件组.
      *
      * @return  $this
      */
@@ -228,7 +228,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Opens a new "OR HAVING (...)" grouping.
+     * 打开 "OR HAVING (...)" 查询条件组.
      *
      * @return  $this
      */
@@ -239,7 +239,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Closes an open "AND HAVING (...)" grouping.
+     * 关闭已经打开 "AND HAVING (...)" 查询条件组. and_having_close() 的简写别名
      *
      * @return  $this
      */
@@ -249,7 +249,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Closes an open "AND HAVING (...)" grouping.
+     * 关闭已经打开 "AND HAVING (...)" 查询条件组.
      *
      * @return  $this
      */
@@ -260,7 +260,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Closes an open "OR HAVING (...)" grouping.
+     * 关闭已经打开 "OR HAVING (...)" 查询条件组.
      *
      * @return  $this
      */
@@ -271,7 +271,7 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Start returning results after "OFFSET ..."
+     * 查询语句返回指定的结果开始行数 "OFFSET ..."
      *
      * @param   integer   starting result number
      * @return  $this
@@ -283,84 +283,69 @@ class QuickPHP_Database_Query_Builder_Select extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Compile the SQL query and return it.
+     * 编译 SQL 查询语句.
      *
-     * @param   object  Database instance
+     * @param   object  数据库实例
      * @return  string
      */
     public function compile($db)
     {
-        // Callback to quote identifiers
         $quote_ident = array($db, 'quote_identifier');
-
-        // Callback to quote tables
         $quote_table = array($db, 'quote_table');
 
-        // Start a selection query
         $query = 'SELECT ';
 
         if($this->_distinct === true)
         {
-            // Select only unique results
             $query .= 'DISTINCT ';
         }
 
         if(empty($this->_select))
         {
-            // Select all columns
             $query .= '*';
         }
         else
         {
-            // Select all columns
             $query .= implode(', ', array_unique(array_map($quote_ident, $this->_select)));
         }
 
         if( ! empty($this->_from))
         {
-            // Set tables to select from
             $query .= ' FROM ' . implode(', ', array_unique(array_map($quote_table, $this->_from)));
         }
 
         if( ! empty($this->_join))
         {
-            // Add tables to join
             $query .= ' ' . $this->_compile_join($db, $this->_join);
         }
 
         if( ! empty($this->_where))
         {
-            // Add selection conditions
             $query .= ' WHERE ' . $this->_compile_conditions($db, $this->_where);
         }
 
         if( ! empty($this->_group_by))
         {
-            // Add sorting
             $query .= ' GROUP BY ' . implode(', ', array_map($quote_ident, $this->_group_by));
         }
 
         if( ! empty($this->_having))
         {
-            // Add filtering conditions
             $query .= ' HAVING ' . $this->_compile_conditions($db, $this->_having);
         }
 
         if( ! empty($this->_order_by))
         {
-            // Add sorting
             $query .= ' ' . $this->_compile_order_by($db, $this->_order_by);
         }
 
         if($this->_limit !== null)
         {
-            // Add limiting
             $query .= ' LIMIT ' . $this->_limit;
         }
 
         if($this->_offset !== null)
         {
-            // Add offsets
             $query .= ' OFFSET ' . $this->_offset;
         }
 

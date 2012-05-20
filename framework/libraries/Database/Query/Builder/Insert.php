@@ -24,9 +24,10 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Insert.php 8320 2011-10-05 14:59:55Z bopo $ */
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Insert.php 8320 2011-10-05 14:59:55Z bopo $ 
+ */
 class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Builder
 {
 
@@ -40,15 +41,14 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
     protected $_values  = array();
 
     /**
-     * Set the table and columns for an insert.
+     * 设置表和要插入字段(列)
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @param   array  column names
      * @return  void
      */
     public function __construct($table, array $columns = null)
     {
-        // Set the inital table name
         $this->_table = $table;
 
         if( ! empty($columns))
@@ -56,14 +56,13 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
             $this->_columns = $columns;
         }
 
-        // Start the query with no SQL
         return parent::__construct(Database::INSERT, '');
     }
 
     /**
-     * Sets the table to insert into.
+     * 设置要进行插入操作的表.
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @return  $this
      */
     public function table($table)
@@ -74,9 +73,9 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Set the columns that will be inserted.
+     * 设置要插入操作的字段名列表.
      *
-     * @param   array  column names
+     * @param   array  字段名列表 array(column1,column2 ...)
      * @return  $this
      */
     public function columns(array $columns)
@@ -87,9 +86,9 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Adds or overwrites values. Multiple value sets can be added.
+     * 添加与字段相匹配的值. 
      *
-     * @param   array   values list
+     * @param   array   字段值列表 array(value1, value2 ...)
      * @param   ...
      * @return  $this
      */
@@ -97,10 +96,9 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
     {
         if( ! is_array($this->_values))
         {
-            throw new QuickPHP_Database_Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+            throw new Database_Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
-        // Get all of the passed values
         $values        = func_get_args();
         $this->_values = array_merge($this->_values, $values);
 
@@ -108,16 +106,16 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Use a sub-query to for the inserted values.
+     * 使用子查询进行插入值
      *
-     * @param   object  Database_Query of SELECT type
+     * @param   object  Database_Query of SELECT 类型
      * @return  $this
      */
     public function select(Database_Query $query)
     {
         if($query->type() !== Database::SELECT)
         {
-            throw new QuickPHP_Database_Exception('Only SELECT queries can be combined with INSERT queries');
+            throw new Database_Exception('Only SELECT queries can be combined with INSERT queries');
         }
 
         $this->_values = $query;
@@ -126,17 +124,14 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Compile the SQL query and return it.
+     * 编译 SQL 查询语句.
      *
-     * @param   object  Database instance
+     * @param   object  数据库实例
      * @return  string
      */
     public function compile($db)
     {
-        // Start an insertion query
-        $query = 'INSERT INTO ' . $db->quote_table($this->_table);
-
-        // Add the column names
+        $query　= 'INSERT INTO ' . $db->quote_table($this->_table);
         $query .= ' (' . implode(', ', array_map(array($db, 'quote_identifier'), $this->_columns)) . ') ';
 
         if(is_array($this->_values))
@@ -150,7 +145,6 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
                 {
                     if(is_string($value) and isset($this->_parameters[$value]))
                     {
-                        // Use the parameter value
                         $group[$i] = $this->_parameters[$value];
                     }
                 }
@@ -158,12 +152,10 @@ class QuickPHP_Database_Query_Builder_Insert extends QuickPHP_Database_Query_Bui
                 $groups[] = '(' . implode(', ', array_map($quote, $group)) . ')';
             }
 
-            // Add the values
             $query .= 'VALUES ' . implode(', ', $groups);
         }
         else
         {
-            // Add the sub-query
             $query .= (string) $this->_values;
         }
 

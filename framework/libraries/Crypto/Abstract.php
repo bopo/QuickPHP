@@ -32,7 +32,7 @@ abstract class QuickPHP_Crypto_Abstract
      * 加密方法
      *
      * @param   mixed   data
-     * @return  mixed
+     * @return  bool
      */
     abstract public function encode($data = null);
 
@@ -40,7 +40,7 @@ abstract class QuickPHP_Crypto_Abstract
      * 解密方法
      *
      * @param   mixed   data
-     * @return  mixed
+     * @return  bool
      */
     abstract public function decode($data = null);
 }

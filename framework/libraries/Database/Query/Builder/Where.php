@@ -41,11 +41,11 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     protected $_order_by = array();
 
     /**
-     * Alias of and_where()
+     * and_where() 的简写别名
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column value
+     * @param   mixed   字段(列)名或 array($column, $alias)数组或对象
+     * @param   string  逻辑运算
+     * @param   mixed   字段(列)值
      * @return  $this
      */
     public function where($column, $op, $value)
@@ -54,11 +54,11 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Creates a new "AND WHERE" condition for the query.
+     * 创建 "AND WHERE" 查询条件. 
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column value
+     * @param   mixed   字段(列)名或 array($column, $alias)数组或对象
+     * @param   string  逻辑运算
+     * @param   mixed   字段(列)值
      * @return  $this
      */
     public function and_where($column, $op, $value)
@@ -68,11 +68,11 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Creates a new "OR WHERE" condition for the query.
+     * 创建 "OR WHERE" 查询条件. 
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column value
+     * @param   mixed   字段(列)名或 array($column, $alias)数组或对象
+     * @param   string  逻辑运算
+     * @param   mixed   字段(列)值
      * @return  $this
      */
     public function or_where($column, $op, $value)
@@ -82,7 +82,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Alias of and_where_open()
+     * and_where_open() 的别名
      *
      * @return  $this
      */
@@ -92,7 +92,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Opens a new "AND WHERE (...)" grouping.
+     * 打开 "AND WHERE (...)" 查询条件组. 
      *
      * @return  $this
      */
@@ -103,7 +103,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Opens a new "OR WHERE (...)" grouping.
+     * 打开 "OR WHERE (...)" 查询条件组. 
      *
      * @return  $this
      */
@@ -114,7 +114,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Closes an open "AND WHERE (...)" grouping.
+     * 关闭已经打开 "AND WHERE (...)" 查询条件组. 
      *
      * @return  $this
      */
@@ -124,7 +124,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Closes an open "AND WHERE (...)" grouping.
+     * 关闭已经打开 "AND WHERE (...)" 查询条件组.
      *
      * @return  $this
      */
@@ -135,7 +135,7 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Closes an open "OR WHERE (...)" grouping.
+     * 关闭已经打开 "OR WHERE (...)" 查询条件组.
      *
      * @return  $this
      */
@@ -146,10 +146,10 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Applies sorting with "ORDER BY ..."
+     * 向 SQL 追加 "ORDER BY ..."
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  direction of sorting
+     * @param   mixed   字段(列)名或 array($column, $alias)数组或对象
+     * @param   string  排序方式(ASC, DESC)
      * @return  $this
      */
     public function order_by($column, $direction = null)
@@ -159,9 +159,9 @@ abstract class QuickPHP_Database_Query_Builder_Where extends QuickPHP_Database_Q
     }
 
     /**
-     * Return up to "LIMIT ..." results
+     * 查询语句返回指定的结果行数 "LIMIT ..."
      *
-     * @param   integer  maximum results to return
+     * @param   integer 要设置的 LIMIT 值
      * @return  $this
      */
     public function limit($number)

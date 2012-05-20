@@ -19,13 +19,13 @@
  +----------------------------------------------------------------------+
 */
 /**
- * 验证码Word样式驱动.
+ * 验证码英文单词样式驱动.
  *
- * @author BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2007 Quick
- * @license http://www.quickphp.net/license/
- * @package Captcha
- * @version $Id: Word.php 8775 2012-01-16 07:21:44Z bopo $
+ * @author      BoPo <ibopo@126.com>
+ * @copyright   Copyright &copy; 2007 Quick
+ * @license     http://www.quickphp.net/license/
+ * @package     Captcha
+ * @version     $Id: Word.php 8775 2012-01-16 07:21:44Z bopo $
  */
 class QuickPHP_Captcha_Driver_Word extends Captcha_Driver_Basic
 {

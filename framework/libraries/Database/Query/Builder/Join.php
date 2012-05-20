@@ -24,13 +24,14 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Join.php 8320 2011-10-05 14:59:55Z bopo $ */
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Join.php 8320 2011-10-05 14:59:55Z bopo $ 
+ */
 class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Builder
 {
 
-    // Type of JOIN
+    // JOIN查询类型: INNER, RIGHT, LEFT 等
     protected $_type;
 
     // JOIN ...
@@ -40,16 +41,14 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
     protected $_on = array();
 
     /**
-     * Creates a new JOIN statement for a table. Optionally, the type of JOIN
-     * can be specified as the second parameter.
+     * 创建一个SQL的JOIN语句. 第二参数可选项, 可以JOIN的查询指定类型.
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  type of JOIN: INNER, RIGHT, LEFT, etc
+     * @param   mixed   表名或者 array($table, $alias) 或者是对象模型
+     * @param   string  JOIN查询类型: INNER, RIGHT, LEFT 等
      * @return  void
      */
     public function __construct($table, $type = null)
     {
-        // Set the table to JOIN on
         $this->_table = $table;
 
         if($type !== null)
@@ -59,11 +58,11 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
     }
 
     /**
-     * Adds a new condition for joining.
+     * 增加 JOIN 条件语句(ON ...)
      *
-     * @param   mixed   column name or array($column, $alias) or object
-     * @param   string  logic operator
-     * @param   mixed   column name or array($column, $alias) or object
+     * @param   mixed   第一个表字段名, array($column, $alias) 数组或是对象
+     * @param   string  逻辑运算
+     * @param   mixed   第二个表字段名, array($column, $alias) 数组或是对象
      * @return  $this
      */
     public function on($c1, $op, $c2)
@@ -73,9 +72,9 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
     }
 
     /**
-     * Compile the SQL partial for a JOIN statement and return it.
+     * 编译 SQL JOIN 段查询语句.
      *
-     * @param   object  Database instance
+     * @param   object  数据库实例
      * @return  string
      */
     public function compile($db)
@@ -89,13 +88,11 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
             $sql = 'JOIN';
         }
 
-        // Quote the table name that is being joined
         $sql .= ' ' . $db->quote_table($this->_table) . ' ON ';
         $conditions = array();
 
         foreach ($this->_on as $condition)
         {
-            // Split the condition
             list ($c1, $op, $c2) = $condition;
 
             if($op)
@@ -103,11 +100,9 @@ class QuickPHP_Database_Query_Builder_Join extends QuickPHP_Database_Query_Build
                 $op = ' ' . strtoupper($op);
             }
 
-            // Quote each of the identifiers used for the condition
             $conditions[] = $db->quote_identifier($c1) . $op . ' ' . $db->quote_identifier($c2);
         }
 
-        // Concat the conditions "... and ..."
         $sql .= '(' . implode(' and ', $conditions) . ')';
 
         return $sql;

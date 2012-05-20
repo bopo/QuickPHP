@@ -19,9 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Manipulate images using standard methods such as resize, crop, rotate, etc.
- * This class must be re-initialized for every image you wish to manipulate.
- * 缺少个水印方法(watermark)
+ * 图像处理类
  *
  * @category    QuickPHP
  * @package     Image
@@ -69,7 +67,7 @@ class QuickPHP_Image
      * @param   array    非默认配置参数
      * @return  object
      */
-    public static function factory($image, $config = NULL)
+    public static function factory($image, $config = null)
     {
         return new Image($image, $config);
     }
@@ -81,13 +79,13 @@ class QuickPHP_Image
      * @param   array    non-default configurations
      * @return  void
      */
-    public function __construct($image, $config = NULL)
+    public function __construct($image, $config = null)
     {
         static $check;
 
-        ($check === NULL) and $check = function_exists('getimagesize');
+        ($check === null) and $check = function_exists('getimagesize');
 
-        if ($check === FALSE)
+        if ($check === false)
         {
             throw new Image_Exception('getimagesize_missing');
         }
@@ -150,9 +148,9 @@ class QuickPHP_Image
     }
 
     /**
-     * Handles retrieval of pre-save image properties
+     * 检索的图形属性
      *
-     * @param   string  property name
+     * @param   string  property 属性名
      * @return  mixed
      */
     public function __get($property)
@@ -173,7 +171,7 @@ class QuickPHP_Image
      * @param   integer  缩放自适应比例控制: Image::NONE, Image::AUTO, Image::WIDTH, Image::HEIGHT, Image::SPHERE
      * @return  object
      */
-    public function resize($width, $height, $master = NULL)
+    public function resize($width, $height, $master = null)
     {
         if ( ! $this->valid_size('width', $width))
         {
@@ -190,7 +188,7 @@ class QuickPHP_Image
             throw new Image_Exception('invalid_dimensions', array(__FUNCTION__));
         }
 
-        if ($master === NULL)
+        if ($master === null)
         {
             $master = Image::AUTO;
         }
@@ -258,7 +256,7 @@ class QuickPHP_Image
     /**
      * 旋转图片180度以内，允许图象旋转180度顺时针或台面顺时针
      *
-     * @param   integer  degrees
+     * @param   integer  degrees 角度
      * @return  object
      */
     public function rotate($degrees)
@@ -291,7 +289,7 @@ class QuickPHP_Image
      * 水平或垂直翻转图像。
      *
      * @throws  Image_Exception
-     * @param   integer  偏转方向
+     * @param   integer  翻转方向
      * @return  object
      */
     public function flip($direction)
@@ -306,9 +304,9 @@ class QuickPHP_Image
     }
 
     /**
-     * 修改图片显示品质，修改图形质量(1-100)。
+     * 修改图片显示品质，修改图形质量百分比(1-100%)。
      *
-     * @param   integer  quality as a percentage
+     * @param   integer  质量百分比
      * @return  object
      */
     public function quality($amount)
@@ -320,7 +318,7 @@ class QuickPHP_Image
     /**
      * 图形锐化操作
      *
-     * @param   integer  锐化值，通常20作用就很理想
+     * @param   integer  锐化值，通常20就很理想
      * @return  object
      */
     public function sharpen($amount)
@@ -330,31 +328,15 @@ class QuickPHP_Image
     }
 
     /**
-     * 图形水印操作
-     *
-     * @param   integer  锐化值，通常20作用就很理想
-     * @return  object
-     */
-    public function watermark($model, $options)
-    {
-        $this->actions['watermark'] = array(
-            'model'  => $model,
-            'params' => $options,
-        );
-
-        return $this;
-    }
-
-    /**
      * 将当前操作图形流保存到一个新文件
      *
      * @throws  Image_Exception
-     * @param   string   new image filename
-     * @param   integer  permissions for new image
-     * @param   boolean  keep or discard image process actions
+     * @param   string   新图形文件名
+     * @param   integer  新图形文件权限
+     * @param   boolean  是否保留旧文件
      * @return  object
      */
-    public function save($new_image = FALSE, $chmod = 0644, $keep_actions = FALSE)
+    public function save($new_image = false, $chmod = 0644, $keep_actions = false)
     {
         empty($new_image) and $new_image = $this->image['file'];
 
@@ -369,13 +351,13 @@ class QuickPHP_Image
 
         if ($status = $this->driver->process($this->image, $this->actions, $dir, $file))
         {
-            if ($chmod !== FALSE)
+            if ($chmod !== false)
             {
                 chmod($new_image, $chmod);
             }
         }
 
-        if ($keep_actions === FALSE)
+        if ($keep_actions === false)
         {
             $this->actions = array();
         }
@@ -386,19 +368,19 @@ class QuickPHP_Image
     /**
      * 输出当前图像流到浏览器显示
      *
-     * @param   boolean  keep or discard image process actions
+     * @param   boolean  是否显示html代码
      * @return  object
      */
-    public function render($keep_actions = FALSE)
+    public function render($keep_actions = false)
     {
         $new_image = $this->image['file'];
 
         $dir    = pathinfo($new_image, PATHINFO_DIRNAME);
         $dir    = str_replace('\\', '/', realpath($dir)) . '/';
         $file   = pathinfo($new_image, PATHINFO_BASENAME);
-        $status = $this->driver->process($this->image, $this->actions, $dir, $file, TRUE);
+        $status = $this->driver->process($this->image, $this->actions, $dir, $file, true);
 
-        if ($keep_actions === FALSE)
+        if ($keep_actions === false)
         {
             $this->actions = array();
         }
@@ -409,20 +391,20 @@ class QuickPHP_Image
     /**
      * 过滤指定属性值类型。
      *
-     * @param   string   type of property
-     * @param   mixed    property value
+     * @param   string   属性类型
+     * @param   mixed    属性值
      * @return  boolean
      */
     protected function valid_size($type, & $value)
     {
         if (is_null($value))
         {
-            return TRUE;
+            return true;
         }
 
         if ( ! is_scalar($value))
         {
-            return FALSE;
+            return false;
         }
 
         switch ($type)
@@ -433,7 +415,7 @@ class QuickPHP_Image
                 {
                     if ( ! preg_match('/^[0-9]++%$/D', $value))
                     {
-                        return FALSE;
+                        return false;
                     }
                 }
                 else
@@ -447,7 +429,7 @@ class QuickPHP_Image
                 {
                     if ( ! in_array($value, array('top', 'bottom', 'center')))
                     {
-                        return FALSE;
+                        return false;
                     }
                 }
                 else
@@ -461,7 +443,7 @@ class QuickPHP_Image
                 {
                     if ( ! in_array($value, array('left', 'right', 'center')))
                     {
-                        return FALSE;
+                        return false;
                     }
                 }
                 else
@@ -473,11 +455,11 @@ class QuickPHP_Image
             case 'master':
                 if ($value !== Image::NONE AND $value !== Image::AUTO AND $value !== Image::WIDTH AND $value !== Image::HEIGHT AND $value !== Image::SPHERE)
                 {
-                    return FALSE;
+                    return false;
                 }
             break;
         }
 
-        return TRUE;
+        return true;
     }
 }

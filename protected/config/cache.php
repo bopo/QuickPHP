@@ -14,8 +14,7 @@
  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or      |
  | implied. See the License for the specific language governing         |
  | permissions and limitations under the License.                       |
- +----------------------------------------------------------------------+
- | Author: BoPo <ibopo@126.com>                                         |
+ +----------------------------------------------------------------------+ | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
 /**
@@ -52,21 +51,21 @@ return array(
     ),
     'xcache' => array(
         'PHP_AUTH_USER' => 'xcache',
-        'PHP_AUTH_PW' => 'passwd'
+        'PHP_AUTH_PW'   => 'passwd'
     ),
     'memcache' => array(
         'servers' => array(
             array(
-                'host' => '127.0.0.1',
-                'port' => '11211',
+                'host'       => '127.0.0.1',
+                'port'       => '11211',
                 'persistent' => FALSE
             )
         ),
         'compression' => FALSE
     ),
     'sqlite' => array(
-        'directory' => RUNTIME . '_cache',
+        'directory'   => RUNTIME . '_cache',
         'compression' => FALSE,
-        'schema' => 'CREATE TABLE caches ( id VARCHAR(127) PRIMARY KEY, expiration INTEGER, cache TEXT);'
+        'schema'      => 'CREATE TABLE caches ( id VARCHAR(127) PRIMARY KEY, expiration INTEGER, cache TEXT);'
     )
 );

@@ -37,7 +37,7 @@
  */
 return array(
     'default' => array(
-        'style'      => 'alpha',
+        'style'      => 'basic',
         'width'      => 88,
         'height'     => 31,
         'complexity' => 4,

@@ -29,7 +29,6 @@
  */
 class QuickPHP_Database_Driver_Mysqli extends Database_Driver_Mysql
 {
-
     public function connect()
     {
         if($this->_connection)
@@ -72,12 +71,6 @@ class QuickPHP_Database_Driver_Mysqli extends Database_Driver_Mysql
         }
     }
 
-    /**
-     * Select the database
-     *
-     * @param   string  Database
-     * @return  void
-     */
     protected function _select_db($database)
     {
         if( ! mysqli_select_db($this->_connection, $database))

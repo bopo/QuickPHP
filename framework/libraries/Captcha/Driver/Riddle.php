@@ -39,7 +39,7 @@ class QuickPHP_Captcha_Driver_Riddle extends Captcha_Abstract
      */
     public function generate_challenge()
     {
-        // 选择不同的谜语
+        // 问题/答案列表
         $riddles = array(
             array('请问你是否讨厌垃圾留言（SPAM）吗？（是或否）', '是'),
             array('你是机器人吗？（是或否）', '否'),
@@ -55,7 +55,7 @@ class QuickPHP_Captcha_Driver_Riddle extends Captcha_Abstract
     }
 
     /**
-     * 输出验证码谜语.
+     * 输出验证码问题.
      *
      * @param   boolean  是否HTML输出
      * @return  mixed

@@ -33,7 +33,7 @@ class Auth_User_Model extends Custom_Model
     // 数据关系
     protected $_has_many = array(
         'tokens' => array('model' => 'user_token'),
-        'roles'  => array('model' => 'role', 'through' => 'roles_has_users'),
+        'roles'  => array('model' => 'role', 'through' => 'users_has_roles'),
     );
 
     // 验证规则

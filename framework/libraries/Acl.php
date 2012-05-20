@@ -19,12 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Provides Access Control List feature to the application.
  * Acl(访问控制列表)。
- *
- * <p>DooAcl performs authorization checks for the specified resource and action. It checks against the rules defined in acl.conf.php.</p>
- * <p>Only when the user is allowed by one of the rules, will he be able to access the action.
- * If the user role cannot be found in both deny and allow list, he will not be able to access the action/resource</p>
  *
  * <p>Rules has to be defined in this way:</p>
  * <code>
@@ -41,8 +36,8 @@
  *
  * # Deny member from banUser, showVipHome, etc.
  * $acl['member']['deny'] = array(
- * 'SnsController'=>array('banUser', 'showVipHome'),
- * 'BlogController' =>array('deleteComment', 'writePost')
+ *      'SnsController'  => array('banUser', 'showVipHome'),
+ *      'BlogController' => array('deleteComment', 'writePost')
  * );
  *
  * # Admin can access all except Sns showVipHome
@@ -67,10 +62,10 @@
  * <p>You have to assign the rules to DooAcl in bootstrap.</p>
  * <code>
  * # set rules
- * QuickPHP::acl()->rules = $acl;
+ * QuickPHP::acl($acl);
  *
  * # The default route to be reroute to when resource is denied. If not set, 404 error will be displayed.
- * QuickPHP::acl()->defaultFailedRoute = '/error';
+ * QuickPHP::acl()->set_failed_route('/error');
  * </code>
  *
  * @category    QuickPHP
@@ -89,16 +84,16 @@ class QuickPHP_Acl
     protected static $_instance;
 
     /**
-     * 设置Acl规则。 定义在acl.php
+     * Acl 规则容器, 默认存储在 config/rules.php
      * @var array
      */
-    public $rules;
+    protected $rules;
 
     /**
      * 默认的控制规则,如果没有自定义失败控制规则是定义的某些规则。
      * @var string|array
      */
-    public $defaultFailedRoute = array('/error-default/failed-route/please-set-in-route', 404);
+    protected $defaultFailedRoute = array('/error-default/failed-route/please-set-in-route', 404);
 
     /**
      * 返回一个单身Acl的实例。
@@ -126,6 +121,11 @@ class QuickPHP_Acl
         $this->rules += array($rule, $params);
     }
 
+    final public function set_failed_route($rule = null)
+    {
+        $this->defaultFailedRoute = $rule;
+    }
+
     final public function rules($rules = null)
     {
         $this->rules += $rules;
@@ -135,16 +135,16 @@ class QuickPHP_Acl
      * 检查用户角色是否可以访问资源、行为列表以及两者均可访问。
      *
      * <code>
-     * //Check if member is allowed for BlogController->post
+     * // 检查member角色是否允许访问 Blog_Controller->post
      * QuickPHP::acl()->isAllowed('member', 'BlogController', 'post' );
      *
-     * //Check if member is allowed for BlogController
+     * // 检查member角色是否允许访问 Blog_Controller
      * QuickPHP::acl()->isAllowed('member', 'blog');
      * </code>
      *
-     * @param string $role Role of a user, usually retrieve from user's login session
-     * @param string $resource Resource name (use Controller class name)
-     * @param string $action Action name (use Method name)
+     * @param string $role      用户角色名称
+     * @param string $resource  要访问资源(控制器)名
+     * @param string $action    要访问的方法名
      * @return bool
      */
     final public function isAllowed($role, $resource, $action = '')
@@ -176,19 +176,19 @@ class QuickPHP_Acl
     }
 
     /**
-     * 检查用户角色是否已经被屏蔽访问资源、行为列表以及两者均可访问。
+     * 检查member角色是否已经被屏蔽访问资源、行为列表以及两者均可访问。
      *
      * <code>
-     * //Check if member is denied from BlogController->post
-     * QuickPHP::acl()->isDenied('member', 'BlogController', 'post' );
+     * // 检查member角色是否允许屏蔽访问 Blog_Controller->post
+     * QuickPHP::acl()->isDenied('member', 'Blog', 'post' );
      *
-     * //Check if member is denied from BlogController
+     * // 检查member角色是否允许屏蔽访问 Blog_Controller
      * QuickPHP::acl()->isDenied('member', 'blog');
      * </code>
      *
-     * @param string $role Role of a user, usually retrieve from user's login session
-     * @param string $resource Resource name (use Controller class name)
-     * @param string $action Action name (use Method name)
+     * @param string $role      用户角色名称
+     * @param string $resource  要访问资源(控制器)名
+     * @param string $action    要访问的方法名
      * @return bool
      */
     final public function isDenied($role, $resource, $action = '')
@@ -222,10 +222,10 @@ class QuickPHP_Acl
     /**
      * 检查用户的角色,是能访问资源/行动。
      *
-     * @param string $role Role of a user, usually retrieve from user's login session
-     * @param string $resource Resource name (use Controller class name)
-     * @param string $action Action name (use Method name)
-     * @return array|string Returns the fail route if user cannot access the resource.
+     * @param string $role      用户角色名称
+     * @param string $resource  要访问资源(控制器)名
+     * @param string $action    要访问的方法名
+     * @return array|string     如果用户不能访问指定资源，则返回错误路由转向
      */
     final public function process($role, $resource, $action = '')
     {

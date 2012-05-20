@@ -75,9 +75,6 @@ abstract class QuickPHP_Config_Abstract extends ArrayObject
 
         // 设置当前配置组名
         $object->_configuration_group = $group;
-
-        // Swap the array with the actual configuration
-        // 交换数组和实际的配置
         $object->exchangeArray($config);
 
         return $object;
@@ -114,8 +111,8 @@ abstract class QuickPHP_Config_Abstract extends ArrayObject
      *
      * QuickPHP::config()->set($key, $new_value);
      *
-     * @param   string   array key
-     * @param   mixed    array value
+     * @param   string   数组的键
+     * @param   mixed    数组的值
      * @return  $this
      */
     public function set($key, $value)

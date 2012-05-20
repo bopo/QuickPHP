@@ -245,6 +245,7 @@ return array(
     'xwd'      => array('image/x-xwindowdump'),
     'z'        => array('application/x-compress'),
     'zip'      => array('application/x-zip', 'application/zip', 'application/x-zip-compressed'),
+    
     'textinfo' => array('application/x-texinfo'),
     'torrent'  => array('application/x-bittorrent'),
 );

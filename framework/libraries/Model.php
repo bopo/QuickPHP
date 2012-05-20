@@ -39,7 +39,7 @@ abstract class QuickPHP_Model
      * 实例: $model = Model::factory($name);
      *
      * @param   string   model name
-     * @param   mixed    Database instance object or string
+     * @param   mixed    数据库实例化对象或者数据库配置组名
      * @return  Model
      */
     public static function factory($name, $db = null)

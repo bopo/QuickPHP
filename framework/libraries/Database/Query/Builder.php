@@ -19,22 +19,22 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Database query builder.
+ * 数据库查询绑定器.
  *
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Builder.php 8320 2011-10-05 14:59:55Z bopo $
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Builder.php 8320 2011-10-05 14:59:55Z bopo $
  */
-abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
+abstract class QuickPHP_Database_Query_Builder extends Database_Query
 {
     /**
-     * Compiles an array of JOIN statements into an SQL partial.
+     * 编译 SQL 的 JOIN 段.
      *
-     * @param   object  Database instance
-     * @param   array   join statements
+     * @param   object  数据库实例
+     * @param   array   JOIN 条件语句
      * @return  string
      */
     protected function _compile_join($db, array $joins)
@@ -50,11 +50,10 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
     }
 
     /**
-     * Compiles an array of conditions into an SQL partial. Used for WHERE
-     * and HAVING.
+     * 编译 SQL 的条件语句段. WHERE 和 HAVING 部分使用
      *
-     * @param   object  Database instance
-     * @param   array   condition statements
+     * @param   object  数据库实例
+     * @param   array   条件语句
      * @return  string
      */
     protected function _compile_conditions($db, array $conditions)
@@ -81,65 +80,63 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
                 }
                 else
                 {
-                    // Add the logic operator
+                    // 添加逻辑操作符
                     if( ! empty($sql) and $last_condition !== '(')
                     {
                         $sql .= ' ' . $logic . ' ';
                     }
 
-                    // Split the condition
+                    // 拆分条件内容
                     list ($column, $op, $value) = $condition;
 
                     if($value === null)
                     {
                         if($op === '=')
                         {
-                            // Convert "val = null" to "val IS null"
+                            // 转换 "val = null" 为 "val IS null"
                             $op = 'IS';
                         }
                         elseif($op === '!=')
                         {
-                            // Convert "val != null" to "valu IS NOT null"
+                            // 转换 "val != null" 为 "valu IS NOT null"
                             $op = 'IS NOT';
                         }
                      }
 
-                    // Database operators are always uppercase
+                    // 数据库操作关键字转换大写
                     $op = strtoupper($op);
 
                     if($op === 'BETWEEN' and is_array($value))
                     {
-                        // BETWEEN always has exactly two arguments
+                        // BETWEEN 最大,最小值
                         list ($min, $max) = $value;
 
-                        // Set the parameter as the minimum
+                        // 设置参数的最小值
                         if(is_string($min) and array_key_exists($min, $this->_parameters))
                         {
                             $min = $this->_parameters[$min];
                         }
 
-                        // Set the parameter as the maximum
+                        // 设置参数的最大值
                         if(is_string($max) and array_key_exists($max, $this->_parameters))
                         {
                             $max = $this->_parameters[$max];
                         }
 
-                        // Quote the min and max value
-                        $value = $db->quote($min) . ' and ' . $db->quote($max);
+                        $value = $db->quote($min) . ' AND ' . $db->quote($max);
                     }
                     else
                     {
-                        // Set the parameter as the value
+                        // 设置参数值
                         if(is_string($value) and array_key_exists($value, $this->_parameters))
                         {
                             $value = $this->_parameters[$value];
                         }
 
-                        // Quote the entire value normally
                         $value = $db->quote($value);
                     }
 
-                    // Append the statement to the query
+                    // 追加到 SQL 查询语句
                     $sql .= $db->quote_identifier($column) . ' ' . $op . ' ' . $value;
                 }
 
@@ -151,10 +148,10 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
     }
 
     /**
-     * Compiles an array of set values into an SQL partial. Used for UPDATE.
+     * 将一个数组编译成 SQL 的 SET 段. UPDATE 操作时使用
      *
-     * @param   object  Database instance
-     * @param   array   updated values
+     * @param   object  数据库实例
+     * @param   array   要编译的数组
      * @return  string
      */
     protected function _compile_set($db, array $values)
@@ -178,10 +175,10 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
     }
 
     /**
-     * Compiles an array of ORDER BY statements into an SQL partial.
-     *
-     * @param   object  Database instance
-     * @param   array   sorting columns
+     * 编译 SQL 的 ORDER BY 段.
+     * 
+     * @param   object  数据库实例
+     * @param   array   排序字段
      * @return  string
      */
     protected function _compile_order_by($db, array $columns)
@@ -204,7 +201,7 @@ abstract class QuickPHP_Database_Query_Builder extends QuickPHP_Database_Query
     }
 
     /**
-     * Reset the current builder status.
+     * 重置绑定器状态.
      *
      * @return  $this
      */

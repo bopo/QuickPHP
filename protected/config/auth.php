@@ -26,6 +26,6 @@ return array(
     'session_key'   => 'auth_user',
     'users'         => array(
         'admin' => sha1('123456'),
-        'ibopo' => sha1('123456')
-    )
+        'ibopo' => sha1('123456'),
+    ),
 );

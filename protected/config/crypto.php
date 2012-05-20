@@ -19,12 +19,9 @@
  +----------------------------------------------------------------------+
 */
 return array(
-    'groups' => array(
-        'passport.js' => array(
-            '//assets/scripts/jquery-1.7.1.min.js',
-            '//assets/scripts/jquery-1.7.1.min.js',
-            '//assets/scripts/jquery-1.7.1.min.js',
-            '//assets/scripts/jquery-1.7.1.min.js',
-        ),
+    'encrypt' => array(
+        'key'    => 'K0H@NA+PHP_7hE-SW!FtFraM3w0R|<',
+        'mode'   => MCRYPT_MODE_NOFB,
+        'cipher' => MCRYPT_RIJNDAEL_128,
     ),
 );

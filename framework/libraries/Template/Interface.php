@@ -33,17 +33,17 @@
 interface QuickPHP_Template_Interface
 {
     /**
-     * assign(分配)方法.
+     * assign(分配)变量方法.
      */
     public function assign($var, $value = null);
 
     /**
-     * append(追加)方法.
+     * append(追加)变量方法.
      */
     public function append($var, $value = null, $merge = false);
 
     /**
-     * render(渲染)方法.
+     * render(渲染)HTML方法.
      */
     public function render($tempate = null, $_top = array(), $return = false);
 }

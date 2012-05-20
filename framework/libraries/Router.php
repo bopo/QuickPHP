@@ -113,15 +113,6 @@ class QuickPHP_Router
     }
 
     /**
-     * 获取已经路由的全部属性值
-     *
-     */
-    public function get_all()
-    {
-        return get_object_vars($this);
-    }
-
-    /**
      * 魔术函数 __get
      */
     public function __get($key)

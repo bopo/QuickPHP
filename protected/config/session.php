@@ -36,7 +36,7 @@ return array
     'default' => array(
         'driver'         => 'native',
         'storage'        => '',
-        'name'           => 'quickphp_session',
+        'name'           => 'session_data',
         'validate'       => array('user_agent','ip_address'),
         'encryption'     => false,
         'expiration'     => 7200,
@@ -46,7 +46,7 @@ return array
     'database' => array(
         'driver'         => 'database',
         'storage'        => '',
-        'name'           => 'quickphp_session',
+        'name'           => 'session_data',
         'validate'       => array('user_agent','ip_address'),
         'encryption'     => false,
         'expiration'     => 7200,

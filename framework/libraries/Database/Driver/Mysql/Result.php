@@ -32,30 +32,12 @@ class QuickPHP_Database_Driver_MySQL_Result extends QuickPHP_Database_Result
 
     protected $_internal_row = 0;
 
-    /**
-     * Optimize table query
-     *
-     * Generates a platform-specific query so that a table can be optimized
-     *
-     * @access  private
-     * @param   string  the table name
-     * @return  object
-     */
     public function __construct($result, $sql, $as_object)
     {
         parent::__construct($result, $sql, $as_object);
         $this->_total_rows = mysql_num_rows($result);
     }
 
-    /**
-     * Optimize table query
-     *
-     * Generates a platform-specific query so that a table can be optimized
-     *
-     * @access  private
-     * @param   string  the table name
-     * @return  object
-     */
     public function __destruct()
     {
         if(is_resource($this->_result))
@@ -64,15 +46,6 @@ class QuickPHP_Database_Driver_MySQL_Result extends QuickPHP_Database_Result
         }
     }
 
-    /**
-     * Optimize table query
-     *
-     * Generates a platform-specific query so that a table can be optimized
-     *
-     * @access  private
-     * @param   string  the table name
-     * @return  object
-     */
     public function seek($offset)
     {
         if($this->offsetExists($offset) and mysql_data_seek($this->_result, $offset))
@@ -83,15 +56,6 @@ class QuickPHP_Database_Driver_MySQL_Result extends QuickPHP_Database_Result
         return false;
     }
 
-    /**
-     * Optimize table query
-     *
-     * Generates a platform-specific query so that a table can be optimized
-     *
-     * @access  private
-     * @param   string  the table name
-     * @return  object
-     */
     public function current()
     {
         if($this->_current_row !== $this->_internal_row and ! $this->seek($this->_current_row))

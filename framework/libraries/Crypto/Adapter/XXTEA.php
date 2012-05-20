@@ -20,19 +20,14 @@
 */
 /**
  * Encrypt的加/解密类,该类依赖PHP的MCrypt扩展.
- * @see http://php.net/mcrypt
  *
  * @category    QuickPHP
- * @package     Encrypt
+ * @package     XXTEA
  * @author      BoPo <ibopo@126.com>
  * @copyright   Copyright &copy; 2010 QuickPHP
  * @license     http://www.quickphp.net/license/
  * @version     $Id: Encrypt.php 8320 2011-10-05 14:59:55Z bopo $
  */
-//class QuickPHP_Crypto_Adapter_Encrypt extends QuickPHP_Crypto_Abstract
-//echo xxtea_encrypt('aaa','a').PHP_EOL;
-//echo xxtea_decrypt(xxtea_encrypt('aaa','a'),'a');
-
 class QuickPHP_Crypto_Adapter_XXTEA extends QuickPHP_Crypto_Abstract
 {
     protected $config = array('key' => 'K0H@NA+PHP_7hE-SW!FtFraM3w0R|<');

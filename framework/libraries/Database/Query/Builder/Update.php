@@ -24,9 +24,9 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Update.php 8320 2011-10-05 14:59:55Z bopo $
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Update.php 8320 2011-10-05 14:59:55Z bopo $
  */
 class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Builder_Where
 {
@@ -38,9 +38,9 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
     protected $_set = array();
 
     /**
-     * Set the table for a update.
+     * 设置要更新 (UPDATE) 操作的表.
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @return  void
      */
     public function __construct($table)
@@ -50,9 +50,9 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Sets the table to update.
+     * 设置要更新(update)操作的表.
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @return  $this
      */
     public function table($table)
@@ -62,9 +62,9 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Set the values to update with an associative array.
+     * 设置多字段要更新的值. 以(column => value) 数组形式传入.
      *
-     * @param   array   associative (column => value) list
+     * @param   array   (column => value) 的形式数组组合
      * @return  $this
      */
     public function set(array $pairs)
@@ -78,10 +78,10 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Set the value of a single column.
+     * 设置一个字段要更新的值.
      *
-     * @param   mixed  table name or array($table, $alias) or object
-     * @param   mixed  column value
+     * @param   mixed  字段名
+     * @param   mixed  字段值
      * @return  $this
      */
     public function value($column, $value)
@@ -91,9 +91,9 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Compile the SQL query and return it.
+     * 编译 SQL 查询语句.
      *
-     * @param   object  Database instance
+     * @param   object  数据库实例
      * @return  string
      */
     public function compile($db)
@@ -115,6 +115,7 @@ class QuickPHP_Database_Query_Builder_Update extends QuickPHP_Database_Query_Bui
         $this->_set        = array();
         $this->_where      = array();
         $this->_parameters = array();
+        
         return $this;
     }
 }

@@ -110,9 +110,15 @@ class QuickPHP_Database_Query
     }
 
     /**
-     * 对象形式返回结果
+     * 将结果以对象形式返回. 并可以设置返回结果返回的对象模型
      *
-     * @param   string  classname or true for stdClass
+     * // 获取一个 stdClass 对象形式结果
+     * $query->as_object(true); 或者 $query->as_object(); 
+     *
+     * // 将结果返回至 User_Model 模型,就是每行结果都是一个 User_Model 对象.可以像操作User_Model对象一样对每行数据进行操作
+     * $query->as_object('User_Model');
+     *
+     * @param   string  指定对象模型或者stdClass对象, 布尔值true则 stdClass.
      * @return  $this
      */
     public function as_object($class = true)
@@ -124,8 +130,12 @@ class QuickPHP_Database_Query
     /**
      * 向查询操作添加一条参数数据
      *
-     * @param   string   parameter key to replace
-     * @param   mixed    value to use
+     * // 例如替换 user id 
+     * $row = $db->query(Database::SELECT, 'SELECT * FROM users where id = :id LIMIT 1')->param(':id', 1);
+     * //返回结果 ”SELECT * FROM users where id = 1 LIMIT 1“
+     *
+     * @param   string   要替换的参数key
+     * @param   mixed    替换值
      * @return  $this
      */
     public function param($param, $value)
@@ -137,8 +147,8 @@ class QuickPHP_Database_Query
     /**
      * param 的别名
      *
-     * @param   string  parameter key to replace
-     * @param   mixed   variable to use
+     * @param   string   要替换的参数key
+     * @param   mixed    替换值
      * @return  $this
      */
     public function bind($param, $var)
@@ -163,7 +173,7 @@ class QuickPHP_Database_Query
      * 编译sql字符串,并返回
      *
      * @param   object  数据库实例
-     * @return  string
+     * @return  string  SQL字符串
      */
     public function compile($db)
     {

@@ -19,9 +19,7 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Database connection wrapper. All database object instances are referenced
- * by a name. Queries are typically handled by [Database_Query], rather than
- * using the database object directly.
+ * 数据库连接封装器(抽象类)
  *
  * @category   QuickPHP
  * @package    Database
@@ -33,26 +31,24 @@ abstract class QuickPHP_Database_Abstract
 {
 
     /**
-     * @var  string  the last query executed
+     * @var  string  最后请求字符串
      */
     public $last_query;
 
-    // Character that is used to quote identifiers
+    // SQL字符引用标示符
     protected $_identifier = '"';
 
-    // instance name
+    // 实例容器
     protected $_instance;
 
-    // Raw server connection
+    // 原始服务器连接
     protected $_connection;
 
-    // Configuration array
+    // 配置数组
     protected $_config;
 
     /**
-     * Stores the database configuration locally and name the instance.
-     *
-     * [!!] This method cannot be accessed directly, you must use [Database::instance].
+     * 在本地存储数据库配置并命名实例。
      *
      * @return  void
      */
@@ -63,13 +59,12 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Disconnect from the database when the object is destroyed.
+     * 当对象被销毁时,断开数据库连接。
      *
-     * // Destroy the database instance
+     * // 销毁一个数据库对象
      * unset(Database::instances[(string) $db], $db);
      *
-     * [!!] Calling `unset($db)` is not enough to destroy the database, as it
-     * will still be stored in `Database::$_instances`.
+     * [!!] 使用 `unset($db)` 并不能销毁数据库对象, 它是存储`Database::$_instances`里的
      *
      * @return  void
      */
@@ -79,7 +74,7 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Returns the database instance name.
+     * 返回数据库实例名.
      *
      * echo (string) $db;
      *
@@ -91,8 +86,7 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Connect to the database. This is called automatically when the first
-     * query is executed.
+     * 抽象方法，连接数据库. 这个方法是在请求的时候自动被调用,因此不用特别单独去调用
      *
      * $db->connect();
      *
@@ -102,7 +96,7 @@ abstract class QuickPHP_Database_Abstract
     abstract public function connect();
 
     /**
-     * Disconnect from the database. This is called automatically by [Database::__destruct].
+     * 断开数据库连接. 会被[Database::__destruct] 自动调用.
      *
      * $db->disconnect();
      *
@@ -111,7 +105,7 @@ abstract class QuickPHP_Database_Abstract
     abstract public function disconnect();
 
     /**
-     * Set the connection character set. This is called automatically by [Database::connect].
+     * 设置连接的字符集. 会被[Database::connect] 自动调用.
      *
      * $db->set_charset('utf8');
      *
@@ -122,27 +116,26 @@ abstract class QuickPHP_Database_Abstract
     abstract public function set_charset($charset);
 
     /**
-     * Perform an SQL query of the given type.
+     * 按指定类型执行一个SQL查询,并可以设置返回结果返回的对象模型
      *
-     * // Make a SELECT query and use objects for results
+     * // 获取一个SELECT查询
      * $db->query(Database::SELECT, 'SELECT * FROM groups', true);
      *
-     * // Make a SELECT query and use "Model_User" for the results
-     * $db->query(Database::SELECT, 'SELECT * FROM users LIMIT 1', 'Model_User');
+     * 让一个SELECT查询并且将结果返回至 User_Model 模型,就是每行结果都是一个 User_Model 对象.可以像操作User_Model对象一样对每行数据进行操作
+     * $db->query(Database::SELECT, 'SELECT * FROM users LIMIT 1', 'User_Model');
      *
-     * @param   integer  Database::SELECT, Database::INSERT, etc
-     * @param   string   SQL query
-     * @param   mixed    result object class, true for stdClass, false for assoc array
-     * @return  object   Database_Result for SELECT queries
-     * @return  array    list (insert id, row count) for INSERT queries
-     * @return  integer  number of affected rows for all other queries
+     * @param   integer  Database::SELECT, Database::INSERT, 等查询类型
+     * @param   string   SQL查询字符串
+     * @param   mixed    返回对象类, 布尔值真则为 stdClass, 布尔值否则为关联数组形式
+     * @return  object   SELECT 请求返回 Database_Result 对象
+     * @return  array    INSERT 请求返回 最后插入数据库主键值和影响列数
+     * @return  integer  其他请求返回影响列数(整形)
      */
     abstract public function query($type, $sql, $as_object);
 
     /**
-     * Count the number of records in the last query, without LIMIT or OFFSET applied.
+     * 统计过去的查询的次数,没有加 LIMIT 或 OFFSET 的操作限制
      *
-     * // Get the total number of records that match the last query
      * $count = $db->count_last_query();
      *
      * @return  integer
@@ -179,9 +172,9 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Count the number of records in a table.
+     * 统计一个表有多条记录.
      *
-     * // Get the total number of records in the "users" table
+     * // 统计users表的记录数
      * $count = $db->count_records('users');
      *
      * @param   mixed    table name string or array(query, alias)
@@ -194,7 +187,7 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Returns a normalized array describing the SQL data type
+     * 返回一个SQL规范化数据类型的数组
      *
      * $db->datatype('char');
      *
@@ -267,13 +260,12 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * List all of the tables in the database. Optionally, a LIKE string can
-     * be used to search for specific tables.
+     * 列出数据库中的所有表。表名可以使用通配符查找相似表。
      *
-     * // Get all tables in the current database
+     * // 获取当前数据库中的所有表
      * $tables = $db->list_tables();
      *
-     * // Get all user-related tables
+     * // 所有与user开头表名的表
      * $tables = $db->list_tables('user%');
      *
      * @param   string   table to search for
@@ -282,25 +274,24 @@ abstract class QuickPHP_Database_Abstract
     abstract public function list_tables($like = null);
 
     /**
-     * Lists all of the columns in a table. Optionally, a LIKE string can be
-     * used to search for specific fields.
-     *
-     * // Get all columns from the "users" table
+     * 获取表中字段(列)信息，并可以使用 SQL 的 LIKE 语法方式进行过滤.
+     * 
+     * // 获取“users”表所有字段(列)信息
      * $columns = $db->list_columns('users');
      *
-     * // Get all name-related columns
+     * // 获取“users”表所有包含 “name” 的字段(列)信息
      * $columns = $db->list_columns('users', '%name%');
      *
-     * @param   string  table to get columns from
-     * @param   string  column to search for
+     * @param   string  表名
+     * @param   string  要过滤的字段(列)名称
      * @return  array
      */
     abstract public function list_columns($table, $like = null);
 
     /**
-     * Extracts the text between parentheses, if any.
+     * 解析SQL类型
      *
-     * // Returns: array('CHAR', '6')
+     * // 返回: array('CHAR', '6')
      * list($type, $length) = $db->_parse_type('CHAR(6)');
      *
      * @param   string
@@ -321,7 +312,7 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Return the table prefix defined in the current configuration.
+     * 返回表名前缀.
      *
      * $prefix = $db->table_prefix();
      *
@@ -338,18 +329,18 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Quote a value for an SQL query.
+     * 引用一个SQL查询的值.判断数据类型，是字符串还是数字等
      *
      * $db->quote(null);   // 'null'
      * $db->quote(10);     // 10
      * $db->quote('fred'); // 'fred'
      *
-     * Objects passed to this function will be converted to strings.
-     * [Database_Expression] objects will use the value of the expression.
-     * [Database_Query] objects will be compiled and converted to a sub-query.
-     * All other objects will be converted using the `__toString` method.
+     * 如果传入的值是对象,则将被转换为字符串形式.
+     * [Database_Expression]对象将使用逃逸表达式的值.
+     * [Database_Query]对象将编译并转换为一个子查询.
+     * 其余对象将使用魔术方法 “__toString” 转换成字符串.
      *
-     * @param   mixed   any value to quote
+     * @param   mixed   要引用的值
      * @return  string
      * @uses    Database::escape
      */
@@ -399,11 +390,11 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Quote a database table name and adds the table prefix if needed.
+     * 引用一个数据库表名,将表名加上前缀,加上SQL关键字标示符
      *
      * $table = $db->quote_table($table);
      *
-     * @param   mixed   table name or array(table, alias)
+     * @param   mixed   表名或者 array(表名, 别名)
      * @return  string
      * @uses    Database::quote_identifier
      * @uses    Database::table_prefix
@@ -428,22 +419,19 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Quote a database identifier, such as a column name. Adds the
-     * table prefix to the identifier if a table name is present.
+     * 将一个字段加上数据库标识符. 如果是带有表名的字段(例如 users.id), 则将表名和字段名分开进行引用(例如MYSQL返回: `users`.`id`)
      *
      * $column = $db->quote_identifier($column);
      *
-     * You can also use SQL methods within identifiers.
-     *
-     * // The value of "column" will be quoted
+     * // 您也可以使用SQL中函数加标识符,下面表达式返回: COUNT(`column`).
      * $column = $db->quote_identifier('COUNT("column")');
      *
-     * Objects passed to this function will be converted to strings.
-     * [Database_Expression] objects will use the value of the expression.
-     * [Database_Query] objects will be compiled and converted to a sub-query.
-     * All other objects will be converted using the `__toString` method.
+     * 如果传入的值是对象,则将被转换为字符串形式.
+     * [Database_Expression]对象将使用逃逸表达式的值.
+     * [Database_Query]对象将编译并转换为一个子查询.
+     * 其余对象将使用魔术方法 “__toString” 转换成字符串.
      *
-     * @param   mixed   any identifier
+     * @param   mixed   任意需要加标示符的对象
      * @return  string
      * @uses    Database::table_prefix
      */
@@ -512,12 +500,11 @@ abstract class QuickPHP_Database_Abstract
     }
 
     /**
-     * Sanitize a string by escaping characters that could cause an SQL
-     * injection attack.
-     *
+     * 清理字符串的转义字符,避免导致SQL注入攻击。
+     * 
      * $value = $db->escape('any string');
      *
-     * @param   string   value to quote
+     * @param   string   要清理的字符串
      * @return  string
      */
     abstract public function escape($value);

@@ -24,18 +24,18 @@
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Delete.php 8320 2011-10-05 14:59:55Z bopo $ */
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Delete.php 8320 2011-10-05 14:59:55Z bopo $ */
+
 class QuickPHP_Database_Query_Builder_Delete extends QuickPHP_Database_Query_Builder_Where
 {
-
     protected $_table;
 
     /**
-     * Set the table for a delete.
+     * 要删除的表.
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @return  void
      */
     public function __construct($table)
@@ -45,9 +45,9 @@ class QuickPHP_Database_Query_Builder_Delete extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Sets the table to delete from.
+     * 设置要删除的表.
      *
-     * @param   mixed  table name or array($table, $alias) or object
+     * @param   mixed  表名或者 array($table, $alias) 或者是对象模型
      * @return  $this
      */
     public function table($table)
@@ -57,9 +57,9 @@ class QuickPHP_Database_Query_Builder_Delete extends QuickPHP_Database_Query_Bui
     }
 
     /**
-     * Compile the SQL query and return it.
+     * 编译 SQL 查询语句.
      *
-     * @param   object  Database instance
+     * @param   object  数据库实例
      * @return  string
      */
     public function compile($db)
@@ -84,6 +84,10 @@ class QuickPHP_Database_Query_Builder_Delete extends QuickPHP_Database_Query_Bui
         return $query;
     }
 
+    /**
+     * 重置状态.
+     *
+     */
     public function reset()
     {
         $this->_table = null;

@@ -1163,10 +1163,10 @@ class QuickPHP_ORM
     }
 
     /**
-     * Loads an array of values into into the current object.
+     * 加载一个数组加入当前对象中
      *
      * @chainable
-     * @param   array  values to load
+     * @param   array  values
      * @return  ORM
      */
     protected function _load_values(array $values)
@@ -1189,7 +1189,7 @@ class QuickPHP_ORM
             }
             else
             {
-                list ($prefix, $column) = explode(':', $column, 2);
+                list ($prefix, $column)    = explode(':', $column, 2);
                 $related[$prefix][$column] = $value;
             }
         }

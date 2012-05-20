@@ -189,19 +189,19 @@ class QuickPHP
     protected static $_autoloads = array();
 
     /**
-     * @var array 已加载缓存文件的目录集合
+     * @var array 已加载缓存文件的目录容器
      */
     protected static $_files = array();
 
     /**
      * @var bool 高速缓存修改的状态
      */
-    protected static $_files_changed     = false;
+    protected static $_files_changed = false;
 
     /**
      * @var bool 消息缓存修改的状态
      */
-    protected static $_messages_changed  = false;
+    protected static $_messages_changed = false;
 
     /**
      * @var bool 自动加载缓存修改的状态
@@ -211,11 +211,15 @@ class QuickPHP
     /**
      * @var bool 配置缓存修改的状态
      */ 
-    protected static $_config_changed = false;
+    protected static $_config_changed  = false;
+    
+    /**
+     * @var bool 本地化数据缓存修改的状态
+     */     
     protected static $_locales_changed = false;
 
     /**
-     * @var string 本地语言(待定)
+     * @var string 本地语言
      */
     public static $language   = 'zh_CN';
     public static $_locales   = array();
@@ -232,8 +236,6 @@ class QuickPHP
      * 增加异常错误处理机制，增加自动加载方法。
      * 通过传入的参数来开启基准测试。
      * 为了安全起见,过滤输入数据，防止不安全数据进入应用
-     *
-     * @see http://www.php.net/globals
      *
      * @return void
      */
@@ -357,10 +359,10 @@ class QuickPHP
         if(QuickPHP::$caching === true)
         {
             QuickPHP::$_files     = QuickPHP::cache('QuickPHP::find()');
-            QuickPHP::$_messages  = QuickPHP::cache('QuickPHP::message()');
-            QuickPHP::$_autoloads = QuickPHP::cache('QuickPHP::autoloader()');
             QuickPHP::$_config    = QuickPHP::cache('QuickPHP::_onfig()');
             QuickPHP::$_locales   = QuickPHP::cache('QuickPHP::lang()');
+            QuickPHP::$_messages  = QuickPHP::cache('QuickPHP::message()');
+            QuickPHP::$_autoloads = QuickPHP::cache('QuickPHP::autoloader()');
         }
 
         // 判断是否设置了字符编码
@@ -416,7 +418,7 @@ class QuickPHP
         $_COOKIE  = QuickPHP::sanitize($_COOKIE);
         $_REQUEST = QuickPHP::sanitize($_REQUEST);
 
-        // 关闭基准测试
+        // 停止基准测试
         if(isset($benchmark))
         {
             Profiler::stop($benchmark);
@@ -452,10 +454,7 @@ class QuickPHP
     }
 
     /**
-     * Cleans up the environment:
-     *
-     * - Restore the previous error and exception handlers
-     * - Destroy the QuickPHP::$log and QuickPHP::$config objects
+     * 复位框架参数
      *
      * @return  void
      */
@@ -471,13 +470,22 @@ class QuickPHP
                 restore_exception_handler();
             }
 
-            QuickPHP::$log      = null;
-            QuickPHP::$_init    = false;
-            QuickPHP::$config   = null;
-            QuickPHP::$_files   = array();
-            QuickPHP::$_paths   = array(APPPATH, SYSPATH);
-            QuickPHP::$_modules = array();
-            QuickPHP::$_files_changed = false;
+            QuickPHP::$log                = null;
+            QuickPHP::$_init              = false;
+            QuickPHP::$config             = null;
+            
+            QuickPHP::$_files             = array();
+            QuickPHP::$_config            = array();
+            QuickPHP::$_locales           = array();
+            QuickPHP::$_messages          = array();
+            QuickPHP::$_autoloads         = array();
+            QuickPHP::$_paths             = array(APPPATH, SYSPATH);
+
+            QuickPHP::$_files_changed     = false;
+            QuickPHP::$_config_changed    = false;
+            QuickPHP::$_locales_changed   = false;
+            QuickPHP::$_messages_changed  = false;
+            QuickPHP::$_autoloads_changed = false;
         }
     }
 
@@ -577,8 +585,7 @@ class QuickPHP
      * QuickPHP_为前缀的类名为框架自带类，就是存放在framework目录中的文件.
      * 可以直接省略前缀使用例如 QuickPHP_url::base(),可以直接简化为url::base().
      * 没有QuickPHP开头的类名则为自定义类名.
-     * 同名类的加载顺序为，APPPATH，MODPATH，SYSPATH。依次从前向后。
-     * 说明APPPATH和MODPATH的url类，和QuickPHP_url视为同名
+     * 同名类的加载顺序为，APPPATH,SYSPATH. 依次从前向后。
      *
      * @param   string  类名
      * @return  bool
@@ -613,19 +620,19 @@ class QuickPHP
             {
                 if(strtolower($suffix) === 'abstract')
                 {
-                    $alis = "abstract class $class extends QuickPHP_$class {}";
+                    $alias = "abstract class $class extends QuickPHP_$class {}";
                 }
                 elseif(strtolower($suffix) === 'interface')
                 {
-                    $alis = "interface $class extends QuickPHP_$class {}";
+                    $alias = "interface $class extends QuickPHP_$class {}";
                 }
                 else
                 {
-                    $alis = "class $class extends QuickPHP_$class {}";
+                    $alias = "class $class extends QuickPHP_$class {}";
                 }
             }
 
-            eval($alis);
+            eval($alias);
 
             if((class_exists($class) or interface_exists($class)))
             {
@@ -677,18 +684,18 @@ class QuickPHP
                 {
                     if(strtolower($suffix) === 'abstract')
                     {
-                        $alis = "abstract class $class extends QuickPHP_$class {}";
+                        $alias = "abstract class $class extends QuickPHP_$class {}";
                     }
                     elseif(strtolower($suffix) === 'interface')
                     {
-                        $alis = "interface $class extends QuickPHP_$class {}";
+                        $alias = "interface $class extends QuickPHP_$class {}";
                     }
                     else
                     {
-                        $alis = "class $class extends QuickPHP_$class {}";
+                        $alias = "class $class extends QuickPHP_$class {}";
                     }
 
-                    eval($alis);
+                    eval($alias);
                 }
             }
         }
@@ -870,6 +877,26 @@ class QuickPHP
     }
 
     /**
+     * 框架ACL处理器
+     *
+     * @return  QuickPHP_ACL
+     */
+    public static function acl(array $rules = null)
+    {
+        if(empty(QuickPHP::$acl))
+        {
+            if ($rules === null) 
+            {
+                $rules = QuickPHP::config('rules', array())->as_array();
+            }
+
+            QuickPHP::$acl = Acl::instance($rules);
+        }
+
+        return QuickPHP::$acl;
+    }
+
+    /**
      * 内核级的高速缓存，用以存储配置器，基准测试等数据
      *
      * // 存储高速缓存
@@ -886,7 +913,7 @@ class QuickPHP
      * @param   integer  有效期限，单位秒
      * @return  mixed    返回字符串、数组或者空
      */
-    public static function cache($name, $data = null, $lifetime = 3)
+    public static function cache($name, $data = null, $lifetime = 3600)
     {
         QuickPHP::$cache_dir = empty(QuickPHP::$cache_dir) ? RUNTIME . '_caching' : QuickPHP::$cache_dir;
 
@@ -905,7 +932,6 @@ class QuickPHP
                     }
                     catch (Exception $e)
                     {
-                        return null;
                     }
                 }
                 else
@@ -1003,11 +1029,11 @@ class QuickPHP
         $group  = $group[0];
         $locale = QuickPHP::$language;
 
-        if (QuickPHP::$caching === true and isset(self::$_locales[$locale][$group]))
+        if (QuickPHP::$caching === true and isset(QuickPHP::$_locales[$locale][$group]))
         {
-            $line = arr::path(self::$_locales[$locale], $key);
+            $line = arr::path(QuickPHP::$_locales[$locale], $key);
 
-            if ($line === NULL)
+            if ($line === null)
             {
                 return $key;
             }
@@ -1021,11 +1047,11 @@ class QuickPHP
             return $line; 
         }
 
-        if ( ! isset(self::$_locales[$locale][$group]))
+        if ( ! isset(QuickPHP::$_locales[$locale][$group]))
         {
             $messages = array();
 
-            if ($files = self::find('langs', $locale.'/'.$group))
+            if ($files = QuickPHP::find('langs', $locale.'/'.$group))
             {
                 foreach ($files as $file)
                 {
@@ -1041,10 +1067,11 @@ class QuickPHP
                 }
             }
 
-            self::$_locales[$locale][$group] = $messages;
+            QuickPHP::$_locales[$locale][$group] = $messages;
+            QuickPHP::$_locales_changed = true;
         }
 
-        $line = arr::path(self::$_locales[$locale], $key);
+        $line = arr::path(QuickPHP::$_locales[$locale], $key);
 
         if ($line === NULL)
         {

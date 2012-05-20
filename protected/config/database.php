@@ -19,7 +19,7 @@
  +----------------------------------------------------------------------+
 */
 return array(
-    'default'   => array(
+    'default' => array(
         'type' => 'mysql',
         'connection' => array(
             'hostname'   => 'localhost',
@@ -33,37 +33,9 @@ return array(
         'caching'      => FALSE,
         'profiling'    => TRUE,
     ),
-    'sqlite'    => array(
-        'type' => 'pdo',
-        'connection' => array(
-            'dsn'        => 'sqlite:astro.db',
-            'username'   => 'bopo',
-            'password'   => '123',
-            'persistent' => FALSE,
-        ),
-        'table_prefix' => '',
-        'charset'      => 'UTF8',
-        'caching'      => FALSE,
-        'profiling'    => TRUE,
-    ),
-    'postgre'   => array(
-        'type' => 'postgre',
-        'connection' => array(
-            'hostname'   => 'localhost',
-            'database'   => 'test',
-            'username'   => 'bopo',
-            'password'   => '87225300',
-            'persistent' => FALSE,
-        ),
-        'table_prefix' => '',
-        'charset'      => 'UTF8',
-        'caching'      => FALSE,
-        'profiling'    => TRUE,
-    ),
     'alternate' => array(
-        'type' => 'pdo',
-        'connection' => array
-        (
+        'type'       => 'pdo',
+        'connection' => array(
             /**
              * The following options are available for PDO:
              *
@@ -72,9 +44,9 @@ return array(
              * string   password    database password
              * boolean  persistent  use persistent connections?
              */
-            'dsn'        => 'mysql:host=localhost;dbname=mitang',
-            'username'   => 'root',
-            'password'   => '',
+            'dsn'        => 'mysql:host=localhost;dbname=qing',
+            'username'   => 'bopo',
+            'password'   => '123',
             'persistent' => FALSE,
         ),
         /**

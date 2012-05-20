@@ -19,14 +19,14 @@
  +----------------------------------------------------------------------+
 */
 /**
- * Cached database result.
+ * 数据库结果缓存类
  *
  * @category    QuickPHP
  * @package     Database
  * @author      BoPo <ibopo@126.com>
- * @copyright Copyright &copy; 2010 QuickPHP
- * @license http://www.quickphp.net/license/
- * @version    $Id: Cached.php 8320 2011-10-05 14:59:55Z bopo $
+ * @copyright   Copyright &copy; 2010 QuickPHP
+ * @license     http://www.quickphp.net/license/
+ * @version     $Id: Cached.php 8320 2011-10-05 14:59:55Z bopo $
  */
 class QuickPHP_Database_Result_Cached extends QuickPHP_Database_Result
 {
