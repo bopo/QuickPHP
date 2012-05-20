@@ -44,8 +44,6 @@ function _strcspn($str, $mask, $offset = null, $length = null)
         $str = Unicode::substr($str, $offset, $length);
     }
     
-    // Escape these characters:  - [ ] . : \ ^ /
-    // The . and : are escaped to prevent possible warnings about POSIX regex elements
     $mask = preg_replace('#[-[\].:\\\\^/]#', '\\\\$0', $mask);
     preg_match('/^[^' . $mask . ']+/u', $str, $matches);
     return isset($matches[0]) ? Unicode::strlen($matches[0]) : 0;
