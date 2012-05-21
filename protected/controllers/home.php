@@ -42,6 +42,7 @@ class Home_Controller extends Template_Controller
 
     public function __call($method, $args)
     {
+        echo debug::source(__FILE__, __LINE__);
         $db = Database::instance();
         // $row = $db->query(Database::SELECT, 'SELECT * FROM users LIMIT 1');
         $query = Database::select(array('username', 'u'), array('password', 'p'))->from(array('users','u'))->compile($db);

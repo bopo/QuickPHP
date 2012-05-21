@@ -18,20 +18,7 @@
  | Author: BoPo <ibopo@126.com>                                         |
  +----------------------------------------------------------------------+
 */
-/**
- * : $
- *
- * Docs
- *
- * @package    Docs
- * @author     BoPo <ibopo@126.com>
- * @copyright  (c) 2008-2009 QuickPHP
- * @license    http://www.quickphp.net/license.html
- */
 
-class Docs_Controller extends Template_Controller
-{
-    public function __call($method, $args)
-    {
-    }
-}
+return array(
+    'welcome' => '欢迎大家',
+);
