@@ -186,6 +186,10 @@
     <mkdir dir="runtime/_sessions" />
     <mkdir dir="runtime/_indexs" />
 
+    <mkdir dir="assets/images" />
+    <mkdir dir="assets/styles" />
+    <mkdir dir="assets/scripts" />
+
     <phplint>
       <fileset dir="protected">
         <include name="**/*.php"/>
