@@ -35,11 +35,11 @@ class QuickPHP_cookie
     /**
      * 用给定的参数设置了一个cookie
      *
-     * @param   string   cookie name
-     * @param   string   cookie value
-     * @param   integer  cookie expire
-     * @param   string   cookie path
-     * @param   string   cookie domain
+     * @param   string   COOKIE 名称
+     * @param   string   COOKIE 值
+     * @param   integer  COOKIE 有效期
+     * @param   string   COOKIE 路径
+     * @param   string   COOKIE 域名
      * @param   boolean  只支持HTTPS
      * @param   boolean  只支持HTTP (需要PHP 5.2或更高版本)
      * @return  boolean
@@ -70,11 +70,11 @@ class QuickPHP_cookie
     }
 
     /**
-     * 获得一个cookie的值，使用Input类
+     * 获得一个cookie的值
      *
-     * @param   string   cookie name
-     * @param   mixed    default value
-     * @param   boolean  use XSS cleaning on the value
+     * @param   string   COOKIE 名称
+     * @param   mixed    默认值
+     * @param   boolean  是否使用 XSS 清理
      * @return  string
      */
     public static function get($name, $default = null, $xss_clean = false)
@@ -85,9 +85,9 @@ class QuickPHP_cookie
     /**
      * 销毁一个cookie.
      *
-     * @param   string   cookie name
-     * @param   string   URL path
-     * @param   string   URL domain
+     * @param   string   COOKIE 名称
+     * @param   string   URL 路径
+     * @param   string   URL 域名
      * @return  boolean
      */
     public static function delete($name, $path = null, $domain = null)

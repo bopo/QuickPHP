@@ -132,7 +132,7 @@ function koggle(elem)
         </div>
 
         <?php foreach (array('_ENV', '_SERVER', '_SESSION', '_COOKIE', '_GET', '_POST', '_FILES') as $var): ?>
-        <?php if (empty($GLOBALS[$var]) OR ! is_array($GLOBALS[$var])) continue ?>
+        <?php if (empty($GLOBALS[$var]) OR ! is_array($GLOBALS[$var])) continue; ?>
         <h3><a href="#<?php echo $env_id = $error_id.'environment'.strtolower($var) ?>" onclick="return koggle('<?php echo $env_id ?>')">$<?php echo $var ?></a></h3>
         <div id="<?php echo $env_id ?>" class="collapsed">
             <table cellspacing="0">

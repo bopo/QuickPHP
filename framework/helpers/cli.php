@@ -85,9 +85,12 @@ class QuickPHP_cli
             }
         }
 
-       // if(count($options) == 1)
-           // $values = current($values);
-
         return $values;
+    }
+
+    public static function option($option = null)
+    {
+        $option = cli::options($option);
+        return current($option);
     }
 }

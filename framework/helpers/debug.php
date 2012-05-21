@@ -32,11 +32,11 @@
 class QuickPHP_debug
 {
     /**
-     * 返回一个对任何数量的调试信息的HTML字符串 变量，每一个“<pre>”的标签包裹
+     * 处理数组和对象递归 ，var_dump 自定义版本。
      *
      * echo QuickPHP::debug($foo, $bar, $baz);
      *
-     * @param   mixed   variable to debug
+     * @param   mixed   调试的变量
      * @param   ...
      * @return  string
      */
@@ -221,12 +221,10 @@ class QuickPHP_debug
     }
 
     /**
-     * Removes application, system, modpath, or docroot from a filename,
-     * replacing them with the plain text equivalents. Useful for debugging
-     * when you want to display a shorter path.
-     *
-     * // Displays SYSPATH/classes/Quick.php
-     * echo debug::path(QuickPHP::find('classes', 'Quick'));
+     * 缩短文件显示路径，用系统常量替换系统路径
+     * 
+     * // 显示 SYSPATH/libraries/Pagination.php
+     * echo debug::path(QuickPHP::find('libraries', 'Pagination'));
      *
      * 替换错误路径
      *
@@ -254,17 +252,16 @@ class QuickPHP_debug
     }
 
     /**
-     * Returns an HTML string, highlighting a specific line of a file, with some
-     * number of lines padded above and below.
+     * 高亮显示指定文件指定行的上下文源代码.
      *
-     * // Highlights the current line of the current file
+     * // 高亮显示当前文件当前行
      * echo debug::source(__FILE__, __LINE__);
      *
-     * @param   string   file to open
-     * @param   integer  line number to highlight
-     * @param   integer  number of padding lines
-     * @return  string   source of file
-     * @return  false    file is unreadable
+     * @param   string   要显示的文件
+     * @param   integer  要显示的行数
+     * @param   integer  上下文函数
+     * @return  string   文件源代码
+     * @return  false    如果文件不可读，则返回false
      */
     public static function source($file, $line_number, $padding = 5)
     {
@@ -307,9 +304,9 @@ class QuickPHP_debug
     }
 
     /**
-     * Returns an array of HTML strings that represent each step in the backtrace.
+     * 将堆栈数组元素转换成HTML形式.
      *
-     * // Displays the entire current backtrace
+     * // 显示当前全部堆栈
      * echo implode('<br/>', debug::trace());
      *
      * @param   string  path to debug

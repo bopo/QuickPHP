@@ -104,13 +104,13 @@ class QuickPHP_date
      *
      * $result = date::seconds($step = 5, $start = 0, $end = 60);
      *
-     * Returns
+     * 返回
      * array(00,05,10,15,20,25,30,35...55);
      *
-     * @param   integer  amount to increment each step by, 1 to 30
-     * @param   integer  start value
-     * @param   integer  end value
-     * @return  array    A mirrored (foo => foo) array from 1-60.
+     * @param   integer  步数, 1 到 30
+     * @param   integer  开始值
+     * @param   integer  结束值
+     * @return  array    从 1 到 60 array(foo => foo) 数组
      */
     public static function seconds($step = 1, $start = 0, $end = 60)
     {
@@ -137,12 +137,12 @@ class QuickPHP_date
     }
 
     /**
-     * Number of hours in a day.
+     * 返回按步进递增的天数集合
      *
-     * @param   integer  amount to increment each step by
-     * @param   boolean  use 24-hour time
-     * @param   integer  the hour to start at
-     * @return  array    A mirrored (foo => foo) array from start-12 or start-23.
+     * @param   integer  步数
+     * @param   boolean  是否 24小时 制
+     * @param   integer  开始小时数
+     * @return  array    从开始到 12 或从开始到 23, array(foo => foo) 数组
      */
     public static function hours($step = 1, $long = false, $start = null)
     {
@@ -390,11 +390,6 @@ class QuickPHP_date
         }
 
         return $difference;
-    }
-
-    public static function solarterms($date = null)
-    {
-        return $solarterms;
     }
 
 }

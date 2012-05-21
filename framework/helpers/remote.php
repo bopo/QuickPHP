@@ -34,7 +34,7 @@ class QuickPHP_remote
     /**
      * 获得远程HTTP状态
      *
-     * @param string 需要获取远程的url
+     * @param string 需要获取远程的 URL
      */
     public static function status($url)
     {

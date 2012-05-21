@@ -32,13 +32,13 @@ $application_title  = array('min'=>'最小值', 'max'=>'最大值', 'average'=>'
 ?>
 
 <style type="text/css">
-.QuickPHP table.profiler {
+.quickphp table.profiler {
     width: 99%;
     margin: 0 auto 1em;
     border-collapse: collapse;
 }
 
-.QuickPHP table.profiler th,.QuickPHP table.profiler td {
+.quickphp table.profiler th,.quickphp table.profiler td {
     padding: 0.2em 0.4em;
     background: #fff;
     border: solid 1px #999;
@@ -51,60 +51,60 @@ $application_title  = array('min'=>'最小值', 'max'=>'最大值', 'average'=>'
     text-align: right;
 }
 
-.QuickPHP table.profiler th.name {
+.quickphp table.profiler th.name {
     text-align: left;
 }
 
-.QuickPHP table.profiler tr.group th {
+.quickphp table.profiler tr.group th {
     font-size: 1.4em;
     background: #222;
     color: #eee;
     border-color: #222;
 }
 
-.QuickPHP table.profiler tr.group td {
+.quickphp table.profiler tr.group td {
     background: #222;
     color: #777;
     border-color: #222;
 }
 
-.QuickPHP table.profiler tr.group td.time {
+.quickphp table.profiler tr.group td.time {
     padding-bottom: 0;
 }
 
-.QuickPHP table.profiler tr.headers th {
+.quickphp table.profiler tr.headers th {
     text-transform: lowercase;
     font-variant: small-caps;
     background: #ddd;
     color: #777;
 }
 
-.QuickPHP table.profiler tr.mark th.name {
+.quickphp table.profiler tr.mark th.name {
     width: 40%;
     font-size: 1.2em;
     background: #fff;
     vertical-align: middle;
 }
 
-.QuickPHP table.profiler tr.mark td {
+.quickphp table.profiler tr.mark td {
     padding: 0;
 }
 
-.QuickPHP table.profiler tr.mark.final td {
+.quickphp table.profiler tr.mark.final td {
     padding: 0.2em 0.4em;
 }
 
-.QuickPHP table.profiler tr.mark td>div {
+.quickphp table.profiler tr.mark td>div {
     position: relative;
     padding: 0.2em 0.4em;
 }
 
-.QuickPHP table.profiler tr.mark td div.value {
+.quickphp table.profiler tr.mark td div.value {
     position: relative;
     z-index: 2;
 }
 
-.QuickPHP table.profiler tr.mark td div.graph {
+.quickphp table.profiler tr.mark td div.graph {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -114,64 +114,64 @@ $application_title  = array('min'=>'最小值', 'max'=>'最大值', 'average'=>'
     z-index: 1;
 }
 
-.QuickPHP table.profiler tr.mark.memory td div.graph {
+.quickphp table.profiler tr.mark.memory td div.graph {
     background: #acd4f0;
 }
 
-.QuickPHP table.profiler tr.mark td.current {
+.quickphp table.profiler tr.mark td.current {
     background: #eddecc;
 }
 
-.QuickPHP table.profiler tr.mark td.min {
+.quickphp table.profiler tr.mark td.min {
     background: #d2f1cb;
 }
 
-.QuickPHP table.profiler tr.mark td.max {
+.quickphp table.profiler tr.mark td.max {
     background: #ead3cb;
 }
 
-.QuickPHP table.profiler tr.mark td.average {
+.quickphp table.profiler tr.mark td.average {
     background: #ddd;
 }
 
-.QuickPHP table.profiler tr.mark td.total {
+.quickphp table.profiler tr.mark td.total {
     background: #d0e3f0;
 }
 
-.QuickPHP table.profiler tr.time td {
+.quickphp table.profiler tr.time td {
     border-bottom: 0;
     font-weight: bold;
 }
 
-.QuickPHP table.profiler tr.memory td {
+.quickphp table.profiler tr.memory td {
     border-top: 0;
 }
 
-.QuickPHP table.profiler tr.final th.name {
+.quickphp table.profiler tr.final th.name {
     background: #222;
     color: #fff;
 }
 
-.QuickPHP table.profiler abbr {
+.quickphp table.profiler abbr {
     border: 0;
     color: #777;
     font-weight: normal;
 }
 
-.QuickPHP table.profiler:hover tr.group td {
+.quickphp table.profiler:hover tr.group td {
     color: #ccc;
 }
 
-.QuickPHP table.profiler:hover tr.mark td div.graph {
+.quickphp table.profiler:hover tr.mark td div.graph {
     background: #1197f0;
 }
 
-.QuickPHP table.profiler:hover tr.mark.memory td div.graph {
+.quickphp table.profiler:hover tr.mark.memory td div.graph {
     background: #7cc1f0;
 }
 </style>
 
-<div class="QuickPHP">
+<div class="quickphp">
     <?php
     foreach (Profiler::groups() as $group => $benchmarks)
     :?>
@@ -237,57 +237,38 @@ $application_title  = array('min'=>'最小值', 'max'=>'最大值', 'average'=>'
             ?>
         </tr>
     <tr class="mark memory">
-            <?php
-            foreach ($group_cols as $key)
-            :
-                ?>
-            <td class="<?php echo $key?>">
+        <?php foreach ($group_cols as $key):?>
+        <td class="<?php echo $key?>">
         <div>
-        <div class="value"><?php
-                echo number_format($stats[$key]['memory'] / 1024, 4)?> <abbr title="kilobyte">kB</abbr></div>
-                <?php if ($key === 'total' ):?>
-                    <div class="graph" style="left: <?php echo max(0, 100 - $stats[$key]['memory'] / $group_stats[$group]['max']['memory'] * 100)?>%"></div>
-                <?php endif ?>
-                </div>
+            <div class="value">
+                <?php echo number_format($stats[$key]['memory'] / 1024, 4)?> <abbr title="kilobyte">kB</abbr>
+            </div>
+            <?php if ($key === 'total' ):?>
+                <div class="graph" style="left: <?php echo max(0, 100 - $stats[$key]['memory'] / $group_stats[$group]['max']['memory'] * 100)?>%"></div>
+            <?php endif ?>
+        </div>
         </td>
-            <?php
-            endforeach
-            ?>
+            <?php endforeach ?>
         </tr>
-        <?php
-        endforeach
-        ?>
+        <?php endforeach ?>
     </table>
-    <?php
-    endforeach
-    ?>
+    <?php endforeach ?>
 
     <table class="profiler">
-        <?php
-        $stats = Profiler::application()?>
+        <?php $stats = Profiler::application()?>
         <tr class="final mark time">
         <th class="name" rowspan="2" scope="rowgroup">
-        <?php echo ('应用执行') . ' (' . $stats['count'] . ')'?>
+        <?php echo '应用执行' . ' (' . $stats['count'] . ')'?>
         </th>
             <?php foreach ($application_cols as $key):?>
-            <td class="<?php
-                echo $key?>"><?php
-                echo number_format($stats[$key]['time'], 6)?> <abbr title="seconds">s</abbr></td>
-            <?php
-            endforeach
-            ?>
+            <td class="<?php echo $key?>">
+                <?php echo number_format($stats[$key]['time'], 6)?> <abbr title="seconds">s</abbr></td>
+            <?php endforeach ?>
         </tr>
         <tr class="final mark memory">
-            <?php
-            foreach ($application_cols as $key)
-            :
-                ?>
-            <td class="<?php
-                echo $key?>"><?php
-                echo number_format($stats[$key]['memory'] / 1024, 4)?> <abbr title="kilobyte">kB</abbr></td>
-            <?php
-            endforeach
-            ?>
+            <?php foreach ($application_cols as $key): ?>
+            <td class="<?php echo $key?>"><?php echo number_format($stats[$key]['memory'] / 1024, 4)?> <abbr title="kilobyte">kB</abbr></td>
+            <?php endforeach ?>
         </tr>
     </table>
 </div>

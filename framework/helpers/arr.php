@@ -210,7 +210,7 @@ class QuickPHP_arr
      * 添加一个值关联到数组的开头.
      *
      * // 添加一个空值的一个选择列表开头
-     * arr::unshift_assoc($array, 'none', 'Select a value');
+     * arr::unshift_assoc($array, 'none', 'value');
      *
      * @param   array   要修改的数组
      * @param   string  键名
@@ -236,8 +236,8 @@ class QuickPHP_arr
      * [!!] Unlike `array_map`, this method requires a callback and will only map
      * a single array.
      *
-     * @param   mixed   callback applied to every element in the array
-     * @param   array   array to map
+     * @param   mixed   回调并追加到数组的每个元素
+     * @param   array   要操作的数组
      * @return  array
      */
     public static function map($callback, $array)
@@ -270,8 +270,8 @@ class QuickPHP_arr
      * // john的输出现在是:
      * array('name' => 'mary', 'children' => array('fred', 'paul', 'sally', 'jane'))
      *
-     * @param   array  initial array
-     * @param   array  array to merge
+     * @param   array  初始数组
+     * @param   array  要合并的数组
      * @param   array  ...
      * @return  array
      */
@@ -281,7 +281,7 @@ class QuickPHP_arr
 
         for ($i = 0, $total = func_num_args(); $i < $total; $i++)
         {
-            $arr = func_get_arg($i);
+            $arr   = func_get_arg($i);
             $assoc = arr::is_assoc($arr);
 
             foreach ($arr as $key => $val)
@@ -335,8 +335,8 @@ class QuickPHP_arr
      * // 现在$array的输出为:
      * array('name' => 'jack', 'mood' => 'happy', 'food' => 'tacos')
      *
-     * @param   array   master array
-     * @param   array   input arrays that will overwrite existing values
+     * @param   array   主要数组
+     * @param   array   要覆盖的数组
      * @return  array
      */
     public static function overwrite($array1, $array2)
@@ -370,7 +370,7 @@ class QuickPHP_arr
      * // 获取回调结果
      * $result = call_user_func_array($func, $params);
      *
-     * @param   string  callback string
+     * @param   string  回调参数字符串
      * @return  array   function, params
      */
     public static function callback($str)
@@ -438,9 +438,9 @@ class QuickPHP_arr
     /**
      * 移出一个键值.
      *
-     * @param   string  key to return
-     * @param   array   array to work on
-     * @return  mixed   value of the requested array key
+     * @param   string  要移除的key
+     * @param   array   要操作的数组
+     * @return  mixed   被移除的数组项
      */
     public static function remove($key, $array)
     {
